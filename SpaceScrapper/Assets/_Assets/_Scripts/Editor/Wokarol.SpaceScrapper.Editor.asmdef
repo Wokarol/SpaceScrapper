@@ -1,0 +1,18 @@
+{
+    "name": "Wokarol.SpaceScrapper.Editor",
+    "rootNamespace": "Wokarol.SpaceScrapper.Editor",
+    "references": [
+        "GUID:129115d937ba5be42bdad50e0166b577"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
