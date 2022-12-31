@@ -1,7 +1,10 @@
 {
     "name": "Wokarol.SpaceScrapper",
     "rootNamespace": "Wokarol.SpaceScrapper",
-    "references": [],
+    "references": [
+        "GUID:6055be8ebefd69e48b49212b09b47b2f",
+        "GUID:77e10f5e2b165d7498886f8877994ee9"
+    ],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
