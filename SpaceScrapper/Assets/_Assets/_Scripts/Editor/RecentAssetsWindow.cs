@@ -131,6 +131,8 @@ namespace Wokarol.Tools.Editor
 
         private void DrawList(bool drawPinned)
         {
+            Event e = Event.current;
+
             var elementsToDraw = scenesAndPrefabs.Where(s => s.IsPinned == drawPinned);
             if (!elementsToDraw.Any())
             {
@@ -163,6 +165,8 @@ namespace Wokarol.Tools.Editor
                 EditorGUIUtility.SetIconSize(new Vector2(16, 16));
                 if (GUILayout.Button(new GUIContent(s.Name, icon, s.Path), choiceButtonStyle, GUILayout.Height(19)))
                 {
+                    bool shouldBeSaved = !e.shift || s.IsPrefab;
+
                     bool saved = EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo();
                     if (!saved) continue;
 
@@ -172,7 +176,14 @@ namespace Wokarol.Tools.Editor
                     }
                     else
                     {
-                        EditorSceneManager.OpenScene(s.Path);
+                        if (e.shift)
+                        {
+                            EditorSceneManager.OpenScene(s.Path, OpenSceneMode.Additive);
+                        }
+                        else
+                        {
+                            EditorSceneManager.OpenScene(s.Path);
+                        }
                     }
                 }
                 EditorGUI.EndDisabledGroup();
