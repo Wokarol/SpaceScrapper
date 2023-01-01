@@ -533,8 +533,8 @@ MonoBehaviour:
   startButton: {fileID: 454474257}
   quitButton: {fileID: 1421673146}
   scenesToLoadOnStart:
-  - Gameplay Elements
-  - Base
+  - Gameplay Base
+  - Central Hub
 --- !u!1 &616559079
 GameObject:
   m_ObjectHideFlags: 0
