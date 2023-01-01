@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Wokarol.Common;
@@ -8,15 +9,22 @@ namespace Wokarol.SpaceScrapper.Player
 {
     public class Player : MonoBehaviour
     {
+        [Header("Object References")]
         [SerializeField] private PlayerInput playerInput = null;
         [SerializeField] private Rigidbody2D body = null;
-        [Space]
         [SerializeField] private Transform aimPoint = null;
+        [Header("Parameters")]
         [SerializeField] private float maxAimDistance = 3;
-        [Space]
         [SerializeField] private ShipMovementParams movement = new();
-        [Space]
+        [Header("Axis")]
         [SerializeField] private Vector2 forwardAxis = Vector2.up;
+        [SerializeField] private Vector2 breakThrusterForwardAxis = Vector2.up;
+        [Header("Model")]
+        [SerializeField] private List<Transform> mainThrusters = new();
+        [SerializeField] private List<Transform> breakThrusters = new();
+        [SerializeField] private float thrusterNoise = 0.1f;
+        [SerializeField] private float thrusterNoiseSpeed = 5f;
+        [SerializeField] private float breakingForceMaxVisualMagnitude = 1f;
 
         private SceneContext sceneContext;
         private PlayerInputActions input;
@@ -36,8 +44,37 @@ namespace Wokarol.SpaceScrapper.Player
         {
             Camera mainCamera = sceneContext.MainCamera;
             var values = HandleInput(mainCamera);
-            HandleMovement(values);
+            var movementValues = HandleMovement(values);
             PositionAimPoint(values);
+            UpdateThrusterAnimation(movementValues);
+        }
+
+        private void UpdateThrusterAnimation(MovementValues values)
+        {
+            for (int i = 0; i < mainThrusters.Count; i++)
+            {
+                float noise = Mathf.PerlinNoise(Time.time * thrusterNoiseSpeed, i * 56f + 12.67f);
+                float noiseInfluence = noise * thrusterNoise * values.MainThrusterPower;
+                mainThrusters[i].localScale = (noiseInfluence + values.MainThrusterPower) * Vector3.one;
+            }
+
+            Vector2 breakingDirection = -values.BreakMgnitudeInWorldSpace.normalized;
+            float breakPower = values.BreakPower * Mathf.Clamp01(Mathf.InverseLerp(0, breakingForceMaxVisualMagnitude, values.BreakMgnitudeInWorldSpace.magnitude));
+
+            for (int i = 0; i < breakThrusters.Count; i++)
+            {
+                var thruster = breakThrusters[i];
+                Vector2 thrusterDirection = thruster.TransformDirection(breakThrusterForwardAxis).normalized;
+
+                float dot = Vector2.Dot(thrusterDirection, breakingDirection);
+                dot = Mathf.Clamp01(dot);
+                dot *= dot;
+
+                float noise = Mathf.PerlinNoise(Time.time * thrusterNoiseSpeed, i * 56f + 12.67f);
+                float noiseInfluence = noise * thrusterNoise * breakPower;
+
+                thruster.localScale = (noiseInfluence + dot * breakPower) * Vector3.one;
+            }
         }
 
         private void PositionAimPoint(InputValues values)
@@ -64,20 +101,31 @@ namespace Wokarol.SpaceScrapper.Player
             return new InputValues(thrust, breaking, direction, aimPointInWorldSpace);
         }
 
-        private void HandleMovement(InputValues values)
+        private MovementValues HandleMovement(InputValues values)
         {
+            var movementValues = new MovementValues();
             if (values.Thrust > 0)
             {
-                body.AddRelativeForce(movement.ForwardThrust * values.Thrust * Vector2.up);
+                float thrustPower = values.Thrust;
+                body.AddRelativeForce(movement.ForwardThrust * thrustPower * Vector2.up);
+
+                movementValues.MainThrusterPower = thrustPower;
             }
 
             if (values.Break > 0)
             {
-                body.AddForce(movement.BreakForce * values.Break * -body.velocity);
+                float breakPower = values.Break;
+                var breakDirection = -body.velocity;
+                body.AddForce(movement.BreakForce * breakPower * breakDirection);
+
+                movementValues.BreakPower = breakPower;
+                movementValues.BreakMgnitudeInWorldSpace = breakDirection;
             }
 
             float newRotation = Mathf.SmoothDampAngle(body.rotation, Vector2.SignedAngle(forwardAxis, values.AimDirection), ref rotationVelocity, movement.RotationSmoothing);
             body.SetRotation(newRotation);
+
+            return movementValues;
         }
 
         readonly struct InputValues
@@ -96,6 +144,13 @@ namespace Wokarol.SpaceScrapper.Player
             }
 
             public static InputValues Empty => new(0, 0, Vector2.up, Vector2.up);
+        }
+
+        struct MovementValues
+        {
+            public float MainThrusterPower;
+            public float BreakPower;
+            public Vector2 BreakMgnitudeInWorldSpace;
         }
 
         [System.Serializable]
