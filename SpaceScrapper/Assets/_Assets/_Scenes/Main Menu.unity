@@ -404,6 +404,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 7957568050308369874, guid: 2fcdbf5a90cb3ba47acc128fdfc7e70b, type: 3}
   m_PrefabInstance: {fileID: 1345281762}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &454474257 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7957568050308369875, guid: 2fcdbf5a90cb3ba47acc128fdfc7e70b, type: 3}
+  m_PrefabInstance: {fileID: 1345281762}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &595874813
 GameObject:
   m_ObjectHideFlags: 0
@@ -416,6 +427,7 @@ GameObject:
   - component: {fileID: 595874816}
   - component: {fileID: 595874815}
   - component: {fileID: 595874814}
+  - component: {fileID: 595874818}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -506,6 +518,23 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &595874818
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 595874813}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c471007d6e74a274ea351b0a9547db05, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startButton: {fileID: 454474257}
+  quitButton: {fileID: 1421673146}
+  scenesToLoadOnStart:
+  - Gameplay Elements
+  - Base
 --- !u!1 &616559079
 GameObject:
   m_ObjectHideFlags: 0
@@ -785,3 +814,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2fcdbf5a90cb3ba47acc128fdfc7e70b, type: 3}
+--- !u!114 &1421673146 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7957568050308369875, guid: 2fcdbf5a90cb3ba47acc128fdfc7e70b, type: 3}
+  m_PrefabInstance: {fileID: 1337252921}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
