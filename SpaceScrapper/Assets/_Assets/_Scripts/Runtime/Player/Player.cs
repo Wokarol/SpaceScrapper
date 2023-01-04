@@ -28,7 +28,6 @@ namespace Wokarol.SpaceScrapper.Player
 
         private SceneContext sceneContext;
         private PlayerInputActions input;
-        private float rotationVelocity;
 
         private void Start()
         {
@@ -43,13 +42,12 @@ namespace Wokarol.SpaceScrapper.Player
         private void Update()
         {
             Camera mainCamera = sceneContext.MainCamera;
-            var values = HandleInput(mainCamera);
-            var movementValues = HandleMovement(values);
-            PositionAimPoint(values);
-            UpdateThrusterAnimation(movementValues);
+            lastInputValues = HandleInput(mainCamera);
+            PositionAimPoint(lastInputValues);
+            UpdateThrusterAnimation(lastMovementValues);
 
-            if (Keyboard.current.pKey.wasPressedThisFrame)
-                rotationVelocity = 0f;
+            //if (Keyboard.current.pKey.wasPressedThisFrame)
+            //    rotationVelocity = 0f;
 
             if (Keyboard.current.leftBracketKey.wasPressedThisFrame)
                 body.angularVelocity = 0f;
@@ -63,6 +61,11 @@ namespace Wokarol.SpaceScrapper.Player
             {
                 body.rotation -= 90f;
             }
+        }
+
+        private void FixedUpdate()
+        {
+            lastMovementValues = HandleMovement(lastInputValues);
         }
 
         private void UpdateThrusterAnimation(MovementValues values)
@@ -141,13 +144,15 @@ namespace Wokarol.SpaceScrapper.Player
             float targetRotation = Vector2.SignedAngle(forwardAxis, values.AimDirection);
             float currentRotation = body.rotation;
 
-            float newRotation = Mathf.SmoothDampAngle(currentRotation, targetRotation, ref rotationVelocity, movement.RotationSmoothing);
+            float angVelocity = body.angularVelocity;
+            float newRotation = Mathf.SmoothDampAngle(currentRotation, targetRotation, ref angVelocity, movement.RotationSmoothing);
+            body.angularVelocity = angVelocity;
             //float newRotation = targetRotation;
 
             Debug.DrawRay(transform.position, Quaternion.AngleAxis(targetRotation, Vector3.forward) * Vector3.up * 5f, Color.green);
             Debug.DrawRay(transform.position, Quaternion.AngleAxis(currentRotation, Vector3.forward) * Vector3.up * 5f, Color.yellow);
 
-            body.MoveRotation(newRotation);
+            body.rotation = newRotation;
 
             DEBUG_targetRotation = targetRotation;
             DEBUG_currentRotation = currentRotation;
@@ -159,6 +164,8 @@ namespace Wokarol.SpaceScrapper.Player
         private float DEBUG_targetRotation;
         private float DEBUG_currentRotation;
         private float DEBUG_newRotation;
+        private InputValues lastInputValues;
+        private MovementValues lastMovementValues;
 
         private void OnGUI()
         {
@@ -168,7 +175,7 @@ namespace Wokarol.SpaceScrapper.Player
             GUILayout.Label($"Target: \t{DEBUG_targetRotation:f3}");
             GUILayout.Label($"New: \t{DEBUG_newRotation:f3}");
             GUILayout.Space(10);
-            GUILayout.Label($"Velocity: \t{rotationVelocity:f3}");
+            GUILayout.Label($"Velocity: \t{body.angularVelocity:f3}");
 
             GUILayout.EndArea();
         }

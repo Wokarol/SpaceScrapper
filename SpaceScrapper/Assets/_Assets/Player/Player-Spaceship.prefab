@@ -402,9 +402,9 @@ MonoBehaviour:
   aimPoint: {fileID: 6128617444289451366}
   maxAimDistance: 8
   movement:
-    ForwardThrust: 30
+    ForwardThrust: 60
     BreakForce: 4
-    RotationSmoothing: 0.1
+    RotationSmoothing: 0.3
   forwardAxis: {x: 0, y: 1}
   breakThrusterForwardAxis: {x: 0, y: -1}
   mainThrusters:
