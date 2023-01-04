@@ -178,10 +178,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 4349511427654487601, guid: 4aa62e626698dd74a834209b3d3b8ade, type: 3}
-      propertyPath: movement.RotationSmoothing
-      value: 0.5
-      objectReference: {fileID: 0}
     - target: {fileID: 6128617444289451366, guid: 4aa62e626698dd74a834209b3d3b8ade, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

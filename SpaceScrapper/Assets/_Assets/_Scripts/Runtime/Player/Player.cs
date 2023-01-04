@@ -152,35 +152,9 @@ namespace Wokarol.SpaceScrapper.Player
             float newRotation = Mathf.SmoothDampAngle(currentRotation, targetRotation, ref angVelocity, movement.RotationSmoothing);
 
             body.angularVelocity = angVelocity;
-            //float newRotation = targetRotation;
-
-            Debug.DrawRay(transform.position, Quaternion.AngleAxis(targetRotation, Vector3.forward) * Vector3.up * 5f, Color.green);
-            Debug.DrawRay(transform.position, Quaternion.AngleAxis(currentRotation, Vector3.forward) * Vector3.up * 5f, Color.yellow);
-
             body.rotation = newRotation;
 
-            DEBUG_targetRotation = targetRotation;
-            DEBUG_currentRotation = currentRotation;
-            DEBUG_newRotation = newRotation;
-
             return movementValues;
-        }
-
-        private float DEBUG_targetRotation;
-        private float DEBUG_currentRotation;
-        private float DEBUG_newRotation;
-
-        private void OnGUI()
-        {
-            GUILayout.BeginArea(new Rect(30, 30, 600, 300));
-
-            GUILayout.Label($"Current: \t{DEBUG_currentRotation:f3}");
-            GUILayout.Label($"Target: \t{DEBUG_targetRotation:f3}");
-            GUILayout.Label($"New: \t{DEBUG_newRotation:f3}");
-            GUILayout.Space(10);
-            GUILayout.Label($"Velocity: \t{body.angularVelocity:f3}");
-
-            GUILayout.EndArea();
         }
 
         readonly struct InputValues
