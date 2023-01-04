@@ -47,6 +47,22 @@ namespace Wokarol.SpaceScrapper.Player
             var movementValues = HandleMovement(values);
             PositionAimPoint(values);
             UpdateThrusterAnimation(movementValues);
+
+            if (Keyboard.current.pKey.wasPressedThisFrame)
+                rotationVelocity = 0f;
+
+            if (Keyboard.current.leftBracketKey.wasPressedThisFrame)
+                body.angularVelocity = 0f;
+
+            if (Keyboard.current.oKey.wasPressedThisFrame)
+            {
+                body.rotation += 90f;
+            }
+
+            if (Keyboard.current.lKey.wasPressedThisFrame)
+            {
+                body.rotation -= 90f;
+            }
         }
 
         private void UpdateThrusterAnimation(MovementValues values)
@@ -122,10 +138,39 @@ namespace Wokarol.SpaceScrapper.Player
                 movementValues.BreakMgnitudeInWorldSpace = breakDirection;
             }
 
-            float newRotation = Mathf.SmoothDampAngle(body.rotation, Vector2.SignedAngle(forwardAxis, values.AimDirection), ref rotationVelocity, movement.RotationSmoothing);
-            body.SetRotation(newRotation);
+            float targetRotation = Vector2.SignedAngle(forwardAxis, values.AimDirection);
+            float currentRotation = body.rotation;
+
+            float newRotation = Mathf.SmoothDampAngle(currentRotation, targetRotation, ref rotationVelocity, movement.RotationSmoothing);
+            //float newRotation = targetRotation;
+
+            Debug.DrawRay(transform.position, Quaternion.AngleAxis(targetRotation, Vector3.forward) * Vector3.up * 5f, Color.green);
+            Debug.DrawRay(transform.position, Quaternion.AngleAxis(currentRotation, Vector3.forward) * Vector3.up * 5f, Color.yellow);
+
+            body.MoveRotation(newRotation);
+
+            DEBUG_targetRotation = targetRotation;
+            DEBUG_currentRotation = currentRotation;
+            DEBUG_newRotation = newRotation;
 
             return movementValues;
+        }
+
+        private float DEBUG_targetRotation;
+        private float DEBUG_currentRotation;
+        private float DEBUG_newRotation;
+
+        private void OnGUI()
+        {
+            GUILayout.BeginArea(new Rect(30, 30, 600, 300));
+
+            GUILayout.Label($"Current: \t{DEBUG_currentRotation:f3}");
+            GUILayout.Label($"Target: \t{DEBUG_targetRotation:f3}");
+            GUILayout.Label($"New: \t{DEBUG_newRotation:f3}");
+            GUILayout.Space(10);
+            GUILayout.Label($"Velocity: \t{rotationVelocity:f3}");
+
+            GUILayout.EndArea();
         }
 
         readonly struct InputValues

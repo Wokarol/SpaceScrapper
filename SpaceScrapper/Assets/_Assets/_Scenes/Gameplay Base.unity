@@ -178,6 +178,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 4349511427654487601, guid: 4aa62e626698dd74a834209b3d3b8ade, type: 3}
+      propertyPath: movement.RotationSmoothing
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 6128617444289451366, guid: 4aa62e626698dd74a834209b3d3b8ade, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -317,7 +321,7 @@ MonoBehaviour:
   m_Follow: {fileID: 630781684}
   m_Lens:
     FieldOfView: 60
-    OrthographicSize: 5
+    OrthographicSize: 10
     NearClipPlane: 0.3
     FarClipPlane: 1000
     Dutch: 0
@@ -508,7 +512,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 10
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
