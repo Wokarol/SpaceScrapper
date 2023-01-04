@@ -29,6 +29,9 @@ namespace Wokarol.SpaceScrapper.Player
         private SceneContext sceneContext;
         private PlayerInputActions input;
 
+        private InputValues lastInputValues;
+        private MovementValues lastMovementValues;
+
         private void Start()
         {
             sceneContext = GameSystems.Get<SceneContext>();
@@ -142,10 +145,12 @@ namespace Wokarol.SpaceScrapper.Player
             }
 
             float targetRotation = Vector2.SignedAngle(forwardAxis, values.AimDirection);
-            float currentRotation = body.rotation;
 
+            float currentRotation = body.rotation;
             float angVelocity = body.angularVelocity;
+
             float newRotation = Mathf.SmoothDampAngle(currentRotation, targetRotation, ref angVelocity, movement.RotationSmoothing);
+
             body.angularVelocity = angVelocity;
             //float newRotation = targetRotation;
 
@@ -164,8 +169,6 @@ namespace Wokarol.SpaceScrapper.Player
         private float DEBUG_targetRotation;
         private float DEBUG_currentRotation;
         private float DEBUG_newRotation;
-        private InputValues lastInputValues;
-        private MovementValues lastMovementValues;
 
         private void OnGUI()
         {
