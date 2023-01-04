@@ -18,13 +18,12 @@ namespace Wokarol.SpaceScrapper.Player
         [SerializeField] private ShipMovementParams movement = new();
         [Header("Axis")]
         [SerializeField] private Vector2 forwardAxis = Vector2.up;
-        [SerializeField] private Vector2 breakThrusterForwardAxis = Vector2.up;
+        [SerializeField] private Vector2 thrusterForwardAxis = Vector2.up;
+
         [Header("Model")]
-        [SerializeField] private List<Transform> mainThrusters = new();
-        [SerializeField] private List<Transform> breakThrusters = new();
+        [SerializeField] private List<Transform> thrusters = new();
         [SerializeField] private float thrusterNoise = 0.1f;
         [SerializeField] private float thrusterNoiseSpeed = 5f;
-        [SerializeField] private float breakingForceMaxVisualMagnitude = 1f;
 
         private SceneContext sceneContext;
         private PlayerInputActions input;
@@ -73,30 +72,22 @@ namespace Wokarol.SpaceScrapper.Player
 
         private void UpdateThrusterAnimation(MovementValues values)
         {
-            for (int i = 0; i < mainThrusters.Count; i++)
+            var thrustDirection = values.ThrustVector.normalized;
+            var thrustPower = values.ThrustVector.magnitude;
+
+            for (int i = 0; i < thrusters.Count; i++)
             {
-                float noise = Mathf.PerlinNoise(Time.time * thrusterNoiseSpeed, i * 56f + 12.67f);
-                float noiseInfluence = noise * thrusterNoise * values.MainThrusterPower;
-                mainThrusters[i].localScale = (noiseInfluence + values.MainThrusterPower) * Vector3.one;
-            }
+                var thruster = thrusters[i];
+                Vector2 thrusterDirection = thruster.TransformDirection(thrusterForwardAxis).normalized;
 
-            Vector2 breakingDirection = -values.BreakMgnitudeInWorldSpace.normalized;
-            float breakPower = values.BreakPower * Mathf.Clamp01(Mathf.InverseLerp(0, breakingForceMaxVisualMagnitude, values.BreakMgnitudeInWorldSpace.magnitude));
-
-            for (int i = 0; i < breakThrusters.Count; i++)
-            {
-                var thruster = breakThrusters[i];
-                Vector2 thrusterDirection = thruster.TransformDirection(breakThrusterForwardAxis).normalized;
-
-                float dot = Vector2.Dot(thrusterDirection, breakingDirection);
+                float dot = Vector2.Dot(thrusterDirection, thrustDirection);
                 dot = Mathf.Clamp01(dot);
-                dot *= dot;
 
                 float noise = Mathf.PerlinNoise(Time.time * thrusterNoiseSpeed, i * 56f + 12.67f);
-                float noiseInfluence = noise * thrusterNoise * breakPower;
-
-                thruster.localScale = (noiseInfluence + dot * breakPower) * Vector3.one;
+                float noiseInfluence = noise * thrusterNoise * thrustPower;
+                thruster.localScale = (noiseInfluence + dot * thrustPower) * Vector3.one;
             }
+
         }
 
         private void PositionAimPoint(InputValues values)
@@ -113,35 +104,26 @@ namespace Wokarol.SpaceScrapper.Player
                 return InputValues.Empty;
             }
 
-            float thrust = input.Flying.Thrust.ReadValue<float>();
-            float breaking = input.Flying.Break.ReadValue<float>();
+            Vector2 thrust = input.Flying.Move.ReadValue<Vector2>();
+            thrust = Vector2.ClampMagnitude(thrust, 1);
+
             Vector2 aimPointScreenView = input.Flying.AimPointer.ReadValue<Vector2>();
 
             Vector2 aimPointInWorldSpace = camera.ScreenToWorldPoint(aimPointScreenView);
             Vector2 direction = aimPointInWorldSpace - (Vector2)transform.position;
 
-            return new InputValues(thrust, breaking, direction, aimPointInWorldSpace);
+            return new InputValues(thrust, direction, aimPointInWorldSpace);
         }
 
         private MovementValues HandleMovement(InputValues values)
         {
             var movementValues = new MovementValues();
-            if (values.Thrust > 0)
+            if (values.Thrust.magnitude > 0)
             {
-                float thrustPower = values.Thrust;
-                body.AddRelativeForce(movement.ForwardThrust * thrustPower * Vector2.up);
+                Vector2 thrustPower = values.Thrust;
+                body.AddForce(movement.Thrust * thrustPower);
 
-                movementValues.MainThrusterPower = thrustPower;
-            }
-
-            if (values.Break > 0)
-            {
-                float breakPower = values.Break;
-                var breakDirection = -body.velocity;
-                body.AddForce(movement.BreakForce * breakPower * breakDirection);
-
-                movementValues.BreakPower = breakPower;
-                movementValues.BreakMgnitudeInWorldSpace = breakDirection;
+                movementValues.ThrustVector = thrustPower;
             }
 
             float targetRotation = Vector2.SignedAngle(forwardAxis, values.AimDirection);
@@ -159,34 +141,29 @@ namespace Wokarol.SpaceScrapper.Player
 
         readonly struct InputValues
         {
-            public readonly float Thrust;
-            public readonly float Break;
+            public readonly Vector2 Thrust;
             public readonly Vector2 AimDirection;
             public readonly Vector2 AimPointInWorldSpace;
 
-            public InputValues(float thrust, float breaking, Vector2 aimDirection, Vector2 aimPointInWorldSpace)
+            public InputValues(Vector2 thrust, Vector2 aimDirection, Vector2 aimPointInWorldSpace)
             {
                 Thrust = thrust;
                 AimDirection = aimDirection;
-                Break = breaking;
                 AimPointInWorldSpace = aimPointInWorldSpace;
             }
 
-            public static InputValues Empty => new(0, 0, Vector2.up, Vector2.up);
+            public static InputValues Empty => new(Vector2.zero, Vector2.up, Vector2.up);
         }
 
         struct MovementValues
         {
-            public float MainThrusterPower;
-            public float BreakPower;
-            public Vector2 BreakMgnitudeInWorldSpace;
+            public Vector2 ThrustVector;
         }
 
         [System.Serializable]
         class ShipMovementParams
         {
-            public float ForwardThrust = 50;
-            public float BreakForce = 0.7f;
+            public float Thrust = 60;
             public float RotationSmoothing = 0.2f;
         }
     }

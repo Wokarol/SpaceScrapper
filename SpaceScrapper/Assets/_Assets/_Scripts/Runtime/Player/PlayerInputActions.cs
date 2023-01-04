@@ -39,19 +39,10 @@ namespace Wokarol.SpaceScrapper.Player
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""Thrust"",
+                    ""name"": ""Move"",
                     ""type"": ""Value"",
                     ""id"": ""7b3d296b-7be6-4220-9f97-23275c69b4d9"",
-                    ""expectedControlType"": ""Axis"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": true
-                },
-                {
-                    ""name"": ""Break"",
-                    ""type"": ""Value"",
-                    ""id"": ""655f4d3e-a839-44ab-ba7a-7b67c0aaf160"",
-                    ""expectedControlType"": ""Axis"",
+                    ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
@@ -70,68 +61,57 @@ namespace Wokarol.SpaceScrapper.Player
                     ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": ""W key"",
-                    ""id"": ""4d64413a-f2d1-414f-85c2-5b4f797ef3b8"",
-                    ""path"": ""1DAxis"",
+                    ""name"": ""WASD"",
+                    ""id"": ""fedbe7fb-9a1c-4ff4-9d5c-73b06aeebc44"",
+                    ""path"": ""2DVector"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Thrust"",
+                    ""action"": ""Move"",
                     ""isComposite"": true,
                     ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": ""negative"",
-                    ""id"": ""9231d71f-e60b-461a-8ab3-4949082a6d77"",
-                    ""path"": """",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Thrust"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""positive"",
-                    ""id"": ""3e7204b6-e059-4139-b4ef-0172982370a3"",
+                    ""name"": ""up"",
+                    ""id"": ""77cebdcf-11a2-4a19-bf7d-61a1e6e5eda2"",
                     ""path"": ""<Keyboard>/w"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Thrust"",
+                    ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
                 {
-                    ""name"": ""S"",
-                    ""id"": ""eab11838-bc34-408c-a75e-c6ffe86c7ec8"",
-                    ""path"": ""1DAxis"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Break"",
-                    ""isComposite"": true,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""negative"",
-                    ""id"": ""07825e7b-4c90-41e0-bb2d-3caefc66fba2"",
-                    ""path"": """",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Break"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""positive"",
-                    ""id"": ""9755eef5-5143-4c74-a4c6-df268620d80c"",
+                    ""name"": ""down"",
+                    ""id"": ""ea743dd6-ffc8-4699-8c83-f5aea4b8069d"",
                     ""path"": ""<Keyboard>/s"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Break"",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""bfc437d6-37c6-48ba-a6e2-34fce2941f6e"",
+                    ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""496f766d-10b1-451d-9d51-07731c1ef717"",
+                    ""path"": ""<Keyboard>/d"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 }
@@ -143,8 +123,7 @@ namespace Wokarol.SpaceScrapper.Player
             // Flying
             m_Flying = asset.FindActionMap("Flying", throwIfNotFound: true);
             m_Flying_AimPointer = m_Flying.FindAction("Aim (Pointer)", throwIfNotFound: true);
-            m_Flying_Thrust = m_Flying.FindAction("Thrust", throwIfNotFound: true);
-            m_Flying_Break = m_Flying.FindAction("Break", throwIfNotFound: true);
+            m_Flying_Move = m_Flying.FindAction("Move", throwIfNotFound: true);
         }
 
         public void Dispose()
@@ -205,15 +184,13 @@ namespace Wokarol.SpaceScrapper.Player
         private readonly InputActionMap m_Flying;
         private IFlyingActions m_FlyingActionsCallbackInterface;
         private readonly InputAction m_Flying_AimPointer;
-        private readonly InputAction m_Flying_Thrust;
-        private readonly InputAction m_Flying_Break;
+        private readonly InputAction m_Flying_Move;
         public struct FlyingActions
         {
             private @PlayerInputActions m_Wrapper;
             public FlyingActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
             public InputAction @AimPointer => m_Wrapper.m_Flying_AimPointer;
-            public InputAction @Thrust => m_Wrapper.m_Flying_Thrust;
-            public InputAction @Break => m_Wrapper.m_Flying_Break;
+            public InputAction @Move => m_Wrapper.m_Flying_Move;
             public InputActionMap Get() { return m_Wrapper.m_Flying; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -226,12 +203,9 @@ namespace Wokarol.SpaceScrapper.Player
                     @AimPointer.started -= m_Wrapper.m_FlyingActionsCallbackInterface.OnAimPointer;
                     @AimPointer.performed -= m_Wrapper.m_FlyingActionsCallbackInterface.OnAimPointer;
                     @AimPointer.canceled -= m_Wrapper.m_FlyingActionsCallbackInterface.OnAimPointer;
-                    @Thrust.started -= m_Wrapper.m_FlyingActionsCallbackInterface.OnThrust;
-                    @Thrust.performed -= m_Wrapper.m_FlyingActionsCallbackInterface.OnThrust;
-                    @Thrust.canceled -= m_Wrapper.m_FlyingActionsCallbackInterface.OnThrust;
-                    @Break.started -= m_Wrapper.m_FlyingActionsCallbackInterface.OnBreak;
-                    @Break.performed -= m_Wrapper.m_FlyingActionsCallbackInterface.OnBreak;
-                    @Break.canceled -= m_Wrapper.m_FlyingActionsCallbackInterface.OnBreak;
+                    @Move.started -= m_Wrapper.m_FlyingActionsCallbackInterface.OnMove;
+                    @Move.performed -= m_Wrapper.m_FlyingActionsCallbackInterface.OnMove;
+                    @Move.canceled -= m_Wrapper.m_FlyingActionsCallbackInterface.OnMove;
                 }
                 m_Wrapper.m_FlyingActionsCallbackInterface = instance;
                 if (instance != null)
@@ -239,12 +213,9 @@ namespace Wokarol.SpaceScrapper.Player
                     @AimPointer.started += instance.OnAimPointer;
                     @AimPointer.performed += instance.OnAimPointer;
                     @AimPointer.canceled += instance.OnAimPointer;
-                    @Thrust.started += instance.OnThrust;
-                    @Thrust.performed += instance.OnThrust;
-                    @Thrust.canceled += instance.OnThrust;
-                    @Break.started += instance.OnBreak;
-                    @Break.performed += instance.OnBreak;
-                    @Break.canceled += instance.OnBreak;
+                    @Move.started += instance.OnMove;
+                    @Move.performed += instance.OnMove;
+                    @Move.canceled += instance.OnMove;
                 }
             }
         }
@@ -252,8 +223,7 @@ namespace Wokarol.SpaceScrapper.Player
         public interface IFlyingActions
         {
             void OnAimPointer(InputAction.CallbackContext context);
-            void OnThrust(InputAction.CallbackContext context);
-            void OnBreak(InputAction.CallbackContext context);
+            void OnMove(InputAction.CallbackContext context);
         }
     }
 }
