@@ -169,7 +169,7 @@ namespace Wokarol.EditorExtensions
 				Color tint = important
 					? new Color(1, 1, 1, 1)
 					: new Color(0.8f, 0.8f, 0.8f, 0.25f);
-				GUI.DrawTexture(GetRightRectWithOffset(rect, i), texture, ScaleMode.ScaleToFit, true, 0, tint, 0, 0);
+				GUI.DrawTexture(GetRightRectWithOffset(rect, i), texture, ScaleMode.ScaleToFit, true, 0, tint * GUI.color, 0, 0);
 			}
 
 			numberOfIconsDrawn = iconsToDraw.Count;
@@ -197,6 +197,7 @@ namespace Wokarol.EditorExtensions
 		{
 			// Get's style of toggle
 			bool active = go.activeInHierarchy;
+			Color lastGUIColor = GUI.color;
 
 			GUIStyle toggleStyle = active
 				? toggleStyleName
@@ -208,11 +209,11 @@ namespace Wokarol.EditorExtensions
 			toggleRect.x -= 28;
 
 			if (!active && go.activeSelf)
-				GUI.color = new Color(1, 1, 1, 0.3f);
+				GUI.color *= new Color(1, 1, 1, 0.3f);
 
 			// Creates toggle
 			bool state = GUI.Toggle(toggleRect, go.activeSelf, GUIContent.none, toggleStyle);
-			GUI.color = Color.white;
+			GUI.color = lastGUIColor;
 
 
 			// Sets game's active state to result of toggle
