@@ -1,3 +1,4 @@
+using Cinemachine;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,17 +14,21 @@ namespace Wokarol.SpaceScrapper.Player
         [SerializeField] private PlayerInput playerInput = null;
         [SerializeField] private Rigidbody2D body = null;
         [SerializeField] private Transform aimPoint = null;
+        [SerializeField] private Animator animator = null;
+        [SerializeField] private CinemachineVirtualCameraBase closeUpCamera = null;
         [Header("Parameters")]
         [SerializeField] private float maxAimDistance = 3;
         [SerializeField] private ShipMovementParams movement = new();
         [Header("Axis")]
         [SerializeField] private Vector2 forwardAxis = Vector2.up;
         [SerializeField] private Vector2 thrusterForwardAxis = Vector2.up;
-
         [Header("Model")]
         [SerializeField] private List<Transform> thrusters = new();
         [SerializeField] private float thrusterNoise = 0.1f;
         [SerializeField] private float thrusterNoiseSpeed = 5f;
+        [Header("Animations")]
+        [SerializeField] private AnimationNames animatorKeys = new();
+        
 
         private SceneContext sceneContext;
         private PlayerInputActions input;
@@ -47,11 +52,33 @@ namespace Wokarol.SpaceScrapper.Player
             lastInputValues = HandleInput(mainCamera);
             PositionAimPoint(lastInputValues);
             UpdateThrusterAnimation(lastMovementValues);
+
+            if (Keyboard.current.pKey.wasPressedThisFrame)
+            {
+                animator.CrossFade(animatorKeys.OpenWingsState, 0.2f);
+            }
+
+            if (Keyboard.current.oKey.wasPressedThisFrame)
+            {
+                animator.CrossFade(animatorKeys.CloseWingsState, 0.2f);
+            }
         }
 
         private void FixedUpdate()
         {
             lastMovementValues = HandleMovement(lastInputValues);
+        }
+
+        public void EnableCloseUpCamera()
+        {
+            if (closeUpCamera != null)
+                closeUpCamera.enabled = true;
+        }
+
+        public void DisableCloseUpCamera()
+        {
+            if (closeUpCamera != null)
+                closeUpCamera.enabled = false;
         }
 
         private void UpdateThrusterAnimation(MovementValues values)
@@ -143,6 +170,13 @@ namespace Wokarol.SpaceScrapper.Player
         struct MovementValues
         {
             public Vector2 ThrustVector;
+        }
+
+        [System.Serializable]
+        class AnimationNames
+        {
+            [field: SerializeField] public string OpenWingsState { get; private set; } = "Open-Wings";
+            [field: SerializeField] public string CloseWingsState { get; private set; } = "Close-Wings";
         }
 
         [System.Serializable]

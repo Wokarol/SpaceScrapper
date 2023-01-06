@@ -134,7 +134,7 @@ TextureImporter:
         width: 150
         height: 120
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -176,7 +176,7 @@ TextureImporter:
         width: 42
         height: 108
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -197,7 +197,7 @@ TextureImporter:
         width: 69
         height: 176
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -205,6 +205,27 @@ TextureImporter:
       bones: []
       spriteID: 3f0a872059fb5964faaf676baeb31ffc
       internalID: -1895276261
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Player-Force
+      rect:
+        serializedVersion: 2
+        x: 270
+        y: 800
+        width: 75
+        height: 18
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 74cc9050ac903a24ab18dc92ec2821d8
+      internalID: 462726709
       vertices: []
       indices: 
       edges: []
@@ -222,6 +243,7 @@ TextureImporter:
     nameFileIdTable:
       Player-Thrust: -1863381594
       Player-Gun-R: -2039969385
+      Player-Force: 462726709
       Player-Body: 527073349
       Player-Reference: 1649381836
       Player-Wing-R: -1895276261
