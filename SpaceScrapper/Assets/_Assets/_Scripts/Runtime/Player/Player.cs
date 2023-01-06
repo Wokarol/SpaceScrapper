@@ -47,22 +47,6 @@ namespace Wokarol.SpaceScrapper.Player
             lastInputValues = HandleInput(mainCamera);
             PositionAimPoint(lastInputValues);
             UpdateThrusterAnimation(lastMovementValues);
-
-            //if (Keyboard.current.pKey.wasPressedThisFrame)
-            //    rotationVelocity = 0f;
-
-            if (Keyboard.current.leftBracketKey.wasPressedThisFrame)
-                body.angularVelocity = 0f;
-
-            if (Keyboard.current.oKey.wasPressedThisFrame)
-            {
-                body.rotation += 90f;
-            }
-
-            if (Keyboard.current.lKey.wasPressedThisFrame)
-            {
-                body.rotation -= 90f;
-            }
         }
 
         private void FixedUpdate()
@@ -138,6 +122,7 @@ namespace Wokarol.SpaceScrapper.Player
 
             return movementValues;
         }
+
 
         readonly struct InputValues
         {
