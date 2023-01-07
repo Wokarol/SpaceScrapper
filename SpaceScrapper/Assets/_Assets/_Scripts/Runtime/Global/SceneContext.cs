@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using Wokarol.SpaceScrapper.Player;
 
 namespace Wokarol.Common
 {
@@ -6,5 +7,6 @@ namespace Wokarol.Common
     {
         [Header("[Filled in code]")]
         public Camera MainCamera;
+        public Player Player;
     }
 }

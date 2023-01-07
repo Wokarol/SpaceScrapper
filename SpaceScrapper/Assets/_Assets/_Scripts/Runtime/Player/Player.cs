@@ -36,6 +36,7 @@ namespace Wokarol.SpaceScrapper.Player
 
 
         private SceneContext sceneContext;
+        private InputBlocker inputBlocker;
         private PlayerInputActions input;
 
         private InputValues lastInputValues;
@@ -47,9 +48,13 @@ namespace Wokarol.SpaceScrapper.Player
         private List<Collider2D> colliderListCache = new();
 
 
+        public bool IsInputRelative { get; set; } = false;
+
+
         private void Start()
         {
             sceneContext = GameSystems.Get<SceneContext>();
+            inputBlocker = GameSystems.Get<InputBlocker>();
 
             SetupInput();
         }
@@ -134,9 +139,10 @@ namespace Wokarol.SpaceScrapper.Player
 
         private InputValues HandleInput(Camera camera)
         {
-            if (input == null)
+
+            if (input == null || inputBlocker.IsBlocked)
             {
-                return InputValues.Empty;
+                return new InputValues(Vector2.zero, lastInputValues.AimDirection, lastInputValues.AimPointInWorldSpace);
             }
 
             Vector2 thrust = input.Flying.Move.ReadValue<Vector2>();
@@ -209,9 +215,16 @@ namespace Wokarol.SpaceScrapper.Player
             if (values.Thrust.magnitude > 0)
             {
                 Vector2 thrustPower = values.Thrust;
-                body.AddForce(movementParams.Thrust * thrustPower);
-
-                movementValues.ThrustVector = thrustPower;
+                if (IsInputRelative)
+                {
+                    body.AddRelativeForce(movementParams.Thrust * thrustPower);
+                    movementValues.ThrustVector = transform.rotation * thrustPower;
+                }
+                else
+                {
+                    body.AddForce(movementParams.Thrust * thrustPower);
+                    movementValues.ThrustVector = thrustPower;
+                }
             }
 
             float targetRotation = Vector2.SignedAngle(forwardAxis, values.AimDirection);
