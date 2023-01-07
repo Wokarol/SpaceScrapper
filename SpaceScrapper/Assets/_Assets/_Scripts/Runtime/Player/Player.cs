@@ -47,6 +47,9 @@ namespace Wokarol.SpaceScrapper.Player
         private List<Collider2D> colliderListCache = new();
 
 
+        public bool IsInputRelative { get; set; } = false;
+
+
         private void Start()
         {
             sceneContext = GameSystems.Get<SceneContext>();
@@ -209,9 +212,16 @@ namespace Wokarol.SpaceScrapper.Player
             if (values.Thrust.magnitude > 0)
             {
                 Vector2 thrustPower = values.Thrust;
-                body.AddForce(movementParams.Thrust * thrustPower);
-
-                movementValues.ThrustVector = thrustPower;
+                if (IsInputRelative)
+                {
+                    body.AddRelativeForce(movementParams.Thrust * thrustPower);
+                    movementValues.ThrustVector = transform.rotation * thrustPower;
+                }
+                else
+                {
+                    body.AddForce(movementParams.Thrust * thrustPower);
+                    movementValues.ThrustVector = thrustPower;
+                }
             }
 
             float targetRotation = Vector2.SignedAngle(forwardAxis, values.AimDirection);
