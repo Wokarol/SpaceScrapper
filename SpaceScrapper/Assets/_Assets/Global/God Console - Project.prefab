@@ -7,6 +7,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3140736582640956370, guid: 6d1170695996c8942abf436cdd256036, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3205780151517798054, guid: 6d1170695996c8942abf436cdd256036, type: 3}
       propertyPath: m_Name
       value: God Console - Project
@@ -99,8 +103,46 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6084747267633807871, guid: 6d1170695996c8942abf436cdd256036, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6d1170695996c8942abf436cdd256036, type: 3}
+--- !u!1 &988008577889652569 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3205780152801382767, guid: 6d1170695996c8942abf436cdd256036, type: 3}
+  m_PrefabInstance: {fileID: 2435080161127800374}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &7532364500942906268
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 988008577889652569}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 172515602e62fb746b5d573b38a5fe58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IsGlobal: 1
+  priority: 9000
+  blendDistance: 0
+  weight: 1
+  sharedProfile: {fileID: 11400000, guid: ab6b9e918e739084cb67a1842d0bca10, type: 2}
+--- !u!114 &7544147095665042847
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 988008577889652569}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f3a7187c9990eb34e91a02c5697782ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &988008578488828409 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3205780151132626895, guid: 6d1170695996c8942abf436cdd256036, type: 3}

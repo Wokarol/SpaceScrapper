@@ -36,6 +36,7 @@ namespace Wokarol.SpaceScrapper.Player
 
 
         private SceneContext sceneContext;
+        private InputBlocker inputBlocker;
         private PlayerInputActions input;
 
         private InputValues lastInputValues;
@@ -53,6 +54,7 @@ namespace Wokarol.SpaceScrapper.Player
         private void Start()
         {
             sceneContext = GameSystems.Get<SceneContext>();
+            inputBlocker = GameSystems.Get<InputBlocker>();
 
             SetupInput();
         }
@@ -137,9 +139,10 @@ namespace Wokarol.SpaceScrapper.Player
 
         private InputValues HandleInput(Camera camera)
         {
-            if (input == null)
+
+            if (input == null || inputBlocker.IsBlocked)
             {
-                return InputValues.Empty;
+                return new InputValues(Vector2.zero, lastInputValues.AimDirection, lastInputValues.AimPointInWorldSpace);
             }
 
             Vector2 thrust = input.Flying.Move.ReadValue<Vector2>();
