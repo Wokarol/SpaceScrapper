@@ -47,8 +47,8 @@ namespace Wokarol.SpaceScrapper.Player
 
         private List<Collider2D> colliderListCache = new();
 
-
-        public bool IsInputRelative { get; set; } = false;
+        public ShipMovementParams NormalMovementParams => movement;
+        public ShipMovementParams HoldingMovementParams => movementWhenHolding;
 
 
         private void Start()
@@ -215,7 +215,7 @@ namespace Wokarol.SpaceScrapper.Player
             if (values.Thrust.magnitude > 0)
             {
                 Vector2 thrustPower = values.Thrust;
-                if (IsInputRelative)
+                if (movementParams.IsInputRelative)
                 {
                     body.AddRelativeForce(movementParams.Thrust * thrustPower);
                     movementValues.ThrustVector = transform.rotation * thrustPower;
@@ -306,10 +306,11 @@ namespace Wokarol.SpaceScrapper.Player
         }
 
         [System.Serializable]
-        private class ShipMovementParams
+        public class ShipMovementParams
         {
             public float Thrust = 60;
             public float RotationSmoothing = 0.2f;
+            public bool IsInputRelative = false;
         }
     }
 }
