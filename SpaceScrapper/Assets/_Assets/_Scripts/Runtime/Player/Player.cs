@@ -18,6 +18,7 @@ namespace Wokarol.SpaceScrapper.Player
         [SerializeField] private CinemachineVirtualCameraBase closeUpCamera = null;
         [SerializeField] private Collider2D grabbingTrigger = null;
         [SerializeField] private Transform grabTarget = null;
+        [SerializeField] private GunTrigger gunTrigger = null;
         [Header("Parameters")]
         [SerializeField] private float maxAimDistance = 3;
         [SerializeField] private ShipMovementParams movement = new();
@@ -62,9 +63,14 @@ namespace Wokarol.SpaceScrapper.Player
         private void Update()
         {
             Camera mainCamera = sceneContext.MainCamera;
-            lastInputValues = HandleInput(mainCamera);
+            lastInputValues = HandleInput(mainCamera, lastInputValues);
             PositionAimPoint(lastInputValues);
             UpdateThrusterAnimation(lastMovementValues);
+
+            if (interactionState != InteractionState.HoldingPart)
+            {
+                gunTrigger.UpdateShooting(lastInputValues.WantsToShoot, body.velocity);
+            }
         }
 
         private void FixedUpdate()
@@ -137,12 +143,12 @@ namespace Wokarol.SpaceScrapper.Player
             aimPoint.position = transform.position + (Vector3)playerToAimVector;
         }
 
-        private InputValues HandleInput(Camera camera)
+        private InputValues HandleInput(Camera camera,InputValues previousInput)
         {
 
             if (input == null || inputBlocker.IsBlocked)
             {
-                return new InputValues(Vector2.zero, lastInputValues.AimDirection, lastInputValues.AimPointInWorldSpace);
+                return new InputValues(Vector2.zero, previousInput.AimDirection, previousInput.AimPointInWorldSpace, false);
             }
 
             Vector2 thrust = input.Flying.Move.ReadValue<Vector2>();
@@ -153,11 +159,15 @@ namespace Wokarol.SpaceScrapper.Player
             Vector2 aimPointInWorldSpace = camera.ScreenToWorldPoint(aimPointScreenView);
             Vector2 direction = aimPointInWorldSpace - (Vector2)transform.position;
 
-            return new InputValues(thrust, direction, aimPointInWorldSpace);
+            bool wantsToShoot = input.Flying.Shoot.IsPressed();
+
+            return new InputValues(thrust, direction, aimPointInWorldSpace, wantsToShoot);
         }
 
         private void Grab_performed(InputAction.CallbackContext ctx)
         {
+            if (lastInputValues.WantsToShoot) return;
+
             bool isPressed = ctx.ReadValueAsButton();
 
             switch (interactionState)
@@ -281,15 +291,17 @@ namespace Wokarol.SpaceScrapper.Player
             public readonly Vector2 Thrust;
             public readonly Vector2 AimDirection;
             public readonly Vector2 AimPointInWorldSpace;
+            public readonly bool WantsToShoot;
 
-            public InputValues(Vector2 thrust, Vector2 aimDirection, Vector2 aimPointInWorldSpace)
+            public InputValues(Vector2 thrust, Vector2 aimDirection, Vector2 aimPointInWorldSpace, bool wantsToShoot)
             {
                 Thrust = thrust;
                 AimDirection = aimDirection;
                 AimPointInWorldSpace = aimPointInWorldSpace;
+                WantsToShoot = wantsToShoot;
             }
 
-            public static InputValues Empty => new(Vector2.zero, Vector2.up, Vector2.up);
+            public static InputValues Empty => new(Vector2.zero, Vector2.up, Vector2.up, false);
         }
 
         private struct MovementValues
