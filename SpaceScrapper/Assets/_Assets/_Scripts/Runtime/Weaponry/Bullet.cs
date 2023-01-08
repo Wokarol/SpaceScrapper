@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Wokarol.SpaceScrapper.Player
+namespace Wokarol.SpaceScrapper.Weaponry
 {
     public class Bullet : MonoBehaviour
     {

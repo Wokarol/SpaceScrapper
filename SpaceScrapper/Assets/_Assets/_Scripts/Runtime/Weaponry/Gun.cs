@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Wokarol.SpaceScrapper.Player
+namespace Wokarol.SpaceScrapper.Weaponry
 {
     public class Gun : MonoBehaviour
     {
@@ -13,7 +13,7 @@ namespace Wokarol.SpaceScrapper.Player
         float lastShotTime = float.NegativeInfinity;
 
 
-        public void UpdateShooting(bool wantsToShoot, Vector2 velocity)
+        public void UpdateShooting(bool wantsToShoot, ShootParams shootParams)
         {
             bool lastShootWasLongAgo = (Time.time - lastShotTime) > delayBetweenShots;
             switch (mode)
@@ -21,24 +21,24 @@ namespace Wokarol.SpaceScrapper.Player
                 case ShootingMode.Automatic:
                     if (wantsToShoot && lastShootWasLongAgo)
                     {
-                        Shoot(velocity);
+                        Shoot(shootParams);
                     }
                     break;
 
                 case ShootingMode.SemiAutomatic:
                     if (!wantedToShotBefore && wantsToShoot && lastShootWasLongAgo)
                     {
-                        Shoot(velocity);
+                        Shoot(shootParams);
                     }
                     break;
             }
             wantedToShotBefore = wantsToShoot;
         }
 
-        private void Shoot(Vector2 velocity)
+        private void Shoot(ShootParams shootParams)
         {
             var bullet = Instantiate(bulletPrefab, transform.position, transform.rotation);
-            bullet.Init(velocity);
+            bullet.Init(shootParams.velocity);
             lastShotTime = Time.time;
         }
 

@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using Wokarol.Common;
 using Wokarol.GameSystemsLocator;
+using Wokarol.SpaceScrapper.Weaponry;
 
 namespace Wokarol.SpaceScrapper.Player
 {
@@ -69,7 +70,7 @@ namespace Wokarol.SpaceScrapper.Player
 
             if (interactionState != InteractionState.HoldingPart)
             {
-                gunTrigger.UpdateShooting(lastInputValues.WantsToShoot, body.velocity);
+                gunTrigger.UpdateShooting(lastInputValues.WantsToShoot, new(body.velocity));
             }
         }
 
