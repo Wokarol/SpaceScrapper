@@ -50,19 +50,22 @@ namespace Wokarol.SpaceScrapper.Weaponry
 
         private void TryToHit(RaycastHit2D hit, Vector2 force)
         {
-            IHittable hittable;
+            IHittable[] hittables;
             if (hit.rigidbody != null)
             {
-                hit.rigidbody.TryGetComponent(out hittable);
+                hittables = hit.rigidbody.GetComponents<IHittable>();
             }
             else
             {
-                hit.collider.TryGetComponent(out hittable);
+                hittables = hit.collider.GetComponents<IHittable>();
             }
 
-            if (hittable != null)
+            if (hittables != null)
             {
-                hittable.Hit(force, hit.point, damage);
+                for (int i = 0; i < hittables.Length; i++)
+                {
+                    hittables[i].Hit(force, hit.normal, hit.point, damage); 
+                }
             }
         }
     }

@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 5372285368888300542}
   - component: {fileID: 5372285368888300543}
   - component: {fileID: 8768882162247234160}
+  - component: {fileID: 2913506933802290636}
   m_Layer: 0
   m_Name: Placeholder-Block
   m_TagString: Untagged
@@ -150,3 +151,15 @@ MonoBehaviour:
   forwardAxes:
   - {x: 0, y: 1}
   - {x: 0, y: -1}
+--- !u!114 &2913506933802290636
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5372285368888300540}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85049c949c8e57b4cba2975b6ef81aa1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
