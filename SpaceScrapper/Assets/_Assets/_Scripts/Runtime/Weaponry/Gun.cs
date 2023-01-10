@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using Wokarol.SpaceScrapper.Pooling;
 
 namespace Wokarol.SpaceScrapper.Weaponry
 {
@@ -8,6 +9,7 @@ namespace Wokarol.SpaceScrapper.Weaponry
         [SerializeField] private ShootingMode mode = ShootingMode.Automatic;
         [SerializeField] private float delayBetweenShots = 0.1f;
         [SerializeField] private Bullet bulletPrefab = null;
+        [SerializeField] private BasicPool<Bullet> bulletPool = null;
 
         bool wantedToShotBefore = false;
         float lastShotTime = float.NegativeInfinity;
@@ -37,7 +39,7 @@ namespace Wokarol.SpaceScrapper.Weaponry
 
         private void Shoot(ShootParams shootParams)
         {
-            var bullet = Instantiate(bulletPrefab, transform.position, transform.rotation);
+            var bullet = bulletPool.Get(bulletPrefab, transform.position, transform.rotation);
             bullet.Init(shootParams.velocity);
             lastShotTime = Time.time;
         }
