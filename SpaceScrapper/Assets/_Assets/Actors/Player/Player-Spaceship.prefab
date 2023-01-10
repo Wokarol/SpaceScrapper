@@ -1,5 +1,49 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1616569096469644744
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 31216706783469012}
+  - component: {fileID: 5984853317815480533}
+  m_Layer: 6
+  m_Name: Projectiles
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &31216706783469012
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1616569096469644744}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2005016314779049953}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5984853317815480533
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1616569096469644744}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a563481cea4d0047ae7d74aa4398519, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1894197005029682290
 GameObject:
   m_ObjectHideFlags: 0
@@ -9,10 +53,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6128617444289451366}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: AimPoint
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 4422084297763085224, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -24,7 +68,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1894197005029682290}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -41,7 +85,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5706815571976433110}
   - component: {fileID: 3501208523775375620}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Thruster Left
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -125,7 +169,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8912564204475835002}
   - component: {fileID: 714516967329300992}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Thruster Front
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -210,10 +254,11 @@ GameObject:
   - component: {fileID: 2005016314779049953}
   - component: {fileID: 8887696463089188604}
   - component: {fileID: 4349511427654487601}
+  - component: {fileID: 3113732550210425743}
   - component: {fileID: 2444238726169364147}
   - component: {fileID: 9156394031540676905}
   - component: {fileID: 2451672630894753647}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Player-Spaceship
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -236,6 +281,7 @@ Transform:
   - {fileID: 6128617444289451366}
   - {fileID: 7266788847600273812}
   - {fileID: 4068347881429686454}
+  - {fileID: 31216706783469012}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -288,13 +334,16 @@ MonoBehaviour:
   closeUpCamera: {fileID: 0}
   grabbingTrigger: {fileID: 5217559864886743189}
   grabTarget: {fileID: 4068347881429686454}
+  gunTrigger: {fileID: 3113732550210425743}
   maxAimDistance: 8
   movement:
     Thrust: 400
     RotationSmoothing: 0.3
+    IsInputRelative: 0
   movementWhenHolding:
     Thrust: 200
     RotationSmoothing: 0.4
+    IsInputRelative: 0
   forwardAxis: {x: 0, y: 1}
   thrusterForwardAxis: {x: 0, y: 1}
   thrusters:
@@ -314,6 +363,21 @@ MonoBehaviour:
   grabbableLayerMask:
     serializedVersion: 2
     m_Bits: 2147483647
+--- !u!114 &3113732550210425743
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3197799456960919611}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9cec4ffb1354d6040b847bec724b9f41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  guns:
+  - {fileID: 2972143544881352452}
+  - {fileID: 8647101899963421654}
 --- !u!114 &2444238726169364147
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -377,7 +441,7 @@ GameObject:
   m_Component:
   - component: {fileID: 124692233827255566}
   - component: {fileID: 3340813822425967938}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Player-Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -460,7 +524,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4068347881429686454}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Grabber Attraction Point
   m_TagString: Untagged
   m_Icon: {fileID: 3936346786652291628, guid: 0000000000000000d000000000000000, type: 0}
@@ -493,7 +557,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4638623199848285074}
   - component: {fileID: 4954078784353690328}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -540,7 +604,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7214670716177681637}
   - component: {fileID: 5217559864886743189}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Grabber Detection Trigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -597,7 +661,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6818690465641804574}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Thrusters
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -632,7 +696,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6074177518878234405}
   - component: {fileID: 687197478585219042}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Thruster Right
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -716,7 +780,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7266788847600273812}
   - component: {fileID: 7827418720180186126}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Body Collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -771,10 +835,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4638623199848285074}
     m_Modifications:
-    - target: {fileID: 582442040491214211, guid: 7440fb2f6f7428d4f8064bcf5a498cfc, type: 3}
-      propertyPath: m_Color.a
-      value: 0.5019608
-      objectReference: {fileID: 0}
     - target: {fileID: 1510557152781627713, guid: 7440fb2f6f7428d4f8064bcf5a498cfc, type: 3}
       propertyPath: m_RootOrder
       value: 2
@@ -823,21 +883,13 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1826111386010315251, guid: 7440fb2f6f7428d4f8064bcf5a498cfc, type: 3}
-      propertyPath: m_Color.a
-      value: 0.5019608
-      objectReference: {fileID: 0}
+    - target: {fileID: 6835260222945588278, guid: 7440fb2f6f7428d4f8064bcf5a498cfc, type: 3}
+      propertyPath: bulletPool
+      value: 
+      objectReference: {fileID: 5984853317815480533}
     - target: {fileID: 6950466470134778149, guid: 7440fb2f6f7428d4f8064bcf5a498cfc, type: 3}
       propertyPath: m_Name
       value: Wing Left
-      objectReference: {fileID: 0}
-    - target: {fileID: 8879805155135758535, guid: 7440fb2f6f7428d4f8064bcf5a498cfc, type: 3}
-      propertyPath: m_Color.a
-      value: 0.5019608
-      objectReference: {fileID: 0}
-    - target: {fileID: 9090944346296427421, guid: 7440fb2f6f7428d4f8064bcf5a498cfc, type: 3}
-      propertyPath: m_Color.a
-      value: 0.5019608
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7440fb2f6f7428d4f8064bcf5a498cfc, type: 3}
@@ -856,6 +908,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6065088836912800655, guid: 7440fb2f6f7428d4f8064bcf5a498cfc, type: 3}
   m_PrefabInstance: {fileID: 2799855406181754848}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &8647101899963421654 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6835260222945588278, guid: 7440fb2f6f7428d4f8064bcf5a498cfc, type: 3}
+  m_PrefabInstance: {fileID: 2799855406181754848}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81d6b0e000f01f44dbf232bfaa151639, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &8639192969919396658
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -879,6 +942,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6835260222945588278, guid: 7440fb2f6f7428d4f8064bcf5a498cfc, type: 3}
+      propertyPath: bulletPool
+      value: 
+      objectReference: {fileID: 5984853317815480533}
     - target: {fileID: 6950466470134778149, guid: 7440fb2f6f7428d4f8064bcf5a498cfc, type: 3}
       propertyPath: m_Name
       value: Wing Right
@@ -895,6 +962,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6065088836912800655, guid: 7440fb2f6f7428d4f8064bcf5a498cfc, type: 3}
   m_PrefabInstance: {fileID: 8639192969919396658}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2972143544881352452 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6835260222945588278, guid: 7440fb2f6f7428d4f8064bcf5a498cfc, type: 3}
+  m_PrefabInstance: {fileID: 8639192969919396658}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81d6b0e000f01f44dbf232bfaa151639, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &7138776614235638387 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1510557152781627713, guid: 7440fb2f6f7428d4f8064bcf5a498cfc, type: 3}

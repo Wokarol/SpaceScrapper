@@ -25,7 +25,9 @@ namespace Wokarol.SpaceScrapper.GodConsole.Injectors
                 .Add("drag", (float drag, SceneContext ctx) => ctx.Player.GetComponent<Rigidbody2D>().drag = drag)
                 .Add("drag", (SceneContext ctx) => Debug.Log(ctx.Player.GetComponent<Rigidbody2D>().drag))
                 .Add("ang_drag", (float drag, SceneContext ctx) => ctx.Player.GetComponent<Rigidbody2D>().angularDrag = drag)
-                .Add("ang_drag", (SceneContext ctx) => Debug.Log(ctx.Player.GetComponent<Rigidbody2D>().angularDrag));
+                .Add("ang_drag", (SceneContext ctx) => Debug.Log(ctx.Player.GetComponent<Rigidbody2D>().angularDrag))
+                .Add("bullet_velo_inheritance", (float inheritance, SceneContext ctx) => ctx.Player.VelocityInheritanceRatio = inheritance)
+                .Add("bullet_velo_inheritance", (SceneContext ctx) => Debug.Log(ctx.Player.VelocityInheritanceRatio));
 
             AddMovementParamsSettings(playerGroup.Group("normal"), p => p.NormalMovementParams);
             AddMovementParamsSettings(playerGroup.Group("when_holding"), p => p.HoldingMovementParams);

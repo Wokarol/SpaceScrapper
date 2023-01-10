@@ -55,6 +55,15 @@ namespace Wokarol.SpaceScrapper.Player
                     ""processors"": """",
                     ""interactions"": ""Press(behavior=2)"",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Shoot"",
+                    ""type"": ""Button"",
+                    ""id"": ""da5b8c7b-37de-4e5f-9ebc-a04dfe19d559"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press(behavior=2)"",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -64,7 +73,7 @@ namespace Wokarol.SpaceScrapper.Player
                     ""path"": ""<Mouse>/position"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Keyboard and Mouse"",
                     ""action"": ""Aim (Pointer)"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -86,7 +95,7 @@ namespace Wokarol.SpaceScrapper.Player
                     ""path"": ""<Keyboard>/w"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Keyboard and Mouse"",
                     ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -97,7 +106,7 @@ namespace Wokarol.SpaceScrapper.Player
                     ""path"": ""<Keyboard>/s"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Keyboard and Mouse"",
                     ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -108,7 +117,7 @@ namespace Wokarol.SpaceScrapper.Player
                     ""path"": ""<Keyboard>/a"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Keyboard and Mouse"",
                     ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -119,7 +128,7 @@ namespace Wokarol.SpaceScrapper.Player
                     ""path"": ""<Keyboard>/d"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Keyboard and Mouse"",
                     ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -130,21 +139,50 @@ namespace Wokarol.SpaceScrapper.Player
                     ""path"": ""<Mouse>/rightButton"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Keyboard and Mouse"",
                     ""action"": ""Grab"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""703e76b8-6672-467d-b058-ae33eac50284"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard and Mouse"",
+                    ""action"": ""Shoot"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
             ]
         }
     ],
-    ""controlSchemes"": []
+    ""controlSchemes"": [
+        {
+            ""name"": ""Keyboard and Mouse"",
+            ""bindingGroup"": ""Keyboard and Mouse"",
+            ""devices"": [
+                {
+                    ""devicePath"": ""<Keyboard>"",
+                    ""isOptional"": false,
+                    ""isOR"": false
+                },
+                {
+                    ""devicePath"": ""<Mouse>"",
+                    ""isOptional"": false,
+                    ""isOR"": false
+                }
+            ]
+        }
+    ]
 }");
             // Flying
             m_Flying = asset.FindActionMap("Flying", throwIfNotFound: true);
             m_Flying_AimPointer = m_Flying.FindAction("Aim (Pointer)", throwIfNotFound: true);
             m_Flying_Move = m_Flying.FindAction("Move", throwIfNotFound: true);
             m_Flying_Grab = m_Flying.FindAction("Grab", throwIfNotFound: true);
+            m_Flying_Shoot = m_Flying.FindAction("Shoot", throwIfNotFound: true);
         }
 
         public void Dispose()
@@ -207,6 +245,7 @@ namespace Wokarol.SpaceScrapper.Player
         private readonly InputAction m_Flying_AimPointer;
         private readonly InputAction m_Flying_Move;
         private readonly InputAction m_Flying_Grab;
+        private readonly InputAction m_Flying_Shoot;
         public struct FlyingActions
         {
             private @PlayerInputActions m_Wrapper;
@@ -214,6 +253,7 @@ namespace Wokarol.SpaceScrapper.Player
             public InputAction @AimPointer => m_Wrapper.m_Flying_AimPointer;
             public InputAction @Move => m_Wrapper.m_Flying_Move;
             public InputAction @Grab => m_Wrapper.m_Flying_Grab;
+            public InputAction @Shoot => m_Wrapper.m_Flying_Shoot;
             public InputActionMap Get() { return m_Wrapper.m_Flying; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -232,6 +272,9 @@ namespace Wokarol.SpaceScrapper.Player
                     @Grab.started -= m_Wrapper.m_FlyingActionsCallbackInterface.OnGrab;
                     @Grab.performed -= m_Wrapper.m_FlyingActionsCallbackInterface.OnGrab;
                     @Grab.canceled -= m_Wrapper.m_FlyingActionsCallbackInterface.OnGrab;
+                    @Shoot.started -= m_Wrapper.m_FlyingActionsCallbackInterface.OnShoot;
+                    @Shoot.performed -= m_Wrapper.m_FlyingActionsCallbackInterface.OnShoot;
+                    @Shoot.canceled -= m_Wrapper.m_FlyingActionsCallbackInterface.OnShoot;
                 }
                 m_Wrapper.m_FlyingActionsCallbackInterface = instance;
                 if (instance != null)
@@ -245,15 +288,28 @@ namespace Wokarol.SpaceScrapper.Player
                     @Grab.started += instance.OnGrab;
                     @Grab.performed += instance.OnGrab;
                     @Grab.canceled += instance.OnGrab;
+                    @Shoot.started += instance.OnShoot;
+                    @Shoot.performed += instance.OnShoot;
+                    @Shoot.canceled += instance.OnShoot;
                 }
             }
         }
         public FlyingActions @Flying => new FlyingActions(this);
+        private int m_KeyboardandMouseSchemeIndex = -1;
+        public InputControlScheme KeyboardandMouseScheme
+        {
+            get
+            {
+                if (m_KeyboardandMouseSchemeIndex == -1) m_KeyboardandMouseSchemeIndex = asset.FindControlSchemeIndex("Keyboard and Mouse");
+                return asset.controlSchemes[m_KeyboardandMouseSchemeIndex];
+            }
+        }
         public interface IFlyingActions
         {
             void OnAimPointer(InputAction.CallbackContext context);
             void OnMove(InputAction.CallbackContext context);
             void OnGrab(InputAction.CallbackContext context);
+            void OnShoot(InputAction.CallbackContext context);
         }
     }
 }

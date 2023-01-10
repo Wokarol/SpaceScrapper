@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6065088836912800655}
   - component: {fileID: 7026954681773802349}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Thruster Wing Back
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -84,6 +84,53 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &1342990381153239900
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2349243085927962786}
+  - component: {fileID: 6835260222945588278}
+  m_Layer: 6
+  m_Name: GunPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2349243085927962786
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1342990381153239900}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.048, y: 0.404, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1289344736349187976}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6835260222945588278
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1342990381153239900}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81d6b0e000f01f44dbf232bfaa151639, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mode: 0
+  delayBetweenShots: 0.1
+  bulletPrefab: {fileID: 2183291887360013007, guid: 1609c57125499934eba6155f796a9032, type: 3}
 --- !u!1 &2608643181413307110
 GameObject:
   m_ObjectHideFlags: 0
@@ -94,7 +141,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5089832780536190327}
   - component: {fileID: 2955834842613626344}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Player-Wing-R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -178,7 +225,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1289344736349187976}
   - component: {fileID: 7933171246639620199}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Player-Gun-R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -196,7 +243,8 @@ Transform:
   m_LocalPosition: {x: -0.039000005, y: 0.574, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 2349243085927962786}
   m_Father: {fileID: 1510557152781627713}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -262,7 +310,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5783441074965662755}
   - component: {fileID: 701121051526321724}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Player-Force
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -345,7 +393,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6699245348198621403}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Thrusters
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -379,7 +427,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4363968789359732517}
   - component: {fileID: 8124122437068216790}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Forcefield Holder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -494,7 +542,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1510557152781627713}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Wing Right
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -531,7 +579,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8984530918471417239}
   - component: {fileID: 7133614852700805764}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Thruster Wing Front
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -615,7 +663,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3601596014033610272}
   - component: {fileID: 7563965802010290649}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Hitbox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
