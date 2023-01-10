@@ -24,6 +24,7 @@ namespace Wokarol.SpaceScrapper.Player
         [SerializeField] private float maxAimDistance = 3;
         [SerializeField] private ShipMovementParams movement = new();
         [SerializeField] private ShipMovementParams movementWhenHolding = new();
+        [SerializeField] private float velocityInheritanceRatio = 0.3f;
         [Header("Axis")]
         [SerializeField] private Vector2 forwardAxis = Vector2.up;
         [SerializeField] private Vector2 thrusterForwardAxis = Vector2.up;
@@ -52,6 +53,7 @@ namespace Wokarol.SpaceScrapper.Player
         public ShipMovementParams NormalMovementParams => movement;
         public ShipMovementParams HoldingMovementParams => movementWhenHolding;
 
+        public float VelocityInheritanceRatio { get => velocityInheritanceRatio; set => velocityInheritanceRatio = value; }
 
         private void Start()
         {
@@ -70,7 +72,7 @@ namespace Wokarol.SpaceScrapper.Player
 
             if (interactionState != InteractionState.HoldingPart)
             {
-                gunTrigger.UpdateShooting(lastInputValues.WantsToShoot, new(body.velocity));
+                gunTrigger.UpdateShooting(lastInputValues.WantsToShoot, new(body.velocity * velocityInheritanceRatio));
             }
         }
 
