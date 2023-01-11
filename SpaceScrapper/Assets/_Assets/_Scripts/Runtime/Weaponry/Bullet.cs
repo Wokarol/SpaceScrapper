@@ -16,6 +16,8 @@ namespace Wokarol.SpaceScrapper.Weaponry
         public Bullet OriginalPrefab { get; set; }
         public BasicPool<Bullet> Pool { get; set; }
 
+        public float Speed => speed;
+
         internal void Init(Vector2 initialVelocity)
         {
             float velocityAlongForward = Vector2.Dot(transform.up, initialVelocity);

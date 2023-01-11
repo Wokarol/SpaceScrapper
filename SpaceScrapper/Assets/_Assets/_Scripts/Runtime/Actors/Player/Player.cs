@@ -47,6 +47,7 @@ namespace Wokarol.SpaceScrapper.Actors
         public ShipMovementParams HoldingMovementParams => movementWhenHolding;
 
         public float VelocityInheritanceRatio { get => velocityInheritanceRatio; set => velocityInheritanceRatio = value; }
+        public Vector3 Velocity => spaceshipController.Velocity;
 
         private void Start()
         {

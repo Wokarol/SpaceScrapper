@@ -14,6 +14,17 @@ namespace Wokarol.SpaceScrapper.Weaponry
                 guns[i].UpdateShooting(wantsToShoot, shootParams);
             }
         }
+
+        public float CalculateAverageBulletSpeed()
+        {
+            var sum = 0f;
+            for (int i = 0; i < guns.Count; i++)
+            {
+                sum += guns[i].CalculateAverageBulletSpeed();
+            }
+            sum /= guns.Count;
+            return sum;
+        }
     }
 
     public struct ShootParams

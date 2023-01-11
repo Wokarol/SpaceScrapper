@@ -22,6 +22,7 @@ namespace Wokarol.SpaceScrapper
         [SerializeField] private LayerMask raycastBlockingMask = 0;
         [SerializeField] private LayerMask shootingTargetMask = 0;
         [SerializeField] private float seeingDistance = 6;
+        [SerializeField] private float targetVelocityInfluence = 1.1f;
 
         private MovementValues lastMovementValues;
         private int health;
@@ -45,14 +46,17 @@ namespace Wokarol.SpaceScrapper
         {
             engineController.UpdateThrusterAnimation(lastMovementValues.ThrustVector);
 
-            var hit = Physics2D.Raycast(transform.position, spaceshipController.Forward, seeingDistance, raycastBlockingMask | shootingTargetMask);
+            var player = sceneContext.Player;
+            var playerPosition = player.transform.position;
 
-            Debug.Log($"{hit.collider?.name ?? "Null"} {hit.rigidbody?.name ?? "Null"}");
-            Debug.DrawRay(transform.position, spaceshipController.Forward * seeingDistance);
+            Physics2D.queriesHitTriggers = false;
+            var hit = Physics2D.Raycast(transform.position, playerPosition - transform.position, seeingDistance, raycastBlockingMask | shootingTargetMask);
+
+            Debug.DrawRay(transform.position, (playerPosition - transform.position).normalized * seeingDistance);
 
             bool wantsToShoot = CheckIfIWantToShootTarget(hit);
-
             guns.UpdateShooting(wantsToShoot, new(Vector2.zero));
+
         }
 
         private bool CheckIfIWantToShootTarget(RaycastHit2D hit)
@@ -68,13 +72,29 @@ namespace Wokarol.SpaceScrapper
 
         private void FixedUpdate()
         {
-            agent.SetDestination(sceneContext.Player.transform.position);
+            var player = sceneContext.Player;
+            var playerPosition = player.transform.position;
+            float distanceToPlayer = Vector2.Distance(playerPosition, transform.position);
+
+            agent.SetDestination(playerPosition);
 
             var desiredVelocity = agent.desiredVelocity;
             agent.velocity = Vector3.zero;
 
             var direction = Vector2.ClampMagnitude(desiredVelocity, 1f);
-            lastMovementValues = spaceshipController.HandleMovement(new InputValues(direction, direction.normalized), movementParams);
+            var aimPoint = playerPosition;
+
+            float bulletFlyTime = distanceToPlayer / guns.CalculateAverageBulletSpeed();
+
+            aimPoint += bulletFlyTime * targetVelocityInfluence * player.Velocity;
+            var aimDiff = aimPoint - transform.position;
+
+            if (distanceToPlayer > seeingDistance)
+            {
+                aimDiff = direction.normalized;
+            }
+
+            lastMovementValues = spaceshipController.HandleMovement(new InputValues(direction, aimDiff.normalized), movementParams);
 
             agent.nextPosition = transform.position;
             agent.velocity = spaceshipController.Velocity;
