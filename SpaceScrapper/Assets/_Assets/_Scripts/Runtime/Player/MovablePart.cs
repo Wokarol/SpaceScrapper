@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 namespace Wokarol.SpaceScrapper.Player
@@ -31,7 +30,7 @@ namespace Wokarol.SpaceScrapper.Player
             for (int i = 0; i < forwardAxes.Count; i++)
             {
                 float dot = Vector2.Dot(transform.TransformDirection(forwardAxes[i].normalized), initialDirection.normalized);
-                
+
                 if (dot > closestDot)
                 {
                     closestDot = dot;

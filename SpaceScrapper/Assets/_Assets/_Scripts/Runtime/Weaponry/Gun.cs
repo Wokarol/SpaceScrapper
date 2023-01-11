@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using Wokarol.SpaceScrapper.Pooling;
 
 namespace Wokarol.SpaceScrapper.Weaponry

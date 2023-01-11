@@ -1,5 +1,3 @@
-using Cinemachine;
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -131,7 +129,7 @@ namespace Wokarol.SpaceScrapper.Player
             aimPoint.position = transform.position + (Vector3)playerToAimVector;
         }
 
-        private InputValues HandleInput(Camera camera,InputValues previousInput)
+        private InputValues HandleInput(Camera camera, InputValues previousInput)
         {
 
             if (input == null || inputBlocker.IsBlocked)
