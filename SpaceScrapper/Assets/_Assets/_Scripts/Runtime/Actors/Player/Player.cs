@@ -63,10 +63,11 @@ namespace Wokarol.SpaceScrapper.Actors
             PositionAimPoint(lastInputValues);
             engineController.UpdateThrusterAnimation(lastMovementValues.ThrustVector);
 
-            if (interactionState != InteractionState.HoldingPart)
-            {
-                gunTrigger.UpdateShooting(lastInputValues.WantsToShoot, new(spaceshipController.Velocity * velocityInheritanceRatio));
-            }
+            bool wantsToShoot = interactionState != InteractionState.HoldingPart
+                ? lastInputValues.WantsToShoot
+                : false;
+
+            gunTrigger.UpdateShooting(wantsToShoot, new(spaceshipController.Velocity * velocityInheritanceRatio));
         }
 
         private void FixedUpdate()
@@ -76,7 +77,10 @@ namespace Wokarol.SpaceScrapper.Actors
 
             if (interactionState == InteractionState.HoldingPart)
             {
-                grabbedPart.MoveTowards(grabTarget.position, grabTarget.up);
+                if (grabbedPart == null)
+                    SwitchState(InteractionState.Idle);
+                else
+                    grabbedPart.MoveTowards(grabTarget.position, grabTarget.up);
             }
         }
 

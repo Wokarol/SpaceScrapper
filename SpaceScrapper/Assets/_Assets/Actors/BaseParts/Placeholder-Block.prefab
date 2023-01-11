@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 8768882162247234160}
   - component: {fileID: 2913506933802290636}
   - component: {fileID: 8003843080338838929}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Placeholder-Block
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -178,6 +178,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   system: {fileID: 3597140376158328227}
+  accurateCollider: {fileID: 0}
+  accurateColliderOffset: 0.4
+  raycastDeepness: 1
 --- !u!1001 &7053443156980881833
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -259,8 +259,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.000000011956775, y: -0.100300714}
-  m_Size: {x: 1.3225716, y: 0.8702207}
+  m_Offset: {x: -0.000000009680392, y: -0.08120502}
+  m_Size: {x: 1.3225718, y: 0.8320316}
   m_Direction: 1
 --- !u!1 &2234324217837896795
 GameObject:
@@ -626,7 +626,14 @@ MonoBehaviour:
     Thrust: 60
     RotationSmoothing: 0.2
     IsInputRelative: 0
-  startingHealth: 2147483647
+  startingHealth: 10
+  raycastBlockingMask:
+    serializedVersion: 2
+    m_Bits: 1
+  shootingTargetMask:
+    serializedVersion: 2
+    m_Bits: 64
+  seeingDistance: 12
 --- !u!114 &4606117737132606376
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -714,6 +721,7 @@ MonoBehaviour:
   system: {fileID: 1609107524346807181}
   accurateCollider: {fileID: 8092396988531225543}
   accurateColliderOffset: 0.1
+  raycastDeepness: 1
 --- !u!1 &5560467047322191912
 GameObject:
   m_ObjectHideFlags: 0

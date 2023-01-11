@@ -12,6 +12,7 @@ namespace Wokarol.SpaceScrapper.Actors.Common
         [SerializeField] private Vector2 forwardAxis = Vector2.up;
 
         public Vector2 Velocity => body.velocity;
+        public Vector2 Forward => transform.TransformDirection(forwardAxis);
 
         public MovementValues HandleMovement(InputValues values, ShipMovementParams movementParams)
         {

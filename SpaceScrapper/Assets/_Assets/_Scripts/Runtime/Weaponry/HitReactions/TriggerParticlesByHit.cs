@@ -9,6 +9,7 @@ namespace Wokarol.SpaceScrapper.Weaponry
         [Header("Optional")]
         [SerializeField] private Collider2D accurateCollider = null;
         [SerializeField] private float accurateColliderOffset = 0.4f;
+        [SerializeField] private float raycastDeepness = 1f;
 
         RaycastHit2D[] hitsCached;
 
@@ -16,8 +17,6 @@ namespace Wokarol.SpaceScrapper.Weaponry
         {
             if (accurateCollider != null)
             {
-                Debug.Log("Calculating a better hit");
-
                 hitsCached ??= new RaycastHit2D[5];
 
                 var rayOrigin = point - force.normalized * accurateColliderOffset;
@@ -26,23 +25,26 @@ namespace Wokarol.SpaceScrapper.Weaponry
                 try
                 {
                     Physics2D.queriesHitTriggers = true;
-                    int hitCount = Physics2D.RaycastNonAlloc(rayOrigin, force.normalized, hitsCached, accurateColliderOffset * 2, 1 << accurateCollider.gameObject.layer);
+                    int hitCount = Physics2D.RaycastNonAlloc(rayOrigin, force.normalized, hitsCached, raycastDeepness, 1 << accurateCollider.gameObject.layer);
 
-                    Debug.Log(hitCount);
-                    Debug.DrawRay(rayOrigin, 2 * accurateColliderOffset * force.normalized, Color.green, 1);
                     if (hitCount <= 0)
                     {
                         Debug.LogWarning("Found no hits, try increasing the collider offset", this);
                     }
 
+                    bool foundCollider = false;
                     for (int i = 0; i < hitCount; i++)
                     {
                         if (hitsCached[i].collider == accurateCollider)
                         {
                             normal = hitsCached[i].normal;
                             point = hitsCached[i].point;
+                            foundCollider = true;
                             break;
                         }
+                    }
+                    if (!foundCollider)
+                    {
                         Debug.LogWarning("Hits did not contain the collider", this);
                     }
                 }
@@ -53,8 +55,6 @@ namespace Wokarol.SpaceScrapper.Weaponry
             }
 
             var particleDirection = Vector2.Reflect(force, normal);
-
-            Debug.DrawRay(point, normal * 0.2f, Color.cyan, 1);
 
             system.transform.SetPositionAndRotation(point, Quaternion.FromToRotation(Vector2.up, particleDirection));
             system.Play();
