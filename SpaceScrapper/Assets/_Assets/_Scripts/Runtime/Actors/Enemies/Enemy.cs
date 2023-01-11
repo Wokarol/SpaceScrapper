@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 using Wokarol.Common;
 using Wokarol.GameSystemsLocator;
 using Wokarol.SpaceScrapper.Actors.Common;
@@ -13,6 +14,7 @@ namespace Wokarol.SpaceScrapper
         [Header("Object References")]
         [SerializeField] private SpaceshipController spaceshipController = null;
         [SerializeField] private MultiDirectionalEngineVisualController engineController = null;
+        [SerializeField] private NavMeshAgent agent = null;
         [SerializeField] private GunTrigger guns = null;
         [Header("Settings")]
         [SerializeField] private ShipMovementParams movementParams = new();
@@ -29,6 +31,9 @@ namespace Wokarol.SpaceScrapper
         private void Awake()
         {
             health = startingHealth;
+            agent.updateRotation = false;
+            agent.updateUpAxis = false;
+            agent.updatePosition = false;
         }
 
         private void Start()
@@ -63,10 +68,16 @@ namespace Wokarol.SpaceScrapper
 
         private void FixedUpdate()
         {
-            var playerPos = sceneContext.Player.transform.position;
+            agent.SetDestination(sceneContext.Player.transform.position);
 
-            var direction = (playerPos - transform.position).normalized;
-            lastMovementValues = spaceshipController.HandleMovement(new InputValues(direction, direction), movementParams);
+            var desiredVelocity = agent.desiredVelocity;
+            agent.velocity = Vector3.zero;
+
+            var direction = Vector2.ClampMagnitude(desiredVelocity, 1f);
+            lastMovementValues = spaceshipController.HandleMovement(new InputValues(direction, direction.normalized), movementParams);
+
+            agent.nextPosition = transform.position;
+            agent.velocity = spaceshipController.Velocity;
         }
 
         public void Hit(Vector2 force, Vector2 normal, Vector2 point, int damage)
