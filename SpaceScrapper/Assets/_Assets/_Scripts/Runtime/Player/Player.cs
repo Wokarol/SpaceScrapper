@@ -1,5 +1,3 @@
-using Cinemachine;
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -16,7 +14,6 @@ namespace Wokarol.SpaceScrapper.Player
         [SerializeField] private Rigidbody2D body = null;
         [SerializeField] private Transform aimPoint = null;
         [SerializeField] private Animator animator = null;
-        [SerializeField] private CinemachineVirtualCameraBase closeUpCamera = null;
         [SerializeField] private Collider2D grabbingTrigger = null;
         [SerializeField] private Transform grabTarget = null;
         [SerializeField] private GunTrigger gunTrigger = null;
@@ -88,26 +85,12 @@ namespace Wokarol.SpaceScrapper.Player
 
         private void OnEnable()
         {
-            if (input != null)
-                input.Enable();
+            input?.Enable();
         }
 
         private void OnDisable()
         {
-            if (input != null)
-                input.Disable();
-        }
-
-        public void EnableCloseUpCamera()
-        {
-            if (closeUpCamera != null)
-                closeUpCamera.enabled = true;
-        }
-
-        public void DisableCloseUpCamera()
-        {
-            if (closeUpCamera != null)
-                closeUpCamera.enabled = false;
+            input?.Disable();
         }
 
         private void SetupInput()
@@ -146,7 +129,7 @@ namespace Wokarol.SpaceScrapper.Player
             aimPoint.position = transform.position + (Vector3)playerToAimVector;
         }
 
-        private InputValues HandleInput(Camera camera,InputValues previousInput)
+        private InputValues HandleInput(Camera camera, InputValues previousInput)
         {
 
             if (input == null || inputBlocker.IsBlocked)

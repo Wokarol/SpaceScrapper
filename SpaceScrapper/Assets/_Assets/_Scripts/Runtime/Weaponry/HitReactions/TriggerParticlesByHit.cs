@@ -8,8 +8,9 @@ namespace Wokarol.SpaceScrapper.Weaponry
 
         public void Hit(Vector2 force, Vector2 normal, Vector2 point, int damage)
         {
-            system.transform.SetPositionAndRotation(point, Quaternion.FromToRotation(Vector2.up, normal));
-            //system.Emit(system.emission.GetBurst(0).minCount);
+            var particleDirection = Vector2.Reflect(force, normal);
+
+            system.transform.SetPositionAndRotation(point, Quaternion.FromToRotation(Vector2.up, particleDirection));
             system.Play();
         }
     }

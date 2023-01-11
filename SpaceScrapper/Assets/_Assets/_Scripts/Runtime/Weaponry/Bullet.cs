@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using Wokarol.SpaceScrapper.Pooling;
 
 namespace Wokarol.SpaceScrapper.Weaponry
@@ -64,7 +63,7 @@ namespace Wokarol.SpaceScrapper.Weaponry
             {
                 for (int i = 0; i < hittables.Length; i++)
                 {
-                    hittables[i].Hit(force, hit.normal, hit.point, damage); 
+                    hittables[i].Hit(force, hit.normal, hit.point, damage);
                 }
             }
         }

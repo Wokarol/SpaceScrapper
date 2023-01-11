@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Wokarol.Common;
 using Wokarol.GodConsole;
@@ -31,7 +29,6 @@ namespace Wokarol.SpaceScrapper.GodConsole.Injectors
 
             AddMovementParamsSettings(playerGroup.Group("normal"), p => p.NormalMovementParams);
             AddMovementParamsSettings(playerGroup.Group("when_holding"), p => p.HoldingMovementParams);
-                
         }
 
         public void AddMovementParamsSettings(Wokarol.GodConsole.GodConsole.CommandBuilder b, Func<Player.Player, Player.Player.ShipMovementParams> paramsGetter)

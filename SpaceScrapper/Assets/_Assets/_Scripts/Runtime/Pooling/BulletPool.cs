@@ -2,5 +2,5 @@
 
 namespace Wokarol.SpaceScrapper.Pooling
 {
-	public class BulletPool : BasicPool<Bullet> { }
+    public class BulletPool : BasicPool<Bullet> { }
 }
