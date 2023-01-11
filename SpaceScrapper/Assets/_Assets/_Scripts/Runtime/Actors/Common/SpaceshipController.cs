@@ -5,7 +5,6 @@ namespace Wokarol.SpaceScrapper.Actors.Common
 {
     public class SpaceshipController : MonoBehaviour
     {
-
         [Header("Object References")]
         [SerializeField] private Rigidbody2D body = null;
 

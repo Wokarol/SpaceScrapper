@@ -255,10 +255,10 @@ TextureImporter:
       name: Enemies-Kevin
       rect:
         serializedVersion: 2
-        x: 28
-        y: 310
-        width: 201
-        height: 152
+        x: 32
+        y: 311
+        width: 192
+        height: 146
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -281,7 +281,7 @@ TextureImporter:
         width: 9
         height: 33
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -289,6 +289,27 @@ TextureImporter:
       bones: []
       spriteID: b0e160bf457e96b4bbc75d343cc9eb83
       internalID: -1023846505
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Enemies-Thrust
+      rect:
+        serializedVersion: 2
+        x: 3
+        y: 259
+        width: 29
+        height: 47
+      alignment: 2
+      pivot: {x: 0.5, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 72ca7116b9a2284458fbc0d32e635c2a
+      internalID: 1793254339
       vertices: []
       indices: 
       edges: []
@@ -313,6 +334,7 @@ TextureImporter:
       Enemies-Bullet: -1023846505
       Player-Reference: 1649381836
       Player-Wing-R: -1895276261
+      Enemies-Thrust: 1793254339
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

@@ -14,6 +14,7 @@ namespace Wokarol.SpaceScrapper.Actors
         [Header("Object References")]
         [SerializeField] private PlayerInput playerInput = null;
         [SerializeField] private SpaceshipController spaceshipController = null;
+        [SerializeField] private MultiDirectionalEngineVisualController engineController = null;
         [SerializeField] private Transform aimPoint = null;
         [SerializeField] private Animator animator = null;
         [SerializeField] private Collider2D grabbingTrigger = null;
@@ -24,12 +25,6 @@ namespace Wokarol.SpaceScrapper.Actors
         [SerializeField] private ShipMovementParams movement = new();
         [SerializeField] private ShipMovementParams movementWhenHolding = new();
         [SerializeField] private float velocityInheritanceRatio = 0.3f;
-        [Header("Axis")]
-        [SerializeField] private Vector2 thrusterForwardAxis = Vector2.up;
-        [Header("Model")]
-        [SerializeField] private List<Transform> thrusters = new();
-        [SerializeField] private float thrusterNoise = 0.1f;
-        [SerializeField] private float thrusterNoiseSpeed = 5f;
         [Header("Animations")]
         [SerializeField] private AnimationNames animatorKeys = new();
         [Header("Grabbing")]
@@ -66,7 +61,7 @@ namespace Wokarol.SpaceScrapper.Actors
             Camera mainCamera = sceneContext.MainCamera;
             lastInputValues = HandleInput(mainCamera, lastInputValues);
             PositionAimPoint(lastInputValues);
-            UpdateThrusterAnimation(lastMovementValues);
+            engineController.UpdateThrusterAnimation(lastMovementValues.ThrustVector);
 
             if (interactionState != InteractionState.HoldingPart)
             {
@@ -102,25 +97,6 @@ namespace Wokarol.SpaceScrapper.Actors
 
             input.Enable();
             input.Flying.Grab.performed += Grab_performed;
-        }
-
-        private void UpdateThrusterAnimation(MovementValues values)
-        {
-            var thrustDirection = values.ThrustVector.normalized;
-            var thrustPower = values.ThrustVector.magnitude;
-
-            for (int i = 0; i < thrusters.Count; i++)
-            {
-                var thruster = thrusters[i];
-                Vector2 thrusterDirection = thruster.TransformDirection(thrusterForwardAxis).normalized;
-
-                float dot = Vector2.Dot(thrusterDirection, thrustDirection);
-                dot = Mathf.Clamp01(dot);
-
-                float noise = Mathf.PerlinNoise(Time.time * thrusterNoiseSpeed, i * 56f + 12.67f);
-                float noiseInfluence = noise * thrusterNoise * thrustPower;
-                thruster.localScale = (noiseInfluence + dot * thrustPower) * Vector3.one;
-            }
         }
 
         private void PositionAimPoint(InputValues values)

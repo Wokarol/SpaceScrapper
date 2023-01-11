@@ -175,19 +175,8 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &199449587 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5785020180163482092, guid: 3102f5655c2624342b720d35775d00af, type: 3}
-  m_PrefabInstance: {fileID: 1964302668}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 45e653bab7fb20e499bda25e1b646fea, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &252166977
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -197,7 +186,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2005016314779049953, guid: 4aa62e626698dd74a834209b3d3b8ade, type: 3}
       propertyPath: m_RootOrder
-      value: 6
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 2005016314779049953, guid: 4aa62e626698dd74a834209b3d3b8ade, type: 3}
       propertyPath: m_LocalPosition.x
@@ -254,7 +243,7 @@ PrefabInstance:
     - target: {fileID: 4349511427654487601, guid: 4aa62e626698dd74a834209b3d3b8ade, type: 3}
       propertyPath: closeUpCamera
       value: 
-      objectReference: {fileID: 199449587}
+      objectReference: {fileID: 0}
     - target: {fileID: 6596378165264242239, guid: 4aa62e626698dd74a834209b3d3b8ade, type: 3}
       propertyPath: m_LocalPosition.y
       value: 1.0312501
@@ -294,7 +283,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &704948864 stripped
 Transform:
@@ -516,7 +505,7 @@ PrefabInstance:
       objectReference: {fileID: 1352407926}
     - target: {fileID: 5852378649296846565, guid: 3102f5655c2624342b720d35775d00af, type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5852378649296846565, guid: 3102f5655c2624342b720d35775d00af, type: 3}
       propertyPath: m_LocalPosition.x
@@ -561,83 +550,6 @@ PrefabInstance:
     - target: {fileID: 6720525351289506337, guid: 3102f5655c2624342b720d35775d00af, type: 3}
       propertyPath: m_Name
       value: Player Aim Follow Cam
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 3102f5655c2624342b720d35775d00af, type: 3}
---- !u!1001 &1964302668
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 5785020180163482092, guid: 3102f5655c2624342b720d35775d00af, type: 3}
-      propertyPath: m_Follow
-      value: 
-      objectReference: {fileID: 1352407926}
-    - target: {fileID: 5785020180163482092, guid: 3102f5655c2624342b720d35775d00af, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5785020180163482092, guid: 3102f5655c2624342b720d35775d00af, type: 3}
-      propertyPath: m_Priority
-      value: 12
-      objectReference: {fileID: 0}
-    - target: {fileID: 5785020180163482092, guid: 3102f5655c2624342b720d35775d00af, type: 3}
-      propertyPath: m_Lens.OrthographicSize
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 5852378649296846565, guid: 3102f5655c2624342b720d35775d00af, type: 3}
-      propertyPath: m_RootOrder
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 5852378649296846565, guid: 3102f5655c2624342b720d35775d00af, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5852378649296846565, guid: 3102f5655c2624342b720d35775d00af, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5852378649296846565, guid: 3102f5655c2624342b720d35775d00af, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -10
-      objectReference: {fileID: 0}
-    - target: {fileID: 5852378649296846565, guid: 3102f5655c2624342b720d35775d00af, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5852378649296846565, guid: 3102f5655c2624342b720d35775d00af, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5852378649296846565, guid: 3102f5655c2624342b720d35775d00af, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5852378649296846565, guid: 3102f5655c2624342b720d35775d00af, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5852378649296846565, guid: 3102f5655c2624342b720d35775d00af, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5852378649296846565, guid: 3102f5655c2624342b720d35775d00af, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5852378649296846565, guid: 3102f5655c2624342b720d35775d00af, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6720525351289506337, guid: 3102f5655c2624342b720d35775d00af, type: 3}
-      propertyPath: m_Name
-      value: Player Aim Follow Cam Close
-      objectReference: {fileID: 0}
-    - target: {fileID: 6720525351289506337, guid: 3102f5655c2624342b720d35775d00af, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3102f5655c2624342b720d35775d00af, type: 3}
