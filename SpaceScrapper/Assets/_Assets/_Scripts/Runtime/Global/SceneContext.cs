@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using Wokarol.SpaceScrapper.Player;
+using Wokarol.SpaceScrapper.Actors;
 
 namespace Wokarol.Common
 {

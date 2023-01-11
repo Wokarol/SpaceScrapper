@@ -3,15 +3,17 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using Wokarol.Common;
 using Wokarol.GameSystemsLocator;
+using Wokarol.SpaceScrapper.Actors.Common;
+using Wokarol.SpaceScrapper.Input;
 using Wokarol.SpaceScrapper.Weaponry;
 
-namespace Wokarol.SpaceScrapper.Player
+namespace Wokarol.SpaceScrapper.Actors
 {
     public class Player : MonoBehaviour
     {
         [Header("Object References")]
         [SerializeField] private PlayerInput playerInput = null;
-        [SerializeField] private Rigidbody2D body = null;
+        [SerializeField] private SpaceshipController spaceshipController = null;
         [SerializeField] private Transform aimPoint = null;
         [SerializeField] private Animator animator = null;
         [SerializeField] private Collider2D grabbingTrigger = null;
@@ -23,7 +25,6 @@ namespace Wokarol.SpaceScrapper.Player
         [SerializeField] private ShipMovementParams movementWhenHolding = new();
         [SerializeField] private float velocityInheritanceRatio = 0.3f;
         [Header("Axis")]
-        [SerializeField] private Vector2 forwardAxis = Vector2.up;
         [SerializeField] private Vector2 thrusterForwardAxis = Vector2.up;
         [Header("Model")]
         [SerializeField] private List<Transform> thrusters = new();
@@ -69,13 +70,14 @@ namespace Wokarol.SpaceScrapper.Player
 
             if (interactionState != InteractionState.HoldingPart)
             {
-                gunTrigger.UpdateShooting(lastInputValues.WantsToShoot, new(body.velocity * velocityInheritanceRatio));
+                gunTrigger.UpdateShooting(lastInputValues.WantsToShoot, new(spaceshipController.Velocity * velocityInheritanceRatio));
             }
         }
 
         private void FixedUpdate()
         {
-            lastMovementValues = HandleMovement(lastInputValues);
+            var shipMovementParams = interactionState == InteractionState.HoldingPart ? movementWhenHolding : movement;
+            lastMovementValues = spaceshipController.HandleMovement(lastInputValues, shipMovementParams);
 
             if (interactionState == InteractionState.HoldingPart)
             {
@@ -119,7 +121,6 @@ namespace Wokarol.SpaceScrapper.Player
                 float noiseInfluence = noise * thrusterNoise * thrustPower;
                 thruster.localScale = (noiseInfluence + dot * thrustPower) * Vector3.one;
             }
-
         }
 
         private void PositionAimPoint(InputValues values)
@@ -134,7 +135,7 @@ namespace Wokarol.SpaceScrapper.Player
 
             if (input == null || inputBlocker.IsBlocked)
             {
-                return new InputValues(Vector2.zero, previousInput.AimDirection, previousInput.AimPointInWorldSpace, false);
+                return new InputValues(Vector2.zero, previousInput.AimDirection, false, previousInput.AimPointInWorldSpace);
             }
 
             Vector2 thrust = input.Flying.Move.ReadValue<Vector2>();
@@ -147,7 +148,7 @@ namespace Wokarol.SpaceScrapper.Player
 
             bool wantsToShoot = input.Flying.Shoot.IsPressed();
 
-            return new InputValues(thrust, direction, aimPointInWorldSpace, wantsToShoot);
+            return new InputValues(thrust, direction, wantsToShoot, aimPointInWorldSpace);
         }
 
         private void Grab_performed(InputAction.CallbackContext ctx)
@@ -203,39 +204,6 @@ namespace Wokarol.SpaceScrapper.Player
             }
         }
 
-        private MovementValues HandleMovement(InputValues values)
-        {
-            var movementValues = new MovementValues();
-            var movementParams = interactionState == InteractionState.HoldingPart ? movementWhenHolding : movement;
-
-            if (values.Thrust.magnitude > 0)
-            {
-                Vector2 thrustPower = values.Thrust;
-                if (movementParams.IsInputRelative)
-                {
-                    body.AddRelativeForce(movementParams.Thrust * thrustPower);
-                    movementValues.ThrustVector = transform.rotation * thrustPower;
-                }
-                else
-                {
-                    body.AddForce(movementParams.Thrust * thrustPower);
-                    movementValues.ThrustVector = thrustPower;
-                }
-            }
-
-            float targetRotation = Vector2.SignedAngle(forwardAxis, values.AimDirection);
-
-            float currentRotation = body.rotation;
-            float angVelocity = body.angularVelocity;
-
-            float newRotation = Mathf.SmoothDampAngle(currentRotation, targetRotation, ref angVelocity, movementParams.RotationSmoothing);
-
-            body.angularVelocity = angVelocity;
-            body.rotation = newRotation;
-
-            return movementValues;
-        }
-
         private void SwitchState(InteractionState newState)
         {
             var lastState = interactionState;
@@ -272,29 +240,6 @@ namespace Wokarol.SpaceScrapper.Player
             HoldingPart,
         }
 
-        private readonly struct InputValues
-        {
-            public readonly Vector2 Thrust;
-            public readonly Vector2 AimDirection;
-            public readonly Vector2 AimPointInWorldSpace;
-            public readonly bool WantsToShoot;
-
-            public InputValues(Vector2 thrust, Vector2 aimDirection, Vector2 aimPointInWorldSpace, bool wantsToShoot)
-            {
-                Thrust = thrust;
-                AimDirection = aimDirection;
-                AimPointInWorldSpace = aimPointInWorldSpace;
-                WantsToShoot = wantsToShoot;
-            }
-
-            public static InputValues Empty => new(Vector2.zero, Vector2.up, Vector2.up, false);
-        }
-
-        private struct MovementValues
-        {
-            public Vector2 ThrustVector;
-        }
-
         [System.Serializable]
         private class AnimationNames
         {
@@ -303,12 +248,5 @@ namespace Wokarol.SpaceScrapper.Player
             [field: SerializeField] public string CloseWingsState { get; private set; } = "Close-Wings";
         }
 
-        [System.Serializable]
-        public class ShipMovementParams
-        {
-            public float Thrust = 60;
-            public float RotationSmoothing = 0.2f;
-            public bool IsInputRelative = false;
-        }
     }
 }
