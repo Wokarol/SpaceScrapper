@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -28,6 +29,8 @@ namespace Wokarol.SpaceScrapper
         private int health;
 
         private SceneContext sceneContext;
+
+        public event Action Died;
 
         private void Awake()
         {
@@ -110,6 +113,7 @@ namespace Wokarol.SpaceScrapper
             if (health <= 0)
             {
                 Destroy(gameObject);
+                Died?.Invoke();
             }
         }
     }

@@ -1,11 +1,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
+using UnityEngine.SceneManagement;
 
 namespace Wokarol.SpaceScrapper.Pooling
 {
     public class BasicPool<T> : MonoBehaviour where T : Component, IPoolable<T>
     {
+        [SerializeField] private bool createPoolInTheSameScene = true;
+
         Dictionary<T, ObjectPool<T>> poolsByPrefabs = new();
 
         Transform holder = null;
@@ -48,6 +51,11 @@ namespace Wokarol.SpaceScrapper.Pooling
                 }
 
                 holder = new GameObject($"Pool Holder ({name}{suffix})").transform;
+
+                if (createPoolInTheSameScene)
+                {
+                    SceneManager.MoveGameObjectToScene(holder.gameObject, gameObject.scene);
+                }
             }
 
             return holder;
@@ -62,6 +70,12 @@ namespace Wokarol.SpaceScrapper.Pooling
             }
 
             pool.Release(obj);
+        }
+
+        private void OnDestroy()
+        {
+            if (holder != null)
+                Destroy(holder.gameObject);
         }
     }
 
