@@ -16,6 +16,8 @@ namespace Wokarol.SpaceScrapper.Weaponry
         public Bullet OriginalPrefab { get; set; }
         public BasicPool<Bullet> Pool { get; set; }
 
+        public float Speed => speed;
+
         internal void Init(Vector2 initialVelocity)
         {
             float velocityAlongForward = Vector2.Dot(transform.up, initialVelocity);
@@ -28,17 +30,26 @@ namespace Wokarol.SpaceScrapper.Weaponry
         {
             var velocity = (speed + inheritedVelocity) * transform.up;
             var distance = Time.deltaTime * velocity;
-            var hit = Physics2D.Raycast(transform.position, distance, distance.magnitude, hitMask);
-
-            if (hit.collider != null)
+            bool queriesHitTriggersBefore = Physics2D.queriesHitTriggers;
+            try
             {
-                TryToHit(hit, velocity);
+                Physics2D.queriesHitTriggers = false;
+                var hit = Physics2D.Raycast(transform.position, distance, distance.magnitude, hitMask);
 
-                Pool.Return(this);
-                return;
+                if (hit.collider != null)
+                {
+                    TryToHit(hit, velocity);
+
+                    Pool.Return(this);
+                    return;
+                }
+
+                transform.position += distance;
             }
-
-            transform.position += distance;
+            finally
+            {
+                Physics2D.queriesHitTriggers = queriesHitTriggersBefore;
+            }
 
             if (Time.time > timeOfDeath)
             {

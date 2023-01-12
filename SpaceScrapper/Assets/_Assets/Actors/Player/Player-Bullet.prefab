@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7644595648085288224}
   - component: {fileID: 7927755921529588287}
   - component: {fileID: 2183291887360013007}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Player-Bullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -98,6 +98,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 15
+  lifespan: 10
+  damage: 1
   hitMask:
     serializedVersion: 2
     m_Bits: 129

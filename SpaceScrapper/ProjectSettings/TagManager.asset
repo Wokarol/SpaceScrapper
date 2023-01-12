@@ -13,6 +13,8 @@ TagManager:
   - UI
   - Player
   - Enemies
+  - Player Projectiles
+  - Player Structures
   - 
   - 
   - 
@@ -34,15 +36,16 @@ TagManager:
   - 
   - 
   - 
-  - 
-  - 
-  - 
+  - Navigation
   m_SortingLayers:
   - name: Background
     uniqueID: 1479982387
     locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Enemies
+    uniqueID: 3264517729
     locked: 0
   - name: Player
     uniqueID: 1945841847

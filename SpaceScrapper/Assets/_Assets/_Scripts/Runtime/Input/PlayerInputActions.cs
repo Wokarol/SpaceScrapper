@@ -15,7 +15,7 @@ using System.Collections.Generic;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Utilities;
 
-namespace Wokarol.SpaceScrapper.Player
+namespace Wokarol.SpaceScrapper.Input
 {
     public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
     {

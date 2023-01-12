@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 using Wokarol.Common;
 using Wokarol.GodConsole;
+using Wokarol.SpaceScrapper.Actors;
 
 namespace Wokarol.SpaceScrapper.GodConsole.Injectors
 {
@@ -31,7 +32,7 @@ namespace Wokarol.SpaceScrapper.GodConsole.Injectors
             AddMovementParamsSettings(playerGroup.Group("when_holding"), p => p.HoldingMovementParams);
         }
 
-        public void AddMovementParamsSettings(Wokarol.GodConsole.GodConsole.CommandBuilder b, Func<Player.Player, Player.Player.ShipMovementParams> paramsGetter)
+        public void AddMovementParamsSettings(Wokarol.GodConsole.GodConsole.CommandBuilder b, Func<Player, Actors.Common.ShipMovementParams> paramsGetter)
         {
             b
                 .Add("thrust", (float thrust, SceneContext ctx) => paramsGetter(ctx.Player).Thrust = thrust)

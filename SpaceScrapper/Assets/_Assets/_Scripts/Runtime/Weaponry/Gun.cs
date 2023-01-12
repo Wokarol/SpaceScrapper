@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using Wokarol.SpaceScrapper.Pooling;
 
 namespace Wokarol.SpaceScrapper.Weaponry
@@ -12,7 +13,6 @@ namespace Wokarol.SpaceScrapper.Weaponry
 
         bool wantedToShotBefore = false;
         float lastShotTime = float.NegativeInfinity;
-
 
         public void UpdateShooting(bool wantsToShoot, ShootParams shootParams)
         {
@@ -34,6 +34,11 @@ namespace Wokarol.SpaceScrapper.Weaponry
                     break;
             }
             wantedToShotBefore = wantsToShoot;
+        }
+
+        public float CalculateAverageBulletSpeed()
+        {
+            return bulletPrefab.Speed;
         }
 
         private void Shoot(ShootParams shootParams)

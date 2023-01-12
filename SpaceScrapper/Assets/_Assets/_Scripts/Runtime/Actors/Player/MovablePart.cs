@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace Wokarol.SpaceScrapper.Player
+namespace Wokarol.SpaceScrapper.Actors
 {
     public class MovablePart : MonoBehaviour
     {
