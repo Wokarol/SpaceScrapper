@@ -49,5 +49,15 @@ namespace Wokarol.SpaceScrapper.Actors
         public void StopMove()
         {
         }
+
+        private void OnDrawGizmosSelected()
+        {
+            Gizmos.matrix = transform.localToWorldMatrix;
+            Gizmos.color = Color.cyan;
+            for (int i = 0; i < forwardAxes.Count; i++)
+            {
+                Gizmos.DrawRay(Vector3.zero, forwardAxes[i]);
+            }
+        }
     }
 }
