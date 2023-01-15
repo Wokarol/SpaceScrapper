@@ -1,11 +1,10 @@
 ﻿using UnityEngine;
 using Wokarol.GameSystemsLocator;
-using Wokarol.SpaceScrapper.Actors;
+using Wokarol.SpaceScrapper;
 
 namespace Wokarol.Common
 {
-
-    public class ContextPlayerBinder : MonoBehaviour
+    public class WaveEnemySpawnerContextBinder : MonoBehaviour
     {
         bool started;
         private void Start()
@@ -17,13 +16,13 @@ namespace Wokarol.Common
         private void OnEnable()
         {
             if (!started) return;
-            GameSystems.Get<SceneContext>().Player = GetComponent<Player>();
+            GameSystems.Get<SceneContext>().WaveEnemySpawner = GetComponent<EnemySpawner>();
         }
 
         private void OnDisable()
         {
             if (!started) return;
-            GameSystems.Get<SceneContext>().Player = null;
+            GameSystems.Get<SceneContext>().WaveEnemySpawner = null;
         }
     }
 }

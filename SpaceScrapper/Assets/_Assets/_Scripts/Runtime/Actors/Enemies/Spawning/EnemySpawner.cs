@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Wokarol.SpaceScrapper.Actors;
 
 namespace Wokarol.SpaceScrapper
 {
@@ -12,20 +13,27 @@ namespace Wokarol.SpaceScrapper
         [SerializeField] private float timeBetweenWaves = 3;
         [Space]
         [SerializeField] private float spawnRadius = 16;
+        [Space]
+        [SerializeField] private bool spawnOnStart;
 
         int aliveEnemies = 0;
         bool waveInProgress = false;
+        bool awaitingWave = false;
 
         float waveCountdown;
 
         private void Awake()
         {
-            waveCountdown = timeBetweenWaves;
+            if (spawnOnStart)
+            {
+                waveCountdown = timeBetweenWaves;
+                awaitingWave = true;
+            }
         }
 
         private void Update()
         {
-            if (!waveInProgress)
+            if (!waveInProgress && awaitingWave)
             {
                 waveCountdown -= Time.deltaTime;
 
@@ -63,6 +71,15 @@ namespace Wokarol.SpaceScrapper
                 waveInProgress = false;
             }
         }
+
+        public void SpawnEnemies(int enemyCount)
+        {
+            for (int i = 0; i < enemyCount; i++)
+            {
+                Instantiate(enemyPrefab, GetRandomPosition(), Quaternion.identity, transform);
+            }
+        }
+
 
         private void OnDrawGizmosSelected()
         {

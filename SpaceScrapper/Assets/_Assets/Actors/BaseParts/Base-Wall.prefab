@@ -13,11 +13,10 @@ GameObject:
   - component: {fileID: 5372285368888300542}
   - component: {fileID: 5372285368888300543}
   - component: {fileID: 8768882162247234160}
-  - component: {fileID: 2913506933802290636}
   - component: {fileID: 8003843080338838929}
   - component: {fileID: 6230835459633967658}
   m_Layer: 9
-  m_Name: Placeholder-Block
+  m_Name: Base-Wall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -59,7 +58,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 00af23a7677d0d4459c621db0841b49f, type: 2}
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -80,11 +79,11 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 1, g: 0.7909312, b: 0.3443396, a: 1}
+  m_Sprite: {fileID: 1649381836, guid: 25713428ebcdeb248bc532c31497f074, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
-  m_DrawMode: 2
+  m_DrawMode: 0
   m_Size: {x: 2, y: 0.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
@@ -108,14 +107,14 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
+    oldSize: {x: 0.953125, y: 1.90625}
     newSize: {x: 2, y: 0.5}
     adaptiveTilingThreshold: 0.5
-    drawMode: 2
+    drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 2, y: 0.5}
+  m_Size: {x: 0.95, y: 1.9}
   m_EdgeRadius: 0
 --- !u!50 &5372285368888300543
 Rigidbody2D:
@@ -152,20 +151,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   body: {fileID: 5372285368888300543}
   forwardAxes:
-  - {x: 0, y: 1}
-  - {x: 0, y: -1}
---- !u!114 &2913506933802290636
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5372285368888300540}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 85049c949c8e57b4cba2975b6ef81aa1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  - {x: 1, y: 0}
+  - {x: -1, y: 0}
 --- !u!114 &8003843080338838929
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -192,7 +179,7 @@ NavMeshObstacle:
   m_Enabled: 1
   serializedVersion: 3
   m_Shape: 1
-  m_Extents: {x: 1, y: 0.25, z: 1.5}
+  m_Extents: {x: 0.475, y: 0.95, z: 1.5}
   m_MoveThreshold: 0.1
   m_Carve: 1
   m_CarveOnlyStationary: 1
@@ -215,11 +202,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4522471525623630291, guid: be6779eaf94394c4a9b2765973298247, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1.002
+      value: 0.477
       objectReference: {fileID: 0}
     - target: {fileID: 4522471525623630291, guid: be6779eaf94394c4a9b2765973298247, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.027
+      value: -0.002
       objectReference: {fileID: 0}
     - target: {fileID: 4522471525623630291, guid: be6779eaf94394c4a9b2765973298247, type: 3}
       propertyPath: m_LocalPosition.z
@@ -267,15 +254,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5767212485918624778, guid: be6779eaf94394c4a9b2765973298247, type: 3}
       propertyPath: InitialModule.startColor.maxColor.b
-      value: 0.34509805
+      value: 0.8588236
       objectReference: {fileID: 0}
     - target: {fileID: 5767212485918624778, guid: be6779eaf94394c4a9b2765973298247, type: 3}
       propertyPath: InitialModule.startColor.maxColor.g
-      value: 0.79215693
+      value: 0.83921576
       objectReference: {fileID: 0}
     - target: {fileID: 5767212485918624778, guid: be6779eaf94394c4a9b2765973298247, type: 3}
       propertyPath: InitialModule.startColor.maxColor.r
-      value: 1
+      value: 0.7411765
       objectReference: {fileID: 0}
     - target: {fileID: 5767212485918624778, guid: be6779eaf94394c4a9b2765973298247, type: 3}
       propertyPath: EmissionModule.m_Bursts.Array.data[0].countCurve.scalar
