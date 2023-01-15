@@ -9,7 +9,7 @@ using Wokarol.SpaceScrapper.Weaponry;
 
 namespace Wokarol.SpaceScrapper.Actors
 {
-    public class Player : MonoBehaviour
+    public class Player : MonoBehaviour, IHasVelocity
     {
         [Header("Object References")]
         [SerializeField] private PlayerInput playerInput = null;

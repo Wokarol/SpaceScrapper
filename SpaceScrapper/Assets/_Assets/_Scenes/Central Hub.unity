@@ -1229,13 +1229,14 @@ GameObject:
   m_Component:
   - component: {fileID: 1869079933}
   - component: {fileID: 1869079934}
+  - component: {fileID: 1869079935}
   m_Layer: 0
   m_Name: Enemies
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1869079933
 Transform:
   m_ObjectHideFlags: 0
@@ -1267,6 +1268,19 @@ MonoBehaviour:
   enemiesPerWave: 5
   timeBetweenWaves: 3
   spawnRadius: 18
+  spawnOnStart: 0
+--- !u!114 &1869079935
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1869079932}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa08da2b9cf6d0b43a9706ae391c78b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1883495013
 PrefabInstance:
   m_ObjectHideFlags: 0
