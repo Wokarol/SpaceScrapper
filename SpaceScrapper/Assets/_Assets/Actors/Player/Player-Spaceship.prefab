@@ -492,7 +492,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   faction: {fileID: 11400000, guid: 3b42924bc4b0ced42a80ad04f697459e, type: 2}
-  priority: 10
+  priority: 0
 --- !u!1 &4495686500934170175
 GameObject:
   m_ObjectHideFlags: 0

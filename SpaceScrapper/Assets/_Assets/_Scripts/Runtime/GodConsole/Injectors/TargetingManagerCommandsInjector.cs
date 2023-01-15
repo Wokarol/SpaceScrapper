@@ -14,7 +14,7 @@ namespace Wokarol.SpaceScrapper.GodConsole.Injectors
                 {
                     foreach (var faction in m.AllActors.GroupBy(a => a.Faction))
                     {
-                        Debug.Log($"{faction.Key.name}: [{faction.Count()}] {string.Join(", ", m.AllActors.OrderBy(a => a.Faction).Select(a => $"{a.name}"))}");
+                        Debug.Log($"{faction.Key.name}: [{faction.Count()}] {string.Join(", ", faction.Select(a => $"{a.name}"))}");
                     }
                 });
         }

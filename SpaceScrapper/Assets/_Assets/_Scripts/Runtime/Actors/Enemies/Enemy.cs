@@ -3,12 +3,11 @@ using UnityEngine;
 using UnityEngine.AI;
 using Wokarol.Common;
 using Wokarol.GameSystemsLocator;
-using Wokarol.SpaceScrapper.Actors;
 using Wokarol.SpaceScrapper.Actors.Common;
 using Wokarol.SpaceScrapper.Combat;
 using Wokarol.SpaceScrapper.Weaponry;
 
-namespace Wokarol.SpaceScrapper
+namespace Wokarol.SpaceScrapper.Actors
 {
     public class Enemy : MonoBehaviour, IHittable
     {
@@ -30,7 +29,7 @@ namespace Wokarol.SpaceScrapper
         private int health;
         private TargetingManager targetingManager;
 
-        private Target currentTarget = default;
+        private CombatTarget currentTarget = default;
 
         public event Action Died;
 
@@ -58,7 +57,6 @@ namespace Wokarol.SpaceScrapper
             UpdateTarget();
             engineController.UpdateThrusterAnimation(lastMovementValues.ThrustVector);
             UpdateEnemyLogic();
-
         }
 
         private void UpdateTarget()
@@ -67,11 +65,11 @@ namespace Wokarol.SpaceScrapper
 
             if (target == null)
             {
-                currentTarget = Target.None;
+                currentTarget = CombatTarget.None;
                 return;
             }
 
-            currentTarget = Target.CreateOrReuse(target.transform, currentTarget);
+            currentTarget = CombatTarget.CreateOrReuse(target.transform, currentTarget);
         }
 
         private void UpdateEnemyLogic()
@@ -157,37 +155,6 @@ namespace Wokarol.SpaceScrapper
             {
                 Destroy(gameObject);
                 Died?.Invoke();
-            }
-        }
-
-        private readonly struct Target
-        {
-            public readonly Transform Transform;
-            public readonly IHasVelocity HasVelocity;
-
-            public Vector3 Position => Transform.position;
-            public Vector3 Velocity => HasVelocity.Velocity;
-            public bool Exists => Transform != null;
-
-            private Target(Transform transform, IHasVelocity hasVelocity)
-            {
-                Transform = transform;
-                HasVelocity = hasVelocity;
-            }
-
-            public static Target None => new Target();
-
-            public static Target CreateOrReuse(Transform transform, Target last)
-            {
-                if (last.Transform == transform) return last;
-                else return Create(transform);
-            }
-            public static Target Create(Transform transform)
-            {
-                return new Target(
-                    transform: transform,
-                    hasVelocity: transform.GetComponent<IHasVelocity>()
-                );
             }
         }
     }

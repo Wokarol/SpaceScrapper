@@ -11,13 +11,23 @@ namespace Wokarol.SpaceScrapper.Combat
 
         public IReadOnlyList<CombatActor> AllActors => actors;
 
-        public CombatActor GetBestTargetToFight(CombatActor caller)
+        public CombatActor GetBestTargetToFight(CombatActor caller, float? maxSeeingDistance = null)
         {
             // TODO: Optimize this mess later
-            return actors
+            IEnumerable<(CombatActor a, float d)> fittingTargets = actors
                 .Where(a => a.Faction != caller.Faction)
-                .OrderBy(a => a.Priority) // TODO: Improve target choice algorithm
-                .FirstOrDefault();
+                .OrderByDescending(a => a.Priority)
+                .Select(a => (a, Vector2.Distance(a.transform.position, caller.transform.position)))
+                .OrderBy(ad => ad.Item2);
+
+            if (maxSeeingDistance != null)
+            {
+                fittingTargets = fittingTargets
+                    .Where(ad => ad.d < maxSeeingDistance);
+            }
+
+            return fittingTargets // TODO: Improve target choice algorithm
+                .FirstOrDefault().a;
         }
 
         public void AddActor(CombatActor combatActor)

@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 5372285368888300542}
   - component: {fileID: 5372285368888300543}
   - component: {fileID: 8768882162247234160}
-  - component: {fileID: 2913506933802290636}
   - component: {fileID: 8003843080338838929}
   - component: {fileID: 6230835459633967658}
   m_Layer: 9
@@ -154,18 +153,6 @@ MonoBehaviour:
   forwardAxes:
   - {x: 1, y: 0}
   - {x: -1, y: 0}
---- !u!114 &2913506933802290636
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5372285368888300540}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 85049c949c8e57b4cba2975b6ef81aa1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &8003843080338838929
 MonoBehaviour:
   m_ObjectHideFlags: 0
