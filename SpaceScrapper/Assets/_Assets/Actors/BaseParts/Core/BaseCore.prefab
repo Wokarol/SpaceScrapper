@@ -881,7 +881,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2654226493955117041}
   - component: {fileID: 4576621544952090364}
-  - component: {fileID: 4149669050677001794}
+  - component: {fileID: 3993712304882814577}
   m_Layer: 31
   m_Name: NavMeshCollider
   m_TagString: Untagged
@@ -920,7 +920,7 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 1.9
---- !u!114 &4149669050677001794
+--- !u!114 &3993712304882814577
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -929,7 +929,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8592877951247234685}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Script: {fileID: 11500000, guid: 9809bf1345abc5648af68b3a82653f08, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_OverrideArea: 0
