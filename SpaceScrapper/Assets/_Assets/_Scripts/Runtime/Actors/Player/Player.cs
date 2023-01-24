@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -213,6 +214,11 @@ namespace Wokarol.SpaceScrapper.Actors
                 else
                     grabbedPart.StartMove(grabTarget.up);
             }
+        }
+
+        public void TeleportTo(Vector3 position)
+        {
+            transform.position = position;
         }
 
         private enum InteractionState

@@ -634,7 +634,7 @@ MonoBehaviour:
   startingHealth: 10
   raycastBlockingMask:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 1073741825
   shootingTargetMask:
     serializedVersion: 2
     m_Bits: 64
