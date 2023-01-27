@@ -1075,6 +1075,7 @@ GameObject:
   - component: {fileID: 453878876440518822}
   - component: {fileID: 4937680505622671756}
   - component: {fileID: 5392581865170035356}
+  - component: {fileID: 2022626592605337881}
   m_Layer: 9
   m_Name: BaseCore
   m_TagString: Untagged
@@ -1138,6 +1139,18 @@ MonoBehaviour:
   accurateCollider: {fileID: 0}
   accurateColliderOffset: 0.4
   raycastDeepness: 1
+--- !u!114 &2022626592605337881
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9099514455182296435}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ab481355ad20cf419a062679dc0f7cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &3740928540165171763
 PrefabInstance:
   m_ObjectHideFlags: 0
