@@ -58,7 +58,7 @@ namespace Wokarol.SpaceScrapper
 
         private Vector2 GetRandomPosition()
         {
-            return Random.insideUnitCircle.normalized * spawnRadius;
+            return transform.TransformPoint(Random.insideUnitCircle.normalized * spawnRadius);
         }
 
         private void EnemyDied()

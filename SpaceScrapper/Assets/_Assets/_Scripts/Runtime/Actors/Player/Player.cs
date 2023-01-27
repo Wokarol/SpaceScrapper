@@ -10,7 +10,7 @@ using Wokarol.SpaceScrapper.Weaponry;
 
 namespace Wokarol.SpaceScrapper.Actors
 {
-    public class Player : MonoBehaviour, IHasVelocity
+    public class Player : MonoBehaviour, IHasVelocity, IHittable
     {
         [Header("Object References")]
         [SerializeField] private PlayerInput playerInput = null;
@@ -26,6 +26,7 @@ namespace Wokarol.SpaceScrapper.Actors
         [SerializeField] private ShipMovementParams movement = new();
         [SerializeField] private ShipMovementParams movementWhenHolding = new();
         [SerializeField] private float velocityInheritanceRatio = 0.3f;
+        [SerializeField] private int maxHealth = 50;
         [Header("Animations")]
         [SerializeField] private AnimationNames animatorKeys = new();
         [Header("Grabbing")]
@@ -43,12 +44,15 @@ namespace Wokarol.SpaceScrapper.Actors
         private MovablePart grabbedPart = null;
 
         private List<Collider2D> colliderListCache = new();
+        private int health;
 
         public ShipMovementParams NormalMovementParams => movement;
         public ShipMovementParams HoldingMovementParams => movementWhenHolding;
 
         public float VelocityInheritanceRatio { get => velocityInheritanceRatio; set => velocityInheritanceRatio = value; }
         public Vector3 Velocity => spaceshipController.Velocity;
+        public int MaxHealth => maxHealth;
+        public int Health => health;
 
         private void Start()
         {
@@ -56,6 +60,8 @@ namespace Wokarol.SpaceScrapper.Actors
             inputBlocker = GameSystems.Get<InputBlocker>();
 
             SetupInput();
+
+            health = maxHealth;
         }
 
         private void Update()
@@ -219,6 +225,18 @@ namespace Wokarol.SpaceScrapper.Actors
         public void TeleportTo(Vector3 position)
         {
             transform.position = position;
+        }
+
+        public void Hit(Vector2 force, Vector2 normal, Vector2 point, int damage)
+        {
+            if (damage <= 0) return;
+
+            health -= damage;
+
+            if (health + damage > 0 && health <= 0)
+            {
+                Debug.Log("Oh no, I am dead!");
+            }
         }
 
         private enum InteractionState
