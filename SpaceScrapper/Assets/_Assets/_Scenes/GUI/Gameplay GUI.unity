@@ -1072,6 +1072,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6dd9a6ad664887d4fa61641dc318d39f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canvas: {fileID: 1906062327}
   healthBar: {fileID: 1525015820}
 --- !u!1 &2019678695
 GameObject:

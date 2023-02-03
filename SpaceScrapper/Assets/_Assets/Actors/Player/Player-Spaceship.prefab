@@ -351,6 +351,7 @@ MonoBehaviour:
     RotationSmoothing: 0.4
     IsInputRelative: 0
   velocityInheritanceRatio: 0.3
+  maxHealth: 50
   animatorKeys:
     <OpenWingsState>k__BackingField: Open-Wings
     <OpenWingsFailState>k__BackingField: Open-Wings-Fail

@@ -1,6 +1,7 @@
 using Wokarol.Common;
 using Wokarol.GameSystemsLocator;
 using Wokarol.SpaceScrapper.Combat;
+using Wokarol.SpaceScrapper.Global;
 
 namespace Wokarol.SpaceScrapper
 {
@@ -12,6 +13,7 @@ namespace Wokarol.SpaceScrapper
 
             builder.Add<SceneContext>(required: true);
             builder.Add<InputBlocker>(required: true);
+            builder.Add<GameDirector>();
             builder.Add<FancyCursor>();
             builder.Add<TargetingManager>();
         }

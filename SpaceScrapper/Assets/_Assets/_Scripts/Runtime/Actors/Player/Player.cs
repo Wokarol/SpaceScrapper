@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 using Wokarol.Common;
 using Wokarol.GameSystemsLocator;
 using Wokarol.SpaceScrapper.Actors.Common;
+using Wokarol.SpaceScrapper.Global;
 using Wokarol.SpaceScrapper.Input;
 using Wokarol.SpaceScrapper.Weaponry;
 
@@ -53,6 +54,9 @@ namespace Wokarol.SpaceScrapper.Actors
         public Vector3 Velocity => spaceshipController.Velocity;
         public int MaxHealth => maxHealth;
         public int Health => health;
+        public Transform AimTarget => aimPoint;
+
+        public event Action<Player> Died;
 
         private void Start()
         {
@@ -235,8 +239,14 @@ namespace Wokarol.SpaceScrapper.Actors
 
             if (health + damage > 0 && health <= 0)
             {
-                Debug.Log("Oh no, I am dead!");
+                DestroyActor();
+                Died?.Invoke(this);
             }
+        }
+
+        public void DestroyActor()
+        {
+            Destroy(gameObject);
         }
 
         private enum InteractionState

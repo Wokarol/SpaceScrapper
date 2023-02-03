@@ -21,14 +21,11 @@ namespace Wokarol.GodConsole
             {
                 logQueue.Enqueue(Instantiate(logElement, logElement.transform.parent));
             }
-        }
 
-        private void OnEnable()
-        {
             Application.logMessageReceived += Application_logMessageReceived;
         }
 
-        private void OnDisable()
+        private void OnDestroy()
         {
             Application.logMessageReceived -= Application_logMessageReceived;
         }
@@ -36,6 +33,7 @@ namespace Wokarol.GodConsole
         private void Application_logMessageReceived(string logString, string stackTrace, LogType type)
         {
             if (!IsListening) return;
+            if (logQueue == null || logQueue.Count == 0) return;
 
             var element = logQueue.Dequeue();
             logQueue.Enqueue(element);
