@@ -10,7 +10,6 @@ namespace Wokarol.SpaceScrapper.UI
 {
     public class PlayerGUI : MonoBehaviour
     {
-        [SerializeField] private Canvas canvas;
         [SerializeField] private UIValueBar healthBar;
 
         private Player player;
@@ -23,11 +22,11 @@ namespace Wokarol.SpaceScrapper.UI
 
             if (player == null)
             {
-                canvas.enabled = false;
+                healthBar.gameObject.SetActive(false);
             }
             else
             {
-                canvas.enabled = true;
+                healthBar.gameObject.SetActive(true);
                 healthBar.Value = player.Health / (float)player.MaxHealth;
             }
         }

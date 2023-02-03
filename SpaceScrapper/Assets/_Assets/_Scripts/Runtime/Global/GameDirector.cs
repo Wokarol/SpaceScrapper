@@ -36,9 +36,21 @@ namespace Wokarol.SpaceScrapper.Global
             if (spawnPoints == null) 
                 spawnPoints = GameSystems.Get<SceneContext>().SpawnPoints;
 
-            var (pos, rot) = spawnPoints[0].GetPositionAndRotation();
 
-            SpawnPlayerAt(pos, rot);
+            Vector3 position = Vector3.zero;
+            Quaternion rotation = Quaternion.identity;
+
+            if (spawnPoints == null || spawnPoints.Count == 0)
+            {
+                Debug.LogWarning("Could not find a suitable spawn point, defaulting to world origin");
+            }
+            else
+            {
+                (position, rotation) = spawnPoints[0].GetPositionAndRotation();
+            }
+
+
+            SpawnPlayerAt(position, rotation);
         }
 
         private void SpawnPlayerAt(Vector3 pos, Quaternion rot)
