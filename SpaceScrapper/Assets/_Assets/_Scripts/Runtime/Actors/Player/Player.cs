@@ -239,14 +239,19 @@ namespace Wokarol.SpaceScrapper.Actors
 
             if (health + damage > 0 && health <= 0)
             {
-                DestroyActor();
-                Died?.Invoke(this);
+                Kill();
             }
         }
 
         public void DestroyActor()
         {
             Destroy(gameObject);
+        }
+
+        public void Kill()
+        {
+            DestroyActor();
+            Died?.Invoke(this);
         }
 
         private enum InteractionState

@@ -45,7 +45,8 @@ namespace Wokarol.SpaceScrapper.Weaponry
                     }
                     if (!foundCollider)
                     {
-                        Debug.LogWarning("Hits did not contain the collider", this);
+                        // This warning is just annoying
+                        // Debug.LogWarning("Hits did not contain the collider", this);
                     }
                 }
                 finally

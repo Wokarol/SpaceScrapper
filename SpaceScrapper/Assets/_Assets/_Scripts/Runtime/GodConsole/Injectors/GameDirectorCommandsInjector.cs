@@ -12,7 +12,7 @@ namespace Wokarol.SpaceScrapper.GodConsole.Injectors
         public void Inject(Wokarol.GodConsole.GodConsole.CommandBuilder b)
         {
             b.Group("director")
-                .Add("respawn", (GameDirector director) => director.RespawnPlayer())
+                .Add("respawn", (GameDirector director) => director.ForcePlayerRespawn())
                 .Add("list_spawns", (SceneContext ctx) =>
                 {
                     Debug.Log(string.Join(", ", ctx.SpawnPoints.Select(p => p.name)));

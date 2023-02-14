@@ -12,45 +12,71 @@ namespace Wokarol.SpaceScrapper.Global
 {
     public class GameDirector : MonoBehaviour
     {
+        [Header("Player")]
         [SerializeField] private Player playerPrefab = null;
+        [SerializeField] private float playerRespawnTime = 2;
 
         [Header("Scene stuff to hook up")]
         [SerializeField] private Cinemachine.CinemachineVirtualCameraBase playerCamera = null;
         [SerializeField] private Cinemachine.CinemachineTargetGroup cameraAimTarget = null;
 
+        public bool PlayerIsAwaitingSpawn { get; private set; } = false;
+        public float PlayerRespawnCountdown { get; private set; } = 0;
 
-        private void Start()
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("CodeQuality", "IDE0051")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Type Safety", "UNT0006")]
+        private async UniTaskVoid Start()
         {
+            await UniTask.NextFrame(PlayerLoopTiming.PreUpdate);
             SpawnNewPlayerAtSuitableSpawn();
         }
 
-        public void RespawnPlayer()
+        public void ForcePlayerRespawn()
         {
             var ctx = GameSystems.Get<SceneContext>();
             ctx.Player.DestroyActor();
-            SpawnNewPlayerAtSuitableSpawn(ctx.SpawnPoints);
+
+            SpawnPlayerAfterRecallDelay(ctx.SpawnPoints).Forget();
+        }
+
+        private async UniTask SpawnPlayerAfterRecallDelay(IReadOnlyList<PlayerSpawnPosition> spawnPoints = null)
+        {
+            var spawnInfo = FindSuitableSpawn(spawnPoints);
+
+            PlayerIsAwaitingSpawn = true;
+            PlayerRespawnCountdown = playerRespawnTime;
+
+            while (PlayerRespawnCountdown > 0)
+            {
+                PlayerRespawnCountdown -= Time.deltaTime;
+                await UniTask.NextFrame();
+            }
+
+            PlayerIsAwaitingSpawn = false;
+            PlayerRespawnCountdown = -1;
+
+            SpawnPlayerAt(spawnInfo.Position, spawnInfo.Rotation);
         }
 
         private void SpawnNewPlayerAtSuitableSpawn(IReadOnlyList<PlayerSpawnPosition> spawnPoints = null)
         {
-            if (spawnPoints == null) 
-                spawnPoints = GameSystems.Get<SceneContext>().SpawnPoints;
+            var (position, rotation) = FindSuitableSpawn(spawnPoints);
+            SpawnPlayerAt(position, rotation);
+        }
 
-
-            Vector3 position = Vector3.zero;
-            Quaternion rotation = Quaternion.identity;
+        private static PlayerSpawnPosition.SpawnInformation FindSuitableSpawn(IReadOnlyList<PlayerSpawnPosition> spawnPoints)
+        {
+            spawnPoints ??= GameSystems.Get<SceneContext>().SpawnPoints;
 
             if (spawnPoints == null || spawnPoints.Count == 0)
             {
                 Debug.LogWarning("Could not find a suitable spawn point, defaulting to world origin");
+                return new PlayerSpawnPosition.SpawnInformation();
             }
             else
             {
-                (position, rotation) = spawnPoints[0].GetPositionAndRotation();
+                return spawnPoints[0].GetPositionAndRotation();
             }
-
-
-            SpawnPlayerAt(position, rotation);
         }
 
         private void SpawnPlayerAt(Vector3 pos, Quaternion rot)
@@ -65,7 +91,7 @@ namespace Wokarol.SpaceScrapper.Global
 
         private void Player_Died(Player obj)
         {
-            SpawnNewPlayerAtSuitableSpawn();
+            SpawnPlayerAfterRecallDelay().Forget();
         }
 
         private void AssignPlayerCamera(Player p)
