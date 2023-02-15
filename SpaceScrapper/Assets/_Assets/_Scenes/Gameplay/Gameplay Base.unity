@@ -476,7 +476,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6d87a3aeeafcd64ea1f5a2e9db56ffc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerPrefab: {fileID: 4349511427654487601, guid: 4aa62e626698dd74a834209b3d3b8ade, type: 3}
+  playerPrefab: {fileID: 6066574771049519466, guid: 35422e4ef5f981b409915f0b96c3e5b5, type: 3}
+  playerRespawnTime: 2
   playerCamera: {fileID: 1100731784}
   cameraAimTarget: {fileID: 91083083}
 --- !u!1001 &1794665112
