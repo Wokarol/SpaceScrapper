@@ -725,6 +725,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   system: {fileID: 1609107524346807181}
+  displayHitWarnings: 0
   accurateCollider: {fileID: 8092396988531225543}
   accurateColliderOffset: 0.1
   raycastDeepness: 1

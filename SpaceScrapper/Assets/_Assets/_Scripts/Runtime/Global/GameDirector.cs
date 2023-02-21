@@ -29,6 +29,8 @@ namespace Wokarol.SpaceScrapper.Global
         {
             await UniTask.NextFrame(PlayerLoopTiming.PreUpdate);
             SpawnNewPlayerAtSuitableSpawn();
+
+            GameSystems.Get<SceneContext>().BaseCore.Destoyed += BaseCore_Destoyed;
         }
 
         public void ForcePlayerRespawn()
@@ -109,12 +111,18 @@ namespace Wokarol.SpaceScrapper.Global
 
             // The camera enabling is delayed to force it to snap to target
             // Better solution could be found later
-            UniTask.RunOnThreadPool(async () =>
+            _ = UniTask.RunOnThreadPool(async () =>
             {
                 await UniTask.NextFrame();
                 await UniTask.NextFrame();
                 playerCamera.enabled = true;
             });
+        }
+
+
+        private void BaseCore_Destoyed()
+        {
+            Debug.Log("Exploded the reactor, game over");
         }
     }
 }
