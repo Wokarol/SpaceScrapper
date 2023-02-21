@@ -31,7 +31,7 @@ namespace Wokarol.SpaceScrapper.Global
         {
             Time.timeScale = 1;
 
-            await UniTask.NextFrame(PlayerLoopTiming.PreUpdate);
+            await UniTask.NextFrame();
             SpawnNewPlayerAtSuitableSpawn();
 
             GameSystems.Get<SceneContext>().BaseCore.Destoyed += BaseCore_Destoyed;

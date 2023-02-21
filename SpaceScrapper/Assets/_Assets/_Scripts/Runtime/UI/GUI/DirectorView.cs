@@ -2,6 +2,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.UI;
+using Wokarol.GameSystemsLocator;
 using Wokarol.SpaceScrapper.Global;
 
 namespace Wokarol.SpaceScrapper.UI
@@ -19,18 +20,22 @@ namespace Wokarol.SpaceScrapper.UI
         [SerializeField] private Button restartButton = null;
         [SerializeField] private Button quitButton = null;
 
-        private void Start()
+        protected override void Start()
         {
+            base.Start();
+
             restartButton.onClick.AddListener(RestartGame);
             quitButton.onClick.AddListener(QuitToMenu);
         }
 
         private void RestartGame()
         {
+            GameSystems.Get<SceneDirector>().StartNewGame();
         }
 
         private void QuitToMenu()
         {
+            GameSystems.Get<SceneDirector>().OpenMainMenu();
         }
 
         protected override void UpdateView()

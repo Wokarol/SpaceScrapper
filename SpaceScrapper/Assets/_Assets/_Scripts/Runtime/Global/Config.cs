@@ -5,6 +5,7 @@ using Wokarol.SpaceScrapper.Global;
 
 namespace Wokarol.SpaceScrapper
 {
+
     public class GameConfiguration : ISystemConfiguration
     {
         public void Configure(GameSystems.ConfigurationBuilder builder)
@@ -13,8 +14,9 @@ namespace Wokarol.SpaceScrapper
 
             builder.Add<SceneContext>(required: true);
             builder.Add<InputBlocker>(required: true);
+            builder.Add<SceneDirector>(required: true);
+            builder.Add<FancyCursor>(required: true);
             builder.Add<GameDirector>();
-            builder.Add<FancyCursor>();
             builder.Add<TargetingManager>();
         }
     }
