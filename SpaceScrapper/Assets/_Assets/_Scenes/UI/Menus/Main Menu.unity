@@ -534,6 +534,8 @@ MonoBehaviour:
   quitButton: {fileID: 1421673146}
   scenesToLoadOnStart:
   - Gameplay Base
+  - Gameplay GUI
+  - Pause Menu
   - Central Hub
 --- !u!1 &616559079
 GameObject:

@@ -23,10 +23,14 @@ namespace Wokarol.SpaceScrapper.Global
         public bool PlayerIsAwaitingSpawn { get; private set; } = false;
         public float PlayerRespawnCountdown { get; private set; } = 0;
 
+        public event Action GameEnded = null;
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("CodeQuality", "IDE0051")]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Type Safety", "UNT0006")]
         private async UniTaskVoid Start()
         {
+            Time.timeScale = 1;
+
             await UniTask.NextFrame(PlayerLoopTiming.PreUpdate);
             SpawnNewPlayerAtSuitableSpawn();
 
@@ -123,6 +127,7 @@ namespace Wokarol.SpaceScrapper.Global
         private void BaseCore_Destoyed()
         {
             Debug.Log("Exploded the reactor, game over");
+            GameEnded?.Invoke();
         }
     }
 }

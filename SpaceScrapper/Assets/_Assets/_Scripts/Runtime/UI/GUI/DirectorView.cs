@@ -1,5 +1,7 @@
 ﻿using DG.Tweening;
+using System;
 using UnityEngine;
+using UnityEngine.UI;
 using Wokarol.SpaceScrapper.Global;
 
 namespace Wokarol.SpaceScrapper.UI
@@ -10,6 +12,26 @@ namespace Wokarol.SpaceScrapper.UI
         [SerializeField] private TMPro.TMP_Text recallTimerLabel;
         [Space]
         [SerializeField] private string pilotRecallTimerFormat = "{0:f2}";
+        [Header("Game Over screen")]
+        [SerializeField] private GameObject gameOverScreen = null;
+        [SerializeField] private RectTransform gameOverPanel = null;
+        [Space]
+        [SerializeField] private Button restartButton = null;
+        [SerializeField] private Button quitButton = null;
+
+        private void Start()
+        {
+            restartButton.onClick.AddListener(RestartGame);
+            quitButton.onClick.AddListener(QuitToMenu);
+        }
+
+        private void RestartGame()
+        {
+        }
+
+        private void QuitToMenu()
+        {
+        }
 
         protected override void UpdateView()
         {
@@ -32,10 +54,36 @@ namespace Wokarol.SpaceScrapper.UI
             }
         }
 
+        private void OnGameOver()
+        {
+            gameOverScreen.SetActive(true);
+
+            var panelSize = gameOverPanel.sizeDelta;
+            panelSize.y = 0;
+
+            DOTween.Sequence()
+                .AppendCallback(() => Time.timeScale = 0f)
+                .AppendInterval(0.5f)
+                .Append(gameOverPanel.DOSizeDelta(panelSize, 0.75f)
+                    .From()
+                    .SetEase(Ease.OutBack))
+                .SetUpdate(true);
+        }
+
+        protected override void OnBind()
+        {
+            BoundTarget.GameEnded += OnGameOver;
+        }
+
         protected override void OnUnbind(bool initialClear = false)
         {
+            if (BoundTarget != null)
+                BoundTarget.GameEnded -= OnGameOver;
+
             recallWarning.gameObject.SetActive(false);
             recallWarning.alpha = 0;
+
+            gameOverScreen.SetActive(false);
         }
     }
 }
