@@ -13,6 +13,8 @@ namespace Wokarol.SpaceScrapper
         private int health;
 
         public int Health => health;
+        public int MaxHealth => maxHealth;
+
         public event Action Destoyed;
 
         private void Awake()

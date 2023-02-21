@@ -12,9 +12,11 @@ namespace Wokarol.Common
         public Camera MainCamera;
         public Player Player;
         public EnemySpawner WaveEnemySpawner;
+        public BaseCore BaseCore;
 
         private readonly List<PlayerSpawnPosition> spawnPoints = new();
         public IReadOnlyList<PlayerSpawnPosition> SpawnPoints => spawnPoints;
+
 
         internal void AddSpawnPoint(PlayerSpawnPosition playerSpawnPosition)
         {
