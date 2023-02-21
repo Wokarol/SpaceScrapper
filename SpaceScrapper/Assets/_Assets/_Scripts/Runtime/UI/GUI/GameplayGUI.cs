@@ -16,9 +16,19 @@ namespace Wokarol.SpaceScrapper.UI
         [SerializeField] private DirectorView directorView = null;
         [SerializeField] private BaseCoreView coreView = null;
 
+        private void Start()
+        {
+            directorView.GameOverShown += () =>
+            {
+                playerView.Unbind();
+                coreView.Unbind();
+            };
+        }
+
         private void LateUpdate()
         {
-            BindTheUIUsingContext();
+            if (!directorView.IsGameOverShown)
+                BindTheUIUsingContext();
         }
 
         private void BindTheUIUsingContext()

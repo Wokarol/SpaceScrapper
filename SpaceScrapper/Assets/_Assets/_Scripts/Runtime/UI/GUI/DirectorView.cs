@@ -20,6 +20,10 @@ namespace Wokarol.SpaceScrapper.UI
         [SerializeField] private Button restartButton = null;
         [SerializeField] private Button quitButton = null;
 
+        public bool IsGameOverShown => gameOverScreen.activeSelf;
+
+        public event Action GameOverShown;
+
         protected override void Start()
         {
             base.Start();
@@ -62,6 +66,8 @@ namespace Wokarol.SpaceScrapper.UI
         private void OnGameOver()
         {
             gameOverScreen.SetActive(true);
+
+            GameOverShown?.Invoke();
 
             var panelSize = gameOverPanel.sizeDelta;
             panelSize.y = 0;

@@ -25,11 +25,14 @@ namespace Wokarol.SpaceScrapper.Global
 
         public event Action GameEnded = null;
 
+        private bool isTheGameGoing;
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("CodeQuality", "IDE0051")]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Type Safety", "UNT0006")]
         private async UniTaskVoid Start()
         {
             Time.timeScale = 1;
+            isTheGameGoing = true;
 
             await UniTask.NextFrame();
             SpawnNewPlayerAtSuitableSpawn();
@@ -55,7 +58,7 @@ namespace Wokarol.SpaceScrapper.Global
             while (PlayerRespawnCountdown > 0)
             {
                 PlayerRespawnCountdown -= Time.deltaTime;
-                await UniTask.NextFrame();
+                await UniTask.NextFrame(gameObject.GetCancellationTokenOnDestroy());
             }
 
             PlayerIsAwaitingSpawn = false;
@@ -126,7 +129,10 @@ namespace Wokarol.SpaceScrapper.Global
 
         private void BaseCore_Destoyed()
         {
+            if (!isTheGameGoing) return;
+
             Debug.Log("Exploded the reactor, game over");
+            isTheGameGoing = false;
             GameEnded?.Invoke();
         }
     }
