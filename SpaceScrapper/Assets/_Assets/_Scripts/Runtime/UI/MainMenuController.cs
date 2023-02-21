@@ -15,6 +15,8 @@ namespace Wokarol.SpaceScrapper.Menus
 
         private void Start()
         {
+            Time.timeScale = 1;
+
             startButton.onClick.AddListener(StartGame);
             quitButton.onClick.AddListener(QuitGame);
         }
