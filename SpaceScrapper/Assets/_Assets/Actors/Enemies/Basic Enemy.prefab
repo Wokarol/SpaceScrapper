@@ -583,7 +583,6 @@ GameObject:
   - component: {fileID: 7803026359329890172}
   - component: {fileID: 131359860309955518}
   - component: {fileID: 5222532368345762143}
-  - component: {fileID: 742103337280166526}
   m_Layer: 7
   m_Name: Basic Enemy
   m_TagString: Untagged
@@ -638,7 +637,7 @@ MonoBehaviour:
     m_Bits: 1073741825
   shootingTargetMask:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 1088
   seeingDistance: 16
   targetVelocityInfluence: 2
 --- !u!114 &4606117737132606376
@@ -765,18 +764,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   faction: {fileID: 11400000, guid: 29fd81c79394c1a49979228c599856e3, type: 2}
   priority: 0
---- !u!114 &742103337280166526
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5432470612336294860}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0054a366739e66049b9b319720f78d97, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &5560467047322191912
 GameObject:
   m_ObjectHideFlags: 0

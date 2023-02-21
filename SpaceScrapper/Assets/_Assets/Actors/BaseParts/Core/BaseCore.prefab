@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3589768618745240236}
   - component: {fileID: 8421837337803875964}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: Panel Holder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -68,7 +68,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2417061872116756863}
   - component: {fileID: 802342595085963694}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: Panel Holder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -126,7 +126,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7457892426989638917}
   - component: {fileID: 1341656846016238142}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: Panel Head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -184,7 +184,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1519372046544363620}
   - component: {fileID: 8791142062492635556}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: Panel Holder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -242,7 +242,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2440110706011854734}
   - component: {fileID: 5542167467864485825}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: Panel Head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -300,7 +300,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3169961667738852943}
   - component: {fileID: 5589904711929282593}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: Panel Holder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -357,7 +357,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8594350358368805868}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: Colliders
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -396,7 +396,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5254166951398648360}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: Panel Collider (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -429,7 +429,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6040326979762209958}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: Panel Collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -462,7 +462,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5021558305119009484}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: Panel Collider (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -496,7 +496,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8483510569198419209}
   - component: {fileID: 8990713285217207941}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: Body (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -565,7 +565,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8033181480761338052}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: Panel Collider (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -599,7 +599,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8769886767910210752}
   - component: {fileID: 4433498619240457112}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: Body (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -669,7 +669,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1352085103815052082}
   - component: {fileID: 7145534279915096679}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: Panel Head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -727,7 +727,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7302184080310512321}
   - component: {fileID: 5225756536785624576}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -797,7 +797,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8244634687345032864}
   - component: {fileID: 1105484689349597918}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -882,7 +882,7 @@ GameObject:
   - component: {fileID: 2654226493955117041}
   - component: {fileID: 4576621544952090364}
   - component: {fileID: 3993712304882814577}
-  m_Layer: 31
+  m_Layer: 10
   m_Name: NavMeshCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -946,7 +946,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1405731730248705597}
   - component: {fileID: 6111680223439002197}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: Panel Head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1004,7 +1004,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5192524512159306970}
   - component: {fileID: 8666513853829108736}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: Body (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1076,7 +1076,8 @@ GameObject:
   - component: {fileID: 4937680505622671756}
   - component: {fileID: 5392581865170035356}
   - component: {fileID: 2022626592605337881}
-  m_Layer: 9
+  - component: {fileID: 883723739}
+  m_Layer: 10
   m_Name: BaseCore
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1092,7 +1093,7 @@ Transform:
   m_GameObject: {fileID: 9099514455182296435}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.75, y: 0.75, z: 0.75}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8244634687345032864}
@@ -1151,6 +1152,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ab481355ad20cf419a062679dc0f7cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxHealth: 200
+--- !u!114 &883723739
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9099514455182296435}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 632cd5c2b1aca014e94fc59f65906d11, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  faction: {fileID: 11400000, guid: 3b42924bc4b0ced42a80ad04f697459e, type: 2}
+  priority: 0
 --- !u!1001 &3740928540165171763
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1164,7 +1180,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3318472444413243833, guid: be6779eaf94394c4a9b2765973298247, type: 3}
       propertyPath: m_Layer
-      value: 9
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 4522471525623630291, guid: be6779eaf94394c4a9b2765973298247, type: 3}
       propertyPath: m_RootOrder

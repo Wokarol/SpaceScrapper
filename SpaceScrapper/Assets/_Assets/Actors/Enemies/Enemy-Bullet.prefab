@@ -102,4 +102,4 @@ MonoBehaviour:
   damage: 1
   hitMask:
     serializedVersion: 2
-    m_Bits: 1073742401
+    m_Bits: 1073743425
