@@ -9,10 +9,17 @@ namespace Wokarol.SpaceScrapper.UI
 {
     public class DirectorView : GenericBindableView<GameDirector>
     {
+        [Header("Recalling")]
         [SerializeField] private CanvasGroup recallWarning;
         [SerializeField] private TMPro.TMP_Text recallTimerLabel;
         [Space]
         [SerializeField] private string pilotRecallTimerFormat = "{0:f2}";
+        [Header("Waves")]
+        [SerializeField] private TMPro.TMP_Text waveLabel;
+        [SerializeField] private UIValueBar waveBar;
+        [Space]
+        [SerializeField] private string nextWaveMessageFormat = "Next attack in {0:00.00}";
+        [SerializeField] private string waveInProgressMessage = "Attack in progress!";
         [Header("Game Over screen")]
         [SerializeField] private GameObject gameOverScreen = null;
         [SerializeField] private RectTransform gameOverPanel = null;
