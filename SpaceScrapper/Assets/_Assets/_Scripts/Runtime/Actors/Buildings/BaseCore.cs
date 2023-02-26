@@ -15,7 +15,7 @@ namespace Wokarol.SpaceScrapper
         public int Health => health;
         public int MaxHealth => maxHealth;
 
-        public event Action Destoyed;
+        public event Action Destroyed;
 
         private void Awake()
         {
@@ -30,7 +30,7 @@ namespace Wokarol.SpaceScrapper
 
             if (health <= 0)
             {
-                Destoyed?.Invoke();
+                Destroyed?.Invoke();
                 Destroy(gameObject);
             }
         }

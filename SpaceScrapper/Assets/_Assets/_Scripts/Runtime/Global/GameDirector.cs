@@ -12,32 +12,89 @@ namespace Wokarol.SpaceScrapper.Global
 {
     public class GameDirector : MonoBehaviour
     {
+        private enum GameState
+        {
+            Starting,
+            AwaitingWave,
+            SpawningWave,
+            FightingWave,
+            GameOver,
+        }
+
         [Header("Player")]
         [SerializeField] private Player playerPrefab = null;
         [SerializeField] private float playerRespawnTime = 2;
+
+        [Header("Enemy waves")]
+        [SerializeField] private float timeBetweenWaves = 10;
+        [SerializeField] private int enemiesToSpawn = 10;
 
         [Header("Scene stuff to hook up")]
         [SerializeField] private Cinemachine.CinemachineVirtualCameraBase playerCamera = null;
         [SerializeField] private Cinemachine.CinemachineTargetGroup cameraAimTarget = null;
 
+
         public bool PlayerIsAwaitingSpawn { get; private set; } = false;
         public float PlayerRespawnCountdown { get; private set; } = 0;
+        public float WaveCountdown { get; private set; } = 0;
+
+        public float TimeBetweenWaves => TimeBetweenWaves;
+
 
         public event Action GameEnded = null;
 
-        private bool isTheGameGoing;
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("CodeQuality", "IDE0051")]
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Type Safety", "UNT0006")]
-        private async UniTaskVoid Start()
+        private GameState gameState;
+
+
+        private void Start()
         {
-            Time.timeScale = 1;
-            isTheGameGoing = true;
+            StartAsync().Forget();
+        }
 
+        // The async start is moved into a separate method because Unity warnings are bad
+        private async UniTaskVoid StartAsync()
+        {
+            Debug.Log("Start Async started");
+            gameState = GameState.Starting;
+            Time.timeScale = 1;
+
+            // The delay is added because script execution order is a mess at this point
             await UniTask.NextFrame();
+
+            GameSystems.Get<SceneContext>().BaseCore.Destroyed += BaseCore_Destroyed;
             SpawnNewPlayerAtSuitableSpawn();
 
-            GameSystems.Get<SceneContext>().BaseCore.Destoyed += BaseCore_Destoyed;
+            ChangeState(GameState.AwaitingWave);
+        }
+
+        private void Update()
+        {
+            switch (gameState)
+            {
+                case GameState.AwaitingWave:
+                    {
+                        WaveCountdown -= Time.deltaTime;
+                        if (WaveCountdown < 0)
+                        {
+                            WaveCountdown = 0;
+                            SpawnEnemyWave().Forget();
+                        }
+                    }
+                    break;
+                case GameState.FightingWave:
+                    {
+
+                    }
+                    break;
+            }
+        }
+
+        private async UniTask SpawnEnemyWave()
+        {
+            ChangeState(GameState.SpawningWave);
+            await GameSystems.Get<SceneContext>().WaveEnemySpawner.SpawnWave(enemiesToSpawn);
+            ChangeState(GameState.FightingWave);
         }
 
         public void ForcePlayerRespawn()
@@ -127,13 +184,31 @@ namespace Wokarol.SpaceScrapper.Global
         }
 
 
-        private void BaseCore_Destoyed()
+        private void BaseCore_Destroyed()
         {
-            if (!isTheGameGoing) return;
+            if (gameState == GameState.GameOver) return;
 
             Debug.Log("Exploded the reactor, game over");
-            isTheGameGoing = false;
-            GameEnded?.Invoke();
+            ChangeState(GameState.GameOver);
+        }
+
+        private void ChangeState(GameState newState)
+        {
+            GameState oldState = gameState;
+            gameState = newState;
+
+            if (oldState == newState) return;
+
+            // Transitions
+            if (newState == GameState.GameOver)
+            {
+                GameEnded?.Invoke();
+            }
+
+            if (newState == GameState.AwaitingWave)
+            {
+                WaveCountdown = timeBetweenWaves;
+            }
         }
     }
 }
