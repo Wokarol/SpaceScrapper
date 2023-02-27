@@ -479,7 +479,7 @@ MonoBehaviour:
   playerPrefab: {fileID: 4349511427654487601, guid: 4aa62e626698dd74a834209b3d3b8ade, type: 3}
   playerRespawnTime: 2
   timeBetweenWaves: 10
-  enemiesToSpawn: 10
+  enemiesToSpawn: 3
   playerCamera: {fileID: 1100731784}
   cameraAimTarget: {fileID: 91083083}
 --- !u!1001 &1794665112

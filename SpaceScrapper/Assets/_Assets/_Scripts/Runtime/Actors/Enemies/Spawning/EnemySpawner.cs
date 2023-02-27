@@ -17,24 +17,19 @@ namespace Wokarol.SpaceScrapper
         [SerializeField] private List<SpawnPoint> spawnPoints = new();
         [SerializeField] private float intervalBetweenSpawns = 0.4f;
 
-        int aliveEnemies = 0;
-
-        public async UniTask SpawnWave(int enemiesToSpawn)
+        public async UniTask SpawnWave(int enemiesToSpawn, Action<Enemy> whenSpawned = null, Action<Enemy> whenDied = null)
         {
             for (int i = 0; i < enemiesToSpawn; i++)
             {
                 var enemy = Instantiate(enemyPrefab, GetRandomPosition(), Quaternion.identity, transform);
-                enemy.Died += EnemyDied;
 
-                aliveEnemies++;
+                if (whenDied != null)
+                    enemy.Died += () => whenDied(enemy);
+
+                whenSpawned(enemy);
 
                 await UniTask.Delay(TimeSpan.FromSeconds(intervalBetweenSpawns));
             }
-        }
-
-        private void EnemyDied()
-        {
-            aliveEnemies--;
         }
 
         private Vector3 GetRandomPosition()
@@ -44,10 +39,7 @@ namespace Wokarol.SpaceScrapper
 
         public void SpawnEnemies(int enemyCount)
         {
-            for (int i = 0; i < enemyCount; i++)
-            {
-                Instantiate(enemyPrefab, GetRandomPosition(), Quaternion.identity, transform);
-            }
+            SpawnWave(enemyCount).Forget();
         }
     }
 }

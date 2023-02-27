@@ -12,7 +12,7 @@ namespace Wokarol.SpaceScrapper.Global
 {
     public class GameDirector : MonoBehaviour
     {
-        private enum GameState
+        public enum GameState
         {
             Starting,
             AwaitingWave,
@@ -37,9 +37,11 @@ namespace Wokarol.SpaceScrapper.Global
         public bool PlayerIsAwaitingSpawn { get; private set; } = false;
         public float PlayerRespawnCountdown { get; private set; } = 0;
         public float WaveCountdown { get; private set; } = 0;
+        public WaveInfo CurrentWaveInformation { get; private set; } = WaveInfo.None;
+        public int AliveEnemiesCount { get; private set; } = 0;
 
         public float TimeBetweenWaves => TimeBetweenWaves;
-
+        public GameState CurrentGameState => gameState;
 
         public event Action GameEnded = null;
 
@@ -58,6 +60,7 @@ namespace Wokarol.SpaceScrapper.Global
             Debug.Log("Start Async started");
             gameState = GameState.Starting;
             Time.timeScale = 1;
+            AliveEnemiesCount = 0;
 
             // The delay is added because script execution order is a mess at this point
             await UniTask.NextFrame();
@@ -84,7 +87,10 @@ namespace Wokarol.SpaceScrapper.Global
                     break;
                 case GameState.FightingWave:
                     {
-
+                        if (AliveEnemiesCount <= 0)
+                        {
+                            ChangeState(GameState.AwaitingWave);
+                        }
                     }
                     break;
             }
@@ -93,7 +99,14 @@ namespace Wokarol.SpaceScrapper.Global
         private async UniTask SpawnEnemyWave()
         {
             ChangeState(GameState.SpawningWave);
-            await GameSystems.Get<SceneContext>().WaveEnemySpawner.SpawnWave(enemiesToSpawn);
+
+            CurrentWaveInformation = new WaveInfo(enemiesToSpawn);
+            var spawner = GameSystems.Get<SceneContext>().WaveEnemySpawner;
+
+            await spawner.SpawnWave(enemiesToSpawn, 
+                whenSpawned: p => AliveEnemiesCount++,
+                whenDied: p => AliveEnemiesCount--);
+
             ChangeState(GameState.FightingWave);
         }
 
@@ -209,6 +222,20 @@ namespace Wokarol.SpaceScrapper.Global
             {
                 WaveCountdown = timeBetweenWaves;
             }
+        }
+
+        public readonly struct WaveInfo
+        {
+            public readonly bool Valid;
+            public readonly int SpawnedEnemyCount;
+
+            public WaveInfo(int spawnedEnemyCount)
+            {
+                Valid = true;
+                SpawnedEnemyCount = spawnedEnemyCount;
+            }
+
+            public static WaveInfo None => default;
         }
     }
 }

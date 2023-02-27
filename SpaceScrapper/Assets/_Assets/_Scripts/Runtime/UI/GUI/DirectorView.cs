@@ -51,6 +51,12 @@ namespace Wokarol.SpaceScrapper.UI
 
         protected override void UpdateView()
         {
+            UpdateRecallScreen();
+            UpdateWaveUI();
+        }
+
+        private void UpdateRecallScreen()
+        {
             if (BoundTarget.PlayerIsAwaitingSpawn)
             {
                 if (!recallWarning.gameObject.activeSelf)
@@ -67,6 +73,27 @@ namespace Wokarol.SpaceScrapper.UI
                     recallWarning.DOFade(0, 0.5f)
                         .OnComplete(() => recallWarning.gameObject.SetActive(false));
                 }
+            }
+        }
+
+        private void UpdateWaveUI()
+        {
+            switch (BoundTarget.CurrentGameState)
+            {
+                case GameDirector.GameState.AwaitingWave:
+                    waveLabel.text = string.Format(nextWaveMessageFormat, BoundTarget.WaveCountdown);
+                    waveBar.gameObject.SetActive(false);
+                    break;
+                case GameDirector.GameState.SpawningWave:
+                case GameDirector.GameState.FightingWave:
+                    waveLabel.text = waveInProgressMessage;
+                    waveBar.gameObject.SetActive(true);
+                    waveBar.Value = (float)BoundTarget.AliveEnemiesCount / BoundTarget.CurrentWaveInformation.SpawnedEnemyCount;
+                    break;
+                default:
+                    waveLabel.text = "";
+                    waveBar.gameObject.SetActive(false);
+                    break;
             }
         }
 
@@ -100,6 +127,9 @@ namespace Wokarol.SpaceScrapper.UI
 
             recallWarning.gameObject.SetActive(false);
             recallWarning.alpha = 0;
+
+            waveLabel.text = "";
+            waveBar.gameObject.SetActive(false);
 
             gameOverScreen.SetActive(false);
         }

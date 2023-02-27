@@ -1755,8 +1755,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a12877ed74ee14a4b932fdb027ffe268, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bar: {fileID: 107606060}
-  echo: {fileID: 1128261526}
+  bar: {fileID: 1128261526}
+  echo: {fileID: 107606060}
 --- !u!1 &1426663932
 GameObject:
   m_ObjectHideFlags: 0
