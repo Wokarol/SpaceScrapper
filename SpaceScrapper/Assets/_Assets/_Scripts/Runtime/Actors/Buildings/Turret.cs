@@ -4,7 +4,6 @@ using Wokarol.GameSystemsLocator;
 using Wokarol.SpaceScrapper.Actors.Common;
 using Wokarol.SpaceScrapper.Combat;
 using Wokarol.SpaceScrapper.Weaponry;
-using static Codice.Client.Common.WebApi.WebApiEndpoints;
 
 namespace Wokarol.SpaceScrapper.Actors
 {

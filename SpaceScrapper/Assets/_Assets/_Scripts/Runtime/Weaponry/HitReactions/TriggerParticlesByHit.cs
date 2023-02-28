@@ -5,6 +5,7 @@ namespace Wokarol.SpaceScrapper.Weaponry
     public class TriggerParticlesByHit : MonoBehaviour, IHittable
     {
         [SerializeField] private ParticleSystem system;
+        [SerializeField] private bool displayHitWarnings = false;
 
         [Header("Optional")]
         [SerializeField] private Collider2D accurateCollider = null;
@@ -29,7 +30,7 @@ namespace Wokarol.SpaceScrapper.Weaponry
 
                     if (hitCount <= 0)
                     {
-                        Debug.LogWarning("Found no hits, try increasing the collider offset", this);
+                        if (displayHitWarnings) Debug.LogWarning("Found no hits, try increasing the collider offset", this);
                     }
 
                     bool foundCollider = false;
@@ -43,9 +44,9 @@ namespace Wokarol.SpaceScrapper.Weaponry
                             break;
                         }
                     }
-                    if (!foundCollider)
+                    if (!foundCollider && accurateCollider != null && accurateCollider.isActiveAndEnabled)
                     {
-                        Debug.LogWarning("Hits did not contain the collider", this);
+                        if (displayHitWarnings) Debug.LogWarning("Hits did not contain the collider", this);
                     }
                 }
                 finally

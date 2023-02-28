@@ -32,6 +32,7 @@ namespace Wokarol.SpaceScrapper.Actors
         private CombatTarget currentTarget = default;
 
         public event Action Died;
+        private bool alreadyDiedAndShouldNotBeAbleToDieAgain = false;
 
         private void Awake()
         {
@@ -151,9 +152,10 @@ namespace Wokarol.SpaceScrapper.Actors
                 health -= damage;
             }
 
-            if (health <= 0)
+            if (health <= 0 && !alreadyDiedAndShouldNotBeAbleToDieAgain)
             {
                 Destroy(gameObject);
+                alreadyDiedAndShouldNotBeAbleToDieAgain = true;
                 Died?.Invoke();
             }
         }

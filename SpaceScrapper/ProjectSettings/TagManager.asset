@@ -15,6 +15,7 @@ TagManager:
   - Enemies
   - Player Projectiles
   - Player Structures
+  - Hittable Player Structures
   - 
   - 
   - 
@@ -34,8 +35,7 @@ TagManager:
   - 
   - 
   - 
-  - 
-  - 
+  - Enviroment
   - Navigation
   m_SortingLayers:
   - name: Background

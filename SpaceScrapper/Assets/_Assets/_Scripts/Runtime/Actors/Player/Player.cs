@@ -1,15 +1,17 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Wokarol.Common;
 using Wokarol.GameSystemsLocator;
 using Wokarol.SpaceScrapper.Actors.Common;
+using Wokarol.SpaceScrapper.Global;
 using Wokarol.SpaceScrapper.Input;
 using Wokarol.SpaceScrapper.Weaponry;
 
 namespace Wokarol.SpaceScrapper.Actors
 {
-    public class Player : MonoBehaviour, IHasVelocity
+    public class Player : MonoBehaviour, IHasVelocity, IHittable
     {
         [Header("Object References")]
         [SerializeField] private PlayerInput playerInput = null;
@@ -25,6 +27,7 @@ namespace Wokarol.SpaceScrapper.Actors
         [SerializeField] private ShipMovementParams movement = new();
         [SerializeField] private ShipMovementParams movementWhenHolding = new();
         [SerializeField] private float velocityInheritanceRatio = 0.3f;
+        [SerializeField] private int maxHealth = 50;
         [Header("Animations")]
         [SerializeField] private AnimationNames animatorKeys = new();
         [Header("Grabbing")]
@@ -42,12 +45,18 @@ namespace Wokarol.SpaceScrapper.Actors
         private MovablePart grabbedPart = null;
 
         private List<Collider2D> colliderListCache = new();
+        private int health;
 
         public ShipMovementParams NormalMovementParams => movement;
         public ShipMovementParams HoldingMovementParams => movementWhenHolding;
 
         public float VelocityInheritanceRatio { get => velocityInheritanceRatio; set => velocityInheritanceRatio = value; }
         public Vector3 Velocity => spaceshipController.Velocity;
+        public int MaxHealth => maxHealth;
+        public int Health => health;
+        public Transform AimTarget => aimPoint;
+
+        public event Action<Player> Died;
 
         private void Start()
         {
@@ -55,6 +64,8 @@ namespace Wokarol.SpaceScrapper.Actors
             inputBlocker = GameSystems.Get<InputBlocker>();
 
             SetupInput();
+
+            health = maxHealth;
         }
 
         private void Update()
@@ -213,6 +224,34 @@ namespace Wokarol.SpaceScrapper.Actors
                 else
                     grabbedPart.StartMove(grabTarget.up);
             }
+        }
+
+        public void TeleportTo(Vector3 position)
+        {
+            transform.position = position;
+        }
+
+        public void Hit(Vector2 force, Vector2 normal, Vector2 point, int damage)
+        {
+            if (damage <= 0) return;
+
+            health -= damage;
+
+            if (health + damage > 0 && health <= 0)
+            {
+                Kill();
+            }
+        }
+
+        public void DestroyActor()
+        {
+            Destroy(gameObject);
+        }
+
+        public void Kill()
+        {
+            DestroyActor();
+            Died?.Invoke(this);
         }
 
         private enum InteractionState

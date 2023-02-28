@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2237417335059063967}
   - component: {fileID: 2237417335059063965}
   - component: {fileID: 7738538971777004165}
-  - component: {fileID: 7603831464060638419}
+  - component: {fileID: 496008209294291655}
   m_Layer: 0
   m_Name: Meteor
   m_TagString: Untagged
@@ -120,7 +120,7 @@ MonoBehaviour:
   accurateCollider: {fileID: 0}
   accurateColliderOffset: 0.4
   raycastDeepness: 1
---- !u!114 &7603831464060638419
+--- !u!114 &496008209294291655
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -129,7 +129,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2237417335059063966}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Script: {fileID: 11500000, guid: 9809bf1345abc5648af68b3a82653f08, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_OverrideArea: 0

@@ -229,7 +229,9 @@ namespace Wokarol.GodConsole.View
             if (suggestionIndex == -1)
             {
                 console.Execute(inputField.text);
-                history.Add(inputField.text);
+
+                if (history[^1] != inputField.text)
+                    history.Add(inputField.text);
 
                 if (history.Count > maxHistoryCount)
                 {

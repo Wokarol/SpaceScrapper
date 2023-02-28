@@ -634,10 +634,10 @@ MonoBehaviour:
   startingHealth: 10
   raycastBlockingMask:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 1073741825
   shootingTargetMask:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 1088
   seeingDistance: 16
   targetVelocityInfluence: 2
 --- !u!114 &4606117737132606376
@@ -725,6 +725,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   system: {fileID: 1609107524346807181}
+  displayHitWarnings: 0
   accurateCollider: {fileID: 8092396988531225543}
   accurateColliderOffset: 0.1
   raycastDeepness: 1

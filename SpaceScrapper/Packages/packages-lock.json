@@ -14,6 +14,13 @@
       "dependencies": {},
       "hash": "8a8fa5a9659a6d63f196391c71e06c4286c8acd7"
     },
+    "com.h8man.2d.navmeshplus": {
+      "version": "https://github.com/h8man/NavMeshPlus.git#master",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "bd6287fb25a701f84a6fc4ed516bec4ab99ba0f9"
+    },
     "com.ibra.ibralogue": {
       "version": "https://github.com/Ibralogue/Ibralogue.git#dev",
       "depth": 0,

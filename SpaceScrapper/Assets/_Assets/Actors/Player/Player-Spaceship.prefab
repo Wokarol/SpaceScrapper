@@ -263,6 +263,7 @@ GameObject:
   - component: {fileID: 2451672630894753647}
   - component: {fileID: 846759781572330209}
   - component: {fileID: 2366654015757201040}
+  - component: {fileID: 8871898597241951209}
   m_Layer: 6
   m_Name: Player-Spaceship
   m_TagString: Untagged
@@ -351,6 +352,7 @@ MonoBehaviour:
     RotationSmoothing: 0.4
     IsInputRelative: 0
   velocityInheritanceRatio: 0.3
+  maxHealth: 50
   animatorKeys:
     <OpenWingsState>k__BackingField: Open-Wings
     <OpenWingsFailState>k__BackingField: Open-Wings-Fail
@@ -493,6 +495,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   faction: {fileID: 11400000, guid: 3b42924bc4b0ced42a80ad04f697459e, type: 2}
   priority: 0
+--- !u!114 &8871898597241951209
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3197799456960919611}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84f4c5fb16e5e054680da14f62277ea8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 4349511427654487601}
 --- !u!1 &4495686500934170175
 GameObject:
   m_ObjectHideFlags: 0
