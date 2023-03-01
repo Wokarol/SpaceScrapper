@@ -101,6 +101,8 @@ namespace Wokarol.SpaceScrapper.Global
             ChangeState(GameState.SpawningWave);
 
             CurrentWaveInformation = new WaveInfo(enemiesToSpawn);
+            await UniTask.Delay(TimeSpan.FromSeconds(0.5f));
+
             var spawner = GameSystems.Get<SceneContext>().WaveEnemySpawner;
 
             await spawner.SpawnWave(enemiesToSpawn, 
