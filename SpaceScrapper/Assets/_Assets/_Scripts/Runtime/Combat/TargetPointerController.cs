@@ -58,7 +58,6 @@ namespace Wokarol.SpaceScrapper.Combat
             if (i < pointers.Count) return pointers[i];
             else
             {
-                Debug.Log($"Adding pointer at {i}");
                 var pointer = Instantiate(pointerTemplate, pointerTemplate.transform.parent);
                 pointers.Add(pointer);
                 return pointer;

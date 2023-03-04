@@ -26,8 +26,8 @@ namespace Wokarol.SpaceScrapper.Global
         [SerializeField] private float playerRespawnTime = 2;
 
         [Header("Enemy waves")]
-        [SerializeField] private float timeBetweenWaves = 10;
-        [SerializeField] private int enemiesToSpawn = 10;
+        [SerializeField] private List<WaveDefinition> waves = new();
+        [SerializeField] private int enemiesToAddEachWave = 4;
 
         [Header("Scene stuff to hook up")]
         [SerializeField] private Cinemachine.CinemachineVirtualCameraBase playerCamera = null;
@@ -42,12 +42,12 @@ namespace Wokarol.SpaceScrapper.Global
 
         public float TimeBetweenWaves => TimeBetweenWaves;
         public GameState CurrentGameState => gameState;
+        public int WaveNumber => currentWave + 1;
 
         public event Action GameEnded = null;
 
-
         private GameState gameState;
-
+        private int currentWave = 0;
 
         private void Start()
         {
@@ -89,6 +89,8 @@ namespace Wokarol.SpaceScrapper.Global
                     {
                         if (AliveEnemiesCount <= 0)
                         {
+                            currentWave++;
+
                             ChangeState(GameState.AwaitingWave);
                         }
                     }
@@ -100,12 +102,13 @@ namespace Wokarol.SpaceScrapper.Global
         {
             ChangeState(GameState.SpawningWave);
 
+            int enemiesToSpawn = GetCurrentWave().enemiesToSpawn;
             CurrentWaveInformation = new WaveInfo(enemiesToSpawn);
             await UniTask.Delay(TimeSpan.FromSeconds(0.5f));
 
             var spawner = GameSystems.Get<SceneContext>().WaveEnemySpawner;
 
-            await spawner.SpawnWave(enemiesToSpawn, 
+            await spawner.SpawnWave(enemiesToSpawn,
                 whenSpawned: p => AliveEnemiesCount++,
                 whenDied: p => AliveEnemiesCount--);
 
@@ -222,8 +225,23 @@ namespace Wokarol.SpaceScrapper.Global
 
             if (newState == GameState.AwaitingWave)
             {
-                WaveCountdown = timeBetweenWaves;
+
+
+                WaveCountdown = GetCurrentWave().timeBeforeWave;
             }
+        }
+
+        private WaveDefinition GetCurrentWave()
+        {
+            var wavesOverMax = currentWave - waves.Count + 1;
+            if (wavesOverMax > 0)
+            {
+                var inifniteWave = waves[^1];
+                inifniteWave.enemiesToSpawn += enemiesToAddEachWave * wavesOverMax;
+                return inifniteWave;
+            }
+
+            return waves[currentWave];
         }
 
         public readonly struct WaveInfo
@@ -238,6 +256,15 @@ namespace Wokarol.SpaceScrapper.Global
             }
 
             public static WaveInfo None => default;
+        }
+
+
+
+        [Serializable]
+        public struct WaveDefinition
+        {
+            public int enemiesToSpawn;
+            public float timeBeforeWave;
         }
     }
 }

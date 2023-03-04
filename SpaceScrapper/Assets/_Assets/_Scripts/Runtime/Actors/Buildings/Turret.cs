@@ -27,6 +27,7 @@ namespace Wokarol.SpaceScrapper.Actors
 
         private void Start()
         {
+            health = startingHealth;
             targetingManager = GameSystems.Get<TargetingManager>();
         }
 
