@@ -26,7 +26,7 @@ namespace Wokarol.SpaceScrapper
                 if (whenDied != null)
                     enemy.Died += () => whenDied(enemy);
 
-                whenSpawned(enemy);
+                whenSpawned?.Invoke(enemy);
 
                 await UniTask.Delay(TimeSpan.FromSeconds(intervalBetweenSpawns));
             }

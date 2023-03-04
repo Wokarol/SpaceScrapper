@@ -420,6 +420,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ecae52cb7a7cec44bb3f16da81b4a8a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  distanceCalculation:
+    closeDistance: 3
+    farDistance: 20
+    weigth: 10
+  priorityWeigth: 2
 --- !u!1 &5130433656910726907
 GameObject:
   m_ObjectHideFlags: 0

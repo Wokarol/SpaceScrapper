@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NaughtyAttributes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -7,45 +8,64 @@ namespace Wokarol.SpaceScrapper.Combat
 {
     public class TargetingManager : MonoBehaviour
     {
-        List<CombatActor> actors = new();
+        [Header("Target weighting formula")]
+        [SerializeField] private DistanceParams distanceCalculation;
+        [SerializeField] private float priorityWeigth = 2;
 
-        public IReadOnlyList<CombatActor> AllActors => actors;
+        List<CombatActor> combatActors = new();
+
+        public IReadOnlyList<CombatActor> AllActors => combatActors;
 
         public CombatActor GetBestTargetToFight(CombatActor caller, float? maxSeeingDistance = null)
         {
-            // TODO: Redesign the algorithm
-            // 1. Remove Linq in favour of manual looping
-            // 2. Make priority a weight instead of hard sort (distance * a  +  priority * b  +  ...)
-            // 3. Consider adding checks to see if the new target is needed in a guard clause-like fashion (if target exists and is rather close, return it instead of searching more)
-
+            // TODO: Consider adding checks to see if the new target is needed in a guard clause-like fashion (if target exists and is rather close, return it instead of searching more)
             // TODO: Check performance of that algorithm (stress test and stuff)
 
-            // TODO: Optimize this mess later
-            IEnumerable<(CombatActor a, float d)> fittingTargets = actors
-                .Where(a => a.Faction != caller.Faction)
-                .OrderByDescending(a => a.Priority)
-                .Select(a => (a, Vector2.Distance(a.transform.position, caller.transform.position)))
-                .OrderBy(ad => ad.Item2);
+            CombatActor bestTarget = null;
+            float bestTargetFit = float.NegativeInfinity;
 
-            if (maxSeeingDistance != null)
+            foreach (var candidate in combatActors)
             {
-                // That should probably be done first to limit the search space
-                fittingTargets = fittingTargets
-                    .Where(ad => ad.d < maxSeeingDistance);
+                if (candidate.Faction == caller.Faction) continue;
+
+                float distance = Vector2.Distance(candidate.transform.position, caller.transform.position);
+                int priority = candidate.Priority;
+
+                if (maxSeeingDistance != null && distance > maxSeeingDistance) continue;
+
+                float fit = distanceCalculation.CalculateFitForDistance(distance) + priority * priorityWeigth;
+
+                if (fit > bestTargetFit)
+                {
+                    bestTargetFit = fit;
+                    bestTarget = candidate;
+                }
             }
 
-            return fittingTargets // TODO: Improve target choice algorithm
-                .FirstOrDefault().a; // The f..ck is "a"
+            return bestTarget;
         }
 
         public void AddActor(CombatActor combatActor)
         {
-            actors.Add(combatActor);
+            combatActors.Add(combatActor);
         }
 
         public void RemoveActor(CombatActor combatActor)
         {
-            actors.Remove(combatActor);
+            combatActors.Remove(combatActor);
+        }
+
+        [Serializable]
+        private class DistanceParams
+        {
+            [SerializeField] private float closeDistance = 2;
+            [SerializeField] private float farDistance = 5;
+            [SerializeField] private float weigth = 5;
+
+            public float CalculateFitForDistance(float distance)
+            {
+                return Mathf.InverseLerp(farDistance, closeDistance, distance) * weigth;
+            }
         }
     }
 }

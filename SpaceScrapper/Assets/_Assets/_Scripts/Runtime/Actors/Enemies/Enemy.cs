@@ -159,5 +159,12 @@ namespace Wokarol.SpaceScrapper.Actors
                 Died?.Invoke();
             }
         }
+        private void OnDrawGizmos()
+        {
+            if (!currentTarget.Exists) return;
+
+            Gizmos.color = Color.red;
+            Gizmos.DrawLine(transform.position, currentTarget.Transform.position);
+        }
     }
 }
