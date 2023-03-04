@@ -251,6 +251,27 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: Player-Pointer
+      rect:
+        serializedVersion: 2
+        x: 596
+        y: 715
+        width: 344
+        height: 302
+      alignment: 9
+      pivot: {x: 0.5, y: 0.35430464}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 29a6a3abce2dd7941bdcc1bf24738991
+      internalID: 553374641
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -269,6 +290,7 @@ TextureImporter:
       Player-Body: 527073349
       Player-Reference: 1649381836
       Player-Wing-R: -1895276261
+      Player-Pointer: 553374641
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

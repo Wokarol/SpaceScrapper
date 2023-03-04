@@ -392,7 +392,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mode: 0
-  delayBetweenShots: 0.2
+  delayBetweenShots: 0.4
   bulletPrefab: {fileID: 2183291887360013007, guid: 87bdfa6c436613e459dacd5addf554da, type: 3}
   bulletPool: {fileID: 2372188731307804660}
 --- !u!1 &2796476971791174835
@@ -640,6 +640,7 @@ MonoBehaviour:
     m_Bits: 1088
   seeingDistance: 16
   targetVelocityInfluence: 2
+  maxDeviationFromStraightAim: 45
 --- !u!114 &4606117737132606376
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1012,7 +1013,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mode: 0
-  delayBetweenShots: 0.2
+  delayBetweenShots: 0.4
   bulletPrefab: {fileID: 2183291887360013007, guid: 87bdfa6c436613e459dacd5addf554da, type: 3}
   bulletPool: {fileID: 2372188731307804660}
 --- !u!1 &7177384646028196962
