@@ -16,7 +16,11 @@ namespace Wokarol.SpaceScrapper.GodConsole.Injectors
                 .Add("list_spawns", (SceneContext ctx) =>
                 {
                     Debug.Log(string.Join(", ", ctx.SpawnPoints.Select(p => p.name)));
-                });
+                })
+                .Add("skip_to_wave", (GameDirector director) => director.ForceTimerSkip());
+
+            b.Group("player")
+                .Add("respawn", (GameDirector director) => director.ForcePlayerRespawn());
         }
     }
 }

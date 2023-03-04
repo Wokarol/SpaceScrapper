@@ -123,6 +123,11 @@ namespace Wokarol.SpaceScrapper.Global
             SpawnPlayerAfterRecallDelay(ctx.SpawnPoints).Forget();
         }
 
+        public void ForceTimerSkip()
+        {
+            WaveCountdown = 1f;
+        }
+
         private async UniTask SpawnPlayerAfterRecallDelay(IReadOnlyList<PlayerSpawnPosition> spawnPoints = null)
         {
             var spawnInfo = FindSuitableSpawn(spawnPoints);
