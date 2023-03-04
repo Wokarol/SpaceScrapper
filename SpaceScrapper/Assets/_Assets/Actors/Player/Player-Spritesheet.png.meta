@@ -255,12 +255,12 @@ TextureImporter:
       name: Player-Pointer
       rect:
         serializedVersion: 2
-        x: 596
-        y: 715
-        width: 344
-        height: 302
-      alignment: 9
-      pivot: {x: 0.5, y: 0.35430464}
+        x: 529
+        y: 839
+        width: 111
+        height: 181
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []

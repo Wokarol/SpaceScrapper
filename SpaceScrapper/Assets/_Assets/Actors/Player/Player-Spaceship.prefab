@@ -806,7 +806,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 553374641, guid: c742a2f1f3ae0794a99cd691ba0526dc, type: 3}
-  m_Color: {r: 1, g: 0.4, b: 0.4862745, a: 0.2}
+  m_Color: {r: 1, g: 0.4, b: 0.4862745, a: 0.5019608}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -863,6 +863,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   self: {fileID: 2366654015757201040}
   pointerTemplate: {fileID: 1433940688161828531}
+  minimalAlpha: 0.1
+  pointerAlphaFalloffDistance: 20
 --- !u!1 &7679364889150173121
 GameObject:
   m_ObjectHideFlags: 0

@@ -11,6 +11,9 @@ namespace Wokarol.SpaceScrapper.Combat
     {
         [SerializeField] private CombatActor self = null;
         [SerializeField] private SpriteRenderer pointerTemplate = null;
+        [Space]
+        [SerializeField] private float minimalAlpha = 0.05f;
+        [SerializeField] private float pointerAlphaFalloffDistance = 10;
 
         private List<SpriteRenderer> pointers = new();
 
@@ -26,6 +29,10 @@ namespace Wokarol.SpaceScrapper.Combat
                 pointers[i].gameObject.SetActive(false);
             }
 
+            Color baseColorFull = pointerTemplate.color;
+            Color baseColorClear = pointerTemplate.color;
+            baseColorClear.a = minimalAlpha;
+
             Vector2 origin = pointerTemplate.transform.position;
             int pointerI = 0;
             for (int i = 0; i < GameSystems.Get<TargetingManager>().AllActors.Count; i++)
@@ -38,6 +45,9 @@ namespace Wokarol.SpaceScrapper.Combat
 
                 pointer.transform.up = direction;
                 pointer.gameObject.SetActive(true);
+
+                float falloff = Mathf.InverseLerp(0, pointerAlphaFalloffDistance, direction.magnitude);
+                pointer.color = Color.Lerp(baseColorFull, baseColorClear, falloff);
 
                 pointerI++;
             }
