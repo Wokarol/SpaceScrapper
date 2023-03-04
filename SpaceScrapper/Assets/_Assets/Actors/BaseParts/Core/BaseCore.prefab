@@ -882,7 +882,7 @@ GameObject:
   - component: {fileID: 2654226493955117041}
   - component: {fileID: 4576621544952090364}
   - component: {fileID: 3993712304882814577}
-  m_Layer: 10
+  m_Layer: 31
   m_Name: NavMeshCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1138,6 +1138,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   system: {fileID: 7197653378632705593}
+  displayHitWarnings: 0
   accurateCollider: {fileID: 0}
   accurateColliderOffset: 0.4
   raycastDeepness: 1

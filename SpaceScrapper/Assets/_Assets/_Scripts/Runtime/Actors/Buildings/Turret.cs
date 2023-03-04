@@ -7,12 +7,13 @@ using Wokarol.SpaceScrapper.Weaponry;
 
 namespace Wokarol.SpaceScrapper.Actors
 {
-    public class Turret : MonoBehaviour
+    public class Turret : MonoBehaviour, IHittable
     {
         [SerializeField] private Transform turretHead = null;
         [SerializeField] private GunTrigger gunTrigger = null;
         [SerializeField] private CombatActor combatActor = null;
         [Space]
+        [SerializeField] private int startingHealth = 10;
         [SerializeField] private LayerMask raycastBlockingMask = 0;
         [SerializeField] private LayerMask shootingTargetMask = 0;
         [SerializeField] private float trackingSmoothing = 0.2f;
@@ -22,9 +23,11 @@ namespace Wokarol.SpaceScrapper.Actors
         private CombatTarget currentTarget = default;
         private float turretHeadVelocity = 0;
         private TargetingManager targetingManager;
+        private int health;
 
         private void Start()
         {
+            health = startingHealth;
             targetingManager = GameSystems.Get<TargetingManager>();
         }
 
@@ -108,6 +111,19 @@ namespace Wokarol.SpaceScrapper.Actors
             }
 
             currentTarget = CombatTarget.CreateOrReuse(target.transform, currentTarget);
+        }
+
+        public void Hit(Vector2 force, Vector2 normal, Vector2 point, int damage)
+        {
+            if (damage > 0)
+            {
+                health -= damage;
+            }
+
+            if (health <= 0)
+            {
+                Destroy(gameObject);
+            }
         }
     }
 }

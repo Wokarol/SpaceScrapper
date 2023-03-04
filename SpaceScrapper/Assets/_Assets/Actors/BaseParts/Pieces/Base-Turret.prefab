@@ -259,9 +259,9 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 20
-  m_LinearDrag: 5
-  m_AngularDrag: 5
+  m_Mass: 40
+  m_LinearDrag: 20
+  m_AngularDrag: 40
   m_GravityScale: 1
   m_Material: {fileID: 0}
   m_Interpolate: 0
@@ -283,14 +283,15 @@ MonoBehaviour:
   turretHead: {fileID: 8076496194136104073}
   gunTrigger: {fileID: 131192588159707820}
   combatActor: {fileID: 4996965535145405671}
+  startingHealth: 15
   raycastBlockingMask:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 1073741825
   shootingTargetMask:
     serializedVersion: 2
     m_Bits: 128
   trackingSmoothing: 0.2
-  seeingDistance: 6
+  seeingDistance: 18
   targetVelocityInfluence: 1.1
 --- !u!114 &2342080416305172865
 MonoBehaviour:
@@ -323,6 +324,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   system: {fileID: 4591375469881528771}
+  displayHitWarnings: 0
   accurateCollider: {fileID: 0}
   accurateColliderOffset: 0.4
   raycastDeepness: 1

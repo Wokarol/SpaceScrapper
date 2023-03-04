@@ -24,6 +24,7 @@ namespace Wokarol.SpaceScrapper.Actors
         [SerializeField] private LayerMask shootingTargetMask = 0;
         [SerializeField] private float seeingDistance = 6;
         [SerializeField] private float targetVelocityInfluence = 1.1f;
+        [SerializeField] private float maxDeviationFromStraightAim = 45f;
 
         private MovementValues lastMovementValues;
         private int health;
@@ -140,8 +141,18 @@ namespace Wokarol.SpaceScrapper.Actors
             float distanceToAimPoint = Vector2.Distance(aimPoint, transform.position);
             float bulletFlyTime = distanceToAimPoint / guns.CalculateAverageBulletSpeed();
 
+            var straightAim = aimPoint - transform.position;
+
             aimPoint += bulletFlyTime * targetVelocityInfluence * targetVelocity;
             var aimDiff = aimPoint - transform.position;
+
+            float angle = Vector2.SignedAngle(straightAim, aimDiff);
+
+            if (Mathf.Abs(angle) > maxDeviationFromStraightAim)
+            {
+                aimDiff = Quaternion.AngleAxis(maxDeviationFromStraightAim * Mathf.Sign(angle), Vector3.forward) * straightAim;
+            }
+
             return aimDiff;
         }
 
@@ -158,6 +169,13 @@ namespace Wokarol.SpaceScrapper.Actors
                 alreadyDiedAndShouldNotBeAbleToDieAgain = true;
                 Died?.Invoke();
             }
+        }
+        private void OnDrawGizmos()
+        {
+            if (!currentTarget.Exists) return;
+
+            Gizmos.color = Color.red;
+            Gizmos.DrawLine(transform.position, currentTarget.Transform.position);
         }
     }
 }
