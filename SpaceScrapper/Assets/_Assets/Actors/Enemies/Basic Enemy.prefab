@@ -631,7 +631,7 @@ MonoBehaviour:
     Thrust: 120
     RotationSmoothing: 0.2
     IsInputRelative: 0
-  startingHealth: 10
+  startingHealth: 5
   raycastBlockingMask:
     serializedVersion: 2
     m_Bits: 1073741825

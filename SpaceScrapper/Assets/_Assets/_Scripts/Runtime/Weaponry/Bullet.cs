@@ -40,7 +40,7 @@ namespace Wokarol.SpaceScrapper.Weaponry
                 {
                     TryToHit(hit, velocity);
 
-                    Pool.Return(this);
+                    Pool.ReturnOrDestroy(this);
                     return;
                 }
 
@@ -53,7 +53,7 @@ namespace Wokarol.SpaceScrapper.Weaponry
 
             if (Time.time > timeOfDeath)
             {
-                Pool.Return(this);
+                Pool.ReturnOrDestroy(this);
                 return;
             }
         }

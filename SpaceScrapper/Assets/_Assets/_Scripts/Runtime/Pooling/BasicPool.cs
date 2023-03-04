@@ -75,7 +75,18 @@ namespace Wokarol.SpaceScrapper.Pooling
         private void OnDestroy()
         {
             if (holder != null)
-                Destroy(holder.gameObject);
+                holder.gameObject.AddComponent<DestroyPoolHolerAfterPoolIsSpent>();
+        }
+    }
+
+    public static class BasicPoolExtensions
+    {
+        internal static void ReturnOrDestroy<T>(this BasicPool<T> pool, T obj)  where T : Component, IPoolable<T>
+        {
+            if (pool == null)
+                Object.Destroy(obj.gameObject);
+            else
+                pool.Return(obj);
         }
     }
 

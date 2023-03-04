@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Wokarol.SpaceScrapper.Actors;
 
 using Random = UnityEngine.Random;
@@ -21,7 +22,8 @@ namespace Wokarol.SpaceScrapper
         {
             for (int i = 0; i < enemiesToSpawn; i++)
             {
-                var enemy = Instantiate(enemyPrefab, GetRandomPosition(), Quaternion.identity, transform);
+                var enemy = Instantiate(enemyPrefab, GetRandomPosition(), Quaternion.identity);
+                SceneManager.MoveGameObjectToScene(enemy.gameObject, gameObject.scene);
 
                 if (whenDied != null)
                     enemy.Died += () => whenDied(enemy);
