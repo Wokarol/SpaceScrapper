@@ -8,10 +8,7 @@ namespace Wokarol.Common
     {
         public object Get(System.Type type)
         {
-            var baseMethod = typeof(GameSystems).GetMethod(nameof(GameSystems.Get));
-            var genericMethod = baseMethod.MakeGenericMethod(type);
-
-            return genericMethod.Invoke(null, null);
+            return GameSystems.Get(type);
         }
     }
 }

@@ -311,11 +311,11 @@
       "url": "https://packages.unity.com"
     },
     "com.wokarol.game-system-locator": {
-      "version": "https://github.com/Wokarol/GameSystemsLocator.git#main",
+      "version": "https://github.com/Wokarol/GameSystemsLocator.git#v0.6.1",
       "depth": 0,
       "source": "git",
       "dependencies": {},
-      "hash": "1176ba974ac1252b9818c0a835459051fe5a4c64"
+      "hash": "d6cb0db9c1addec6cd36abb7e8f6fa2ba53c41ee"
     },
     "com.unity.modules.ai": {
       "version": "1.0.0",

@@ -57,7 +57,6 @@ namespace Wokarol.SpaceScrapper.Global
         // The async start is moved into a separate method because Unity warnings are bad
         private async UniTaskVoid StartAsync()
         {
-            Debug.Log("Start Async started");
             gameState = GameState.Starting;
             Time.timeScale = 1;
             AliveEnemiesCount = 0;
