@@ -35,19 +35,24 @@ namespace Wokarol.EditorExtensions
 		private static readonly HashSet<Type> blacklist = new HashSet<Type>
 		{
 			typeof(Transform),
-			typeof(RectTransform)
+			typeof(RectTransform),
+			typeof(ParticleSystemRenderer),
 		};
 
 
 		// ===============================================================================================
 
-		static BetterHierarchy()
+		private static readonly Dictionary<Type, Texture> iconCacheByType = new Dictionary<Type, Texture>();
+        private static readonly Dictionary<Texture, int> reusableUsedIconsCollection = new Dictionary<Texture, int>();
+        private static readonly List<(Texture texture, bool important)> reusableIconsToDrawCollection = new List<(Texture icon, bool important)>();
+
+        static BetterHierarchy()
 		{
 			EditorApplication.hierarchyWindowItemOnGUI = DrawItem;
 			includeNotImportant = EditorPrefs.GetBool(includeNotImportantPrefsKey);
 		}
 
-		[MenuItem("Tools/BetterHierarchy/Toggle Non-Important")]
+		[MenuItem("Tools/Better Hierarchy/Toggle Non-Important")]
 		public static void ToggleNonImportant()
 		{
 			includeNotImportant = !includeNotImportant;
@@ -55,10 +60,15 @@ namespace Wokarol.EditorExtensions
 			EditorApplication.RepaintHierarchyWindow();
 		}
 
+		[MenuItem("Tools/Better Hierarchy/Clear Icon Cache")]
+		public static void CLearIconCache()
+		{
+			iconCacheByType.Clear();
+		}
+
 		static void DrawItem(int instanceID, Rect rect)
 		{
-
-			// Get's object for given item
+			// Gets object for given item
 			GameObject go = EditorUtility.InstanceIDToObject(instanceID) as GameObject;
 
 			if (go != null)
@@ -67,7 +77,7 @@ namespace Wokarol.EditorExtensions
 
 				bool shouldHaveActivityToggle = !isHeader || go.transform.childCount > 0;
 
-				DrawComponentIcons(rect, go, out int numberOfIconsDraw);
+				DrawComponentIcons(rect, go, out int numberOfIconsDrawn);
 
 				if (shouldHaveActivityToggle)
 				{
@@ -75,7 +85,7 @@ namespace Wokarol.EditorExtensions
 				}
 				if (isHeader)
 				{
-					DrawHeader(rect, go, shouldHaveActivityToggle, numberOfIconsDraw);
+					DrawHeader(rect, go, shouldHaveActivityToggle, numberOfIconsDrawn);
 				}
 			}
 		}
@@ -131,10 +141,14 @@ namespace Wokarol.EditorExtensions
 
 		private static void DrawComponentIcons(Rect rect, GameObject go, out int numberOfIconsDrawn)
 		{
-			Dictionary<Texture, int> usedIcons = new Dictionary<Texture, int>();
-			List<(Texture texture, bool important)> iconsToDraw = new List<(Texture icon, bool important)>();
 
-			foreach (var component in go.GetComponents<Component>())
+            reusableUsedIconsCollection.Clear();
+            reusableIconsToDrawCollection.Clear();
+
+			var usedIcons = reusableUsedIconsCollection;
+			var iconsToDraw = reusableIconsToDrawCollection;
+
+            foreach (var component in go.GetComponents<Component>())
 			{
 				if (component == null)
 					continue;
@@ -188,20 +202,26 @@ namespace Wokarol.EditorExtensions
 
 		private static Texture GetIconFor(Component c, Type type)
 		{
-			return iconOverrides.TryGetValue(type, out string icon)
+			if (iconCacheByType.TryGetValue(type, out var tex))
+				return tex;
+
+			var texture = iconOverrides.TryGetValue(type, out string icon)
 				? EditorGUIUtility.IconContent(icon).image
 				: EditorGUIUtility.ObjectContent(c, type).image;
+
+			iconCacheByType[type] = texture;
+			return texture;
 		}
 
 		private static void DrawActivityToggle(Rect rect, GameObject go)
 		{
-			// Get's style of toggle
+			// Gets style of toggle
 			bool active = go.activeInHierarchy;
 			Color lastGUIColor = GUI.color;
 
 			GUIStyle toggleStyle = active
 				? toggleStyleName
-				: toggleStyleName; // Previouslt used to display mixed toggle
+				: toggleStyleName; // Previously used to display mixed toggle
 
 			// Sets rect for toggle
 			var toggleRect = new Rect(rect);
@@ -216,7 +236,7 @@ namespace Wokarol.EditorExtensions
 			GUI.color = lastGUIColor;
 
 
-			// Sets game's active state to result of toggle
+			// Sets game object's active state to result of toggle
 			if (state != go.activeSelf)
 			{
 				Undo.RecordObject(go, $"{(state ? "Enabled" : "Disabled")}");
