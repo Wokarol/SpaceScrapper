@@ -317,6 +317,13 @@
       "dependencies": {},
       "hash": "16d037b2c1d5bfe4982b880added2be5c456cf00"
     },
+    "com.wooshii.foldericons": {
+      "version": "https://github.com/nicolasseznec/Unity-Folder-Icons.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "4e2fb7f9a2cd41f7fe63b3f4e57b97db1b825484"
+    },
     "com.unity.modules.ai": {
       "version": "1.0.0",
       "depth": 0,
