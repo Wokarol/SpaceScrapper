@@ -4,6 +4,7 @@ using UnityEngine.AI;
 using Wokarol.Common;
 using Wokarol.GameSystemsLocator;
 using Wokarol.SpaceScrapper.Actors.Common;
+using Wokarol.SpaceScrapper.Actors.DataTypes;
 using Wokarol.SpaceScrapper.Combat;
 using Wokarol.SpaceScrapper.Weaponry;
 

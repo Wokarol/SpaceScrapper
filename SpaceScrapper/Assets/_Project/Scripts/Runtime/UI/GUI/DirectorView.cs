@@ -2,10 +2,11 @@
 using System;
 using UnityEngine;
 using UnityEngine.UI;
+using Wokarol.Common.UI;
 using Wokarol.GameSystemsLocator;
 using Wokarol.SpaceScrapper.Global;
 
-namespace Wokarol.SpaceScrapper.UI
+namespace Wokarol.SpaceScrapper.UI.Views
 {
     public class DirectorView : GenericBindableView<GameDirector>
     {

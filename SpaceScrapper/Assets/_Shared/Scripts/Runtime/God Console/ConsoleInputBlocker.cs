@@ -36,7 +36,7 @@ namespace Wokarol.Common
             GameSystems.Get<InputBlocker>().Unlock(this);
         }
 
-        public void Inject(GodConsole.GodConsole.CommandBuilder b)
+        public void Inject(Wokarol.GodConsole.GodConsole.CommandBuilder b)
         {
             var blockerGroup = b.Group("input blocker");
 

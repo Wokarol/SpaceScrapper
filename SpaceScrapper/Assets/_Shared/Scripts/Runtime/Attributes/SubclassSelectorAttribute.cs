@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace Shopkeeper
+namespace Wokarol.Attributes
 {
     [System.AttributeUsage(System.AttributeTargets.Field, AllowMultiple = false)]
     public class SubclassSelectorAttribute : PropertyAttribute

@@ -2,7 +2,7 @@
 using UnityEngine;
 using Wokarol.GameSystemsLocator;
 
-namespace Wokarol.Common
+namespace Wokarol.Common.UI
 {
     public static class LinearDriver
     {

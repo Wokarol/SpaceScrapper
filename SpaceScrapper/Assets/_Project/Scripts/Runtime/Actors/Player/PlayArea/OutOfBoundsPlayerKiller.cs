@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Wokarol.SpaceScrapper.Actors
+namespace Wokarol.SpaceScrapper.Actors.PlayBounds
 {
     public class OutOfBoundsPlayerKiller : MonoBehaviour
     {

@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 using Wokarol.Common;
 using Wokarol.GameSystemsLocator;
 using Wokarol.SpaceScrapper.Actors;
+using Wokarol.SpaceScrapper.Actors.Components;
 
 namespace Wokarol.SpaceScrapper.Global
 {

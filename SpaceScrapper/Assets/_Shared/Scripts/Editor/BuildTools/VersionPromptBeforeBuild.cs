@@ -5,7 +5,7 @@ using UnityEditor.Build;
 using UnityEditor.Build.Reporting;
 using UnityEngine;
 
-namespace RelicTinker.Editor.BuildTools
+namespace Wokarol.Editor.Tools
 {
     public class VersionPromptBeforeBuild : IPreprocessBuildWithReport
     {

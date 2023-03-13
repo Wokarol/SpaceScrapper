@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using Wokarol.GameSystemsLocator;
 
-namespace Wokarol.Common
+namespace Wokarol.Common.UI
 {
     public class SimpleCursorDriver : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {

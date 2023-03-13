@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Wokarol.SpaceScrapper
+namespace Wokarol.SpaceScrapper.Visuals
 {
     public class ForcefieldVisual : MonoBehaviour
     {
@@ -59,7 +59,7 @@ namespace Wokarol.SpaceScrapper
                 float scaleMultiplier = scaleMultiplyOverTime.Evaluate(rawScaleMultiplier);
                 forcefieldWaves[i].transform.localScale = (1f + scaleIncrease * scaleMultiplier) * Vector3.one;
 
-                Color c = forcefieldWaves[i].color;
+                var c = forcefieldWaves[i].color;
                 c.a = alphaOverTime.Evaluate(posInCycle);
                 forcefieldWaves[i].color = c;
             }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Wokarol.SpaceScrapper
+namespace Wokarol.SpaceScrapper.UI
 {
     public class UIValueBar : MonoBehaviour
     {
@@ -25,7 +25,7 @@ namespace Wokarol.SpaceScrapper
 
         private void LateUpdate()
         {
-            
+
         }
     }
 }

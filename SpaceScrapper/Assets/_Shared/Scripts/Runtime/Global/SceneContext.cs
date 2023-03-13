@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
-using Wokarol.SpaceScrapper;
 using Wokarol.SpaceScrapper.Actors;
+using Wokarol.SpaceScrapper.Actors.Components;
+using Wokarol.SpaceScrapper.Actors.Spawning;
 
 namespace Wokarol.Common
 {

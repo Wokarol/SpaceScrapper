@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 using Wokarol.Common;
 using Wokarol.GameSystemsLocator;
 using Wokarol.SpaceScrapper.Actors.Common;
+using Wokarol.SpaceScrapper.Actors.Components;
 using Wokarol.SpaceScrapper.Global;
 using Wokarol.SpaceScrapper.Input;
 using Wokarol.SpaceScrapper.Weaponry;

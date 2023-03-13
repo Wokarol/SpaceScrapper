@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
+using Wokarol.Common.UI;
+using Wokarol.SpaceScrapper.Actors;
 
-namespace Wokarol.SpaceScrapper.UI
+namespace Wokarol.SpaceScrapper.UI.Views
 {
     public class BaseCoreView : GenericBindableView<BaseCore>
     {

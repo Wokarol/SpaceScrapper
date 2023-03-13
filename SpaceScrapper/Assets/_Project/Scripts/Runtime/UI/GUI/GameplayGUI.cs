@@ -6,6 +6,7 @@ using UnityEngine.UI;
 using Wokarol.Common;
 using Wokarol.GameSystemsLocator;
 using Wokarol.SpaceScrapper.Global;
+using Wokarol.SpaceScrapper.UI.Views;
 
 namespace Wokarol.SpaceScrapper.UI
 {

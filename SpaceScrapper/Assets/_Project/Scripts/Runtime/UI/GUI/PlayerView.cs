@@ -1,8 +1,10 @@
 ﻿using DG.Tweening;
 using UnityEngine;
+using Wokarol.Common.UI;
 using Wokarol.SpaceScrapper.Actors;
+using Wokarol.SpaceScrapper.Actors.PlayBounds;
 
-namespace Wokarol.SpaceScrapper.UI
+namespace Wokarol.SpaceScrapper.UI.Views
 {
     public class PlayerView : GenericBindableView<Player>
     {

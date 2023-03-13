@@ -8,9 +8,8 @@ using Wokarol.SpaceScrapper.Actors;
 
 using Random = UnityEngine.Random;
 
-namespace Wokarol.SpaceScrapper
+namespace Wokarol.SpaceScrapper.Actors.Spawning
 {
-
     public class EnemySpawner : MonoBehaviour
     {
         [SerializeField] private Enemy enemyPrefab = null;

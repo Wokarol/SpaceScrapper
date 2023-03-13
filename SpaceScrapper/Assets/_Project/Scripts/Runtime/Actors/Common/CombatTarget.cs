@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using Wokarol.SpaceScrapper.Actors;
 
-namespace Wokarol.SpaceScrapper
+namespace Wokarol.SpaceScrapper.Actors.DataTypes
 {
     public readonly struct CombatTarget
     {

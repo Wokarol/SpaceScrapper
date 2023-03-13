@@ -6,7 +6,7 @@ using UnityEngine.UI;
 using Wokarol.GameSystemsLocator;
 using Wokarol.SpaceScrapper.Global;
 
-namespace Wokarol.SpaceScrapper.Menus
+namespace Wokarol.SpaceScrapper.UI
 {
     public class MainMenuController : MonoBehaviour
     {

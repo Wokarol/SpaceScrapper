@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Wokarol.SpaceScrapper.Weaponry;
 
-namespace Wokarol.SpaceScrapper
+namespace Wokarol.SpaceScrapper.Actors
 {
     public class BaseCore : MonoBehaviour, IHittable
     {

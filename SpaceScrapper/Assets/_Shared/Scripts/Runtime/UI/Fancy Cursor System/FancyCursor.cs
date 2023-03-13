@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
-namespace Wokarol.Common
+namespace Wokarol.Common.UI
 {
     public class FancyCursor : MonoBehaviour
     {

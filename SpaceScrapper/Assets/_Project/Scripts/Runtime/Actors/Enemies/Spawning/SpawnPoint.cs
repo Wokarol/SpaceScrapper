@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Wokarol.SpaceScrapper
+namespace Wokarol.SpaceScrapper.Actors.Spawning
 {
     public class SpawnPoint : MonoBehaviour
     {

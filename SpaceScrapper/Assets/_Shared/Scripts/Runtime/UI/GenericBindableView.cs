@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Wokarol.SpaceScrapper.UI
+namespace Wokarol.Common.UI
 {
     public abstract class GenericBindableView<TargetT> : MonoBehaviour where TargetT : Component
     {

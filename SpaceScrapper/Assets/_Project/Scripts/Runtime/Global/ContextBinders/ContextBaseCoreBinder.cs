@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using Wokarol.GameSystemsLocator;
 using Wokarol.SpaceScrapper;
+using Wokarol.SpaceScrapper.Actors;
 
 namespace Wokarol.Common
 {

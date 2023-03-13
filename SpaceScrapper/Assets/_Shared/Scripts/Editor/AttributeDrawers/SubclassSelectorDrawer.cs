@@ -1,21 +1,19 @@
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using System.Linq;
-using System.Text.RegularExpressions;
 
-namespace Shopkeeper.Editor
+namespace Wokarol.Attributes.Editor
 {
     [CustomPropertyDrawer(typeof(SubclassSelectorAttribute))]
     public class SubclassSelectorDrawer : PropertyDrawer
     {
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
-            if (property.propertyType != SerializedPropertyType.ManagedReference) 
+            if (property.propertyType != SerializedPropertyType.ManagedReference)
                 return;
 
-            SubclassSelectorAttribute utility = (SubclassSelectorAttribute)attribute;
+            var utility = (SubclassSelectorAttribute)attribute;
 
             var compatibleTypes = TypeCache
                 .GetTypesDerivedFrom(utility.GetFieldType())
@@ -23,7 +21,7 @@ namespace Shopkeeper.Editor
                 .ToList();
             compatibleTypes.Insert(0, null);
 
-            Rect popupPosition = GetPopupPosition(position);
+            var popupPosition = GetPopupPosition(position);
 
             string[] typePopupNameArray = compatibleTypes
                 .Select(type => type == null ? "<null>" : ObjectNames.NicifyVariableName(type.Name))
@@ -34,7 +32,7 @@ namespace Shopkeeper.Editor
 
             //Get the type of serialized object 
             int currentTypeIndex = Array.IndexOf(typeFullNameArray, property.managedReferenceFullTypename);
-            Type currentObjectType = compatibleTypes[currentTypeIndex];
+            var currentObjectType = compatibleTypes[currentTypeIndex];
 
             int selectedTypeIndex = EditorGUI.Popup(popupPosition, currentTypeIndex, typePopupNameArray);
             if (selectedTypeIndex >= 0 && selectedTypeIndex < compatibleTypes.Count)
@@ -64,7 +62,7 @@ namespace Shopkeeper.Editor
 
         Rect GetPopupPosition(Rect currentPosition)
         {
-            Rect popupPosition = new Rect(currentPosition);
+            var popupPosition = new Rect(currentPosition);
             popupPosition.width -= EditorGUIUtility.labelWidth;
             popupPosition.x += EditorGUIUtility.labelWidth;
             popupPosition.height = EditorGUIUtility.singleLineHeight;

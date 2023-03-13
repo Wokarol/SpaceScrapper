@@ -2,7 +2,7 @@ using NaughtyAttributes;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Wokarol.SpaceScrapper.Actors
+namespace Wokarol.SpaceScrapper.Actors.PlayBounds
 {
     public class PlayAreaBounds : MonoBehaviour
     {

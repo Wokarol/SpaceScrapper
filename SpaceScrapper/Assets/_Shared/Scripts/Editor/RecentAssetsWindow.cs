@@ -11,7 +11,7 @@ using UnityEditor.Experimental.SceneManagement;
 #endif
 
 
-namespace Wokarol.Tools.Editor
+namespace Wokarol.Editor.Tools
 {
     public class RecentAssetsWindow : EditorWindow
     {

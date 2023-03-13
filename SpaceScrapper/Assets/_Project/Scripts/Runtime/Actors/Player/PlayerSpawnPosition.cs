@@ -5,7 +5,7 @@ using UnityEngine;
 using Wokarol.Common;
 using Wokarol.GameSystemsLocator;
 
-namespace Wokarol.SpaceScrapper
+namespace Wokarol.SpaceScrapper.Actors.Components
 {
     public class PlayerSpawnPosition : MonoBehaviour
     {

@@ -2,7 +2,7 @@ using UnityEngine;
 using Wokarol.GameSystemsLocator;
 using Wokarol.GodConsole;
 
-namespace Wokarol.Common
+namespace Wokarol.Common.GodConsole
 {
     public class GameSystemLocatorGodConsoleServiceProvider : MonoBehaviour, IServiceProvider
     {
