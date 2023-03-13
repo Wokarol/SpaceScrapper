@@ -1,7 +1,5 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using Wokarol.GameSystemsLocator;
-using Wokarol.SpaceScrapper.Actors.Common;
 using Wokarol.SpaceScrapper.Actors.DataTypes;
 using Wokarol.SpaceScrapper.Combat;
 using Wokarol.SpaceScrapper.Weaponry;

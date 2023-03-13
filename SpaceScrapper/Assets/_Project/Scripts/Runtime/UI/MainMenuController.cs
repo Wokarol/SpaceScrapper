@@ -1,7 +1,4 @@
-using NaughtyAttributes;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Wokarol.GameSystemsLocator;
 using Wokarol.SpaceScrapper.Global;

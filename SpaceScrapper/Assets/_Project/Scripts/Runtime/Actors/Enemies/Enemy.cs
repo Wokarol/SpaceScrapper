@@ -1,7 +1,6 @@
 using System;
 using UnityEngine;
 using UnityEngine.AI;
-using Wokarol.Common;
 using Wokarol.GameSystemsLocator;
 using Wokarol.SpaceScrapper.Actors.Common;
 using Wokarol.SpaceScrapper.Actors.DataTypes;
@@ -119,7 +118,7 @@ namespace Wokarol.SpaceScrapper.Actors
 
                 var direction = Vector2.ClampMagnitude(desiredVelocity, 1f);
 
-                var aimDiff = distanceToTarget > seeingDistance 
+                var aimDiff = distanceToTarget > seeingDistance
                     ? direction.normalized
                     : CalculateAimWithVelocity(targetPosition, currentTarget.Velocity);
 

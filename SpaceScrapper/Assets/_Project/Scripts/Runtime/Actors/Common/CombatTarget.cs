@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using Wokarol.SpaceScrapper.Actors;
 
 namespace Wokarol.SpaceScrapper.Actors.DataTypes
 {

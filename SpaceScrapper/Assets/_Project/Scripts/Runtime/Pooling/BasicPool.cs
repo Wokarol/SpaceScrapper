@@ -81,7 +81,7 @@ namespace Wokarol.SpaceScrapper.Pooling
 
     public static class BasicPoolExtensions
     {
-        internal static void ReturnOrDestroy<T>(this BasicPool<T> pool, T obj)  where T : Component, IPoolable<T>
+        internal static void ReturnOrDestroy<T>(this BasicPool<T> pool, T obj) where T : Component, IPoolable<T>
         {
             if (pool == null)
                 Object.Destroy(obj.gameObject);
