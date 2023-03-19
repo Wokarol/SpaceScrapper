@@ -144,6 +144,7 @@ GameObject:
   - component: {fileID: 2148213060288305023}
   - component: {fileID: 131192588159707820}
   - component: {fileID: 4996965535145405671}
+  - component: {fileID: 7619821549499490326}
   m_Layer: 10
   m_Name: Base-Turret
   m_TagString: Untagged
@@ -383,6 +384,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   faction: {fileID: 11400000, guid: 3b42924bc4b0ced42a80ad04f697459e, type: 2}
   priority: 0
+--- !u!114 &7619821549499490326
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3525882221198241535}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f138e7e1deabec947aa0d52a074ebadb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  key: base-turret
 --- !u!1 &4916407138471549428
 GameObject:
   m_ObjectHideFlags: 0
