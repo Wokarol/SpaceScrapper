@@ -6,18 +6,18 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/_Assets/_Scenes/UI/Menus/Main Menu.unity
+    path: Assets/_Project/Scenes/UI/Menus/Main Menu.unity
     guid: 8c9cfa26abfee488c85f1582747f6a02
   - enabled: 1
-    path: Assets/_Assets/_Scenes/Gameplay/Maps/Central Hub.unity
+    path: Assets/_Project/Scenes/Gameplay/Maps/Central Hub.unity
     guid: affa5f1ba05dd474bae987ff774ebb6b
   - enabled: 1
-    path: Assets/_Assets/_Scenes/Gameplay/Gameplay Base.unity
+    path: Assets/_Project/Scenes/Gameplay/Gameplay Base.unity
     guid: 0f616a8a1ef483349837d9453670a3de
   - enabled: 1
-    path: Assets/_Assets/_Scenes/UI/Gameplay GUI.unity
+    path: Assets/_Project/Scenes/UI/Gameplay GUI.unity
     guid: 820b1357c10679841b1a60f572cf5735
   - enabled: 1
-    path: Assets/_Assets/_Scenes/UI/Pause Menu.unity
+    path: Assets/_Project/Scenes/UI/Pause Menu.unity
     guid: 8ed3aac72f6862544b0a5f3ea0986033
   m_configObjects: {}
