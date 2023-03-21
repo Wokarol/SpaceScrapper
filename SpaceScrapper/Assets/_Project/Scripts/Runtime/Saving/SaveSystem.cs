@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -17,29 +18,48 @@ namespace Wokarol.SpaceScrapper.Saving
             new Converters.JsonVector3Converter(),
         };
 
+        private SaveDataContainer saveDataContainer;
+
+        private void Awake()
+        {
+            saveDataContainer = new SaveDataContainer();
+        }
+
         private void Update()
         {
             if (Keyboard.current.f5Key.wasPressedThisFrame)
             {
-                SaveGame();
+                SaveGame("autosave");
+            }
+
+
+            if (Keyboard.current.f9Key.wasPressedThisFrame)
+            {
+                LoadGame("autosave");
             }
 
         }
 
-        private void SaveGame()
+        public void SaveGame(string saveName)
         {
-            var saveDataContainer = new SaveDataContainer();
             foreach (var scene in persistentScenes)
             {
                 var sceneContainer = new PersistentSceneDataContainer();
 
                 scene.SaveScene(sceneContainer);
 
-                saveDataContainer.Places.Add(scene.Key, sceneContainer);
+                saveDataContainer.Places[scene.Key] = sceneContainer;
             }
 
-            string json = Newtonsoft.Json.JsonConvert.SerializeObject(saveDataContainer, Formatting.Indented, converters);
+            string json = JsonConvert.SerializeObject(saveDataContainer, Formatting.Indented, converters);
             Debug.Log(json);
+            Debug.Log($"Game saved at \"{saveName}\"");
+        }
+
+        public void LoadGame(string saveName)
+        {
+            Debug.Log($"Loading game from \"{saveName}\"");
+            throw new NotImplementedException();
         }
 
         internal void AddPersistentScene(PersistentSceneController persistentSceneController)

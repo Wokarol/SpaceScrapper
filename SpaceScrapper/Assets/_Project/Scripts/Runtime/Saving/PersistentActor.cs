@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Wokarol.SpaceScrapper.Saving
@@ -12,10 +13,24 @@ namespace Wokarol.SpaceScrapper.Saving
 
         public string Key => key;
 
+        private Dictionary<string, object> cachedDataCollection = new();
+        private IPersistentActorStateSource[] stateSources = null;
+
         private void OnValidate()
         {
             if (key == "[null]")
                 key = gameObject.name.ToLower().Replace(' ', '-');
+        }
+
+        private void Awake()
+        {
+            stateSources = GetComponents<IPersistentActorStateSource>();
+            PersistentSceneController.RegisterActor(this);
+        }
+
+        private void OnDestroy()
+        {
+            PersistentSceneController.UnregisterActor(this);
         }
 
         [ContextMenu("Reset key")]
@@ -24,19 +39,33 @@ namespace Wokarol.SpaceScrapper.Saving
         [ContextMenu("Generate random GUID")]
         public void GenerateGUID() => key = System.Guid.NewGuid().ToString();
 
-        public object GetData()
+        public Dictionary<string, object> GetData()
         {
-            return new PersistentActorMemento()
+            cachedDataCollection.Clear();
+
+            var writer = new PersistentActorStateWriter(cachedDataCollection);
+
+            if (savePlacement)
             {
-                Pos = transform.position,
-                Rot = transform.eulerAngles.z
-            };
+                writer.Write("actor-placement", new ActorPlacementMemento()
+                {
+                    pos = transform.position,
+                    rot = transform.eulerAngles.z
+                });
+            }
+
+            foreach (var source in stateSources)
+            {
+                source.SaveState(writer);
+            }
+
+            return cachedDataCollection;
         }
 
-        public struct PersistentActorMemento
+        public class ActorPlacementMemento
         {
-            public Vector2 Pos;
-            public float Rot;
+            public Vector2 pos;
+            public float rot;
         }
     }
 }

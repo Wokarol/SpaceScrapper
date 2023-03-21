@@ -17,7 +17,9 @@ namespace Wokarol.SpaceScrapper.Saving.DataContainers
 
     public struct SavedActorContainer
     {
+        [JsonProperty("key")]
         public string Key;
-        public object Data;
+        [JsonProperty("data")]
+        public Dictionary<string, object> Data;
     }
 }

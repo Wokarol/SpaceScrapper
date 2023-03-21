@@ -2,11 +2,12 @@
 using Wokarol.GameSystemsLocator;
 using Wokarol.SpaceScrapper.Actors.DataTypes;
 using Wokarol.SpaceScrapper.Combat;
+using Wokarol.SpaceScrapper.Saving;
 using Wokarol.SpaceScrapper.Weaponry;
 
 namespace Wokarol.SpaceScrapper.Actors
 {
-    public class Turret : MonoBehaviour, IHittable
+    public class Turret : MonoBehaviour, IHittable, IPersistentActorStateSource
     {
         [SerializeField] private Transform turretHead = null;
         [SerializeField] private GunTrigger gunTrigger = null;
@@ -123,6 +124,25 @@ namespace Wokarol.SpaceScrapper.Actors
             {
                 Destroy(gameObject);
             }
+        }
+
+        public void SaveState(PersistentActorStateWriter writer)
+        {
+            writer.Write("turret-state", new TurretMemento()
+            {
+                health = health,
+            });
+        }
+
+        public void LoadState(PersistentActorStateReader reader)
+        {
+            var memento = reader.Read<TurretMemento>("turret-state");
+            health = memento.health;
+        }
+
+        class TurretMemento
+        {
+            public int health;
         }
     }
 }
