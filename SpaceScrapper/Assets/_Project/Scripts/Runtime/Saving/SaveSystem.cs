@@ -2,6 +2,7 @@
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Wokarol.SpaceScrapper.Saving.DataContainers;
@@ -52,8 +53,16 @@ namespace Wokarol.SpaceScrapper.Saving
             }
 
             string json = JsonConvert.SerializeObject(saveDataContainer, Formatting.Indented, converters);
-            Debug.Log(json);
-            Debug.Log($"Game saved at \"{saveName}\"");
+
+            string directory = Path.Combine(Application.persistentDataPath, "Saves");
+            string path = Path.Combine(directory, $"{saveName}.sav");
+
+            if (!Directory.Exists(directory))
+                Directory.CreateDirectory(directory);
+
+            File.WriteAllText(path, json);
+
+            Debug.Log($"Game saved at \"{path}\"");
         }
 
         public void LoadGame(string saveName)
