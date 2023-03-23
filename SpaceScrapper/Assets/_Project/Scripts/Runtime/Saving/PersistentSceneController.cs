@@ -13,11 +13,12 @@ namespace Wokarol.SpaceScrapper.Saving
     {
         [SerializeField] private string key = "[null]";
         [SerializeField] private List<PersistentActor> actorsInTheScene = new();
+        [Space]
+        [SerializeField] private List<PersistentActor> prefabsToSpawn = new();
 
         public string Key => key;
 
         private static List<PersistentSceneController> persistentSceneControllers = new();
-
 
         private void OnEnable()
         {
@@ -55,6 +56,59 @@ namespace Wokarol.SpaceScrapper.Saving
                 });
 
             }
+        }
+
+        internal void LoadScene(PersistentSceneDataContainer sceneContainer, Newtonsoft.Json.JsonSerializer serializer)
+        {
+            List<PersistentActor> sceneActorsToUse = actorsInTheScene;
+            actorsInTheScene = new();
+
+            foreach (var savedActor in sceneContainer.Actors)
+            {
+                var key = savedActor.Key;
+                PersistentActor foundActor = null;
+
+                for (int i = 0; i < sceneActorsToUse.Count; i++)
+                {
+                    if (sceneActorsToUse[i].Key != key)
+                        continue;
+                    
+                    foundActor = sceneActorsToUse[i];
+                    sceneActorsToUse.RemoveAt(i);
+                    break;
+                }
+
+                if (foundActor == null)
+                {
+                    foundActor = CreateActorFromPrefab(key);
+                }
+
+                foundActor.LoadData(savedActor.Data, serializer);
+                actorsInTheScene.Add(foundActor);
+            }
+
+            foreach (var unusedActor in sceneActorsToUse)
+            {
+                Destroy(unusedActor.gameObject);
+            }
+        }
+
+        private PersistentActor CreateActorFromPrefab(string key)
+        {
+
+            for (int i = 0; i < prefabsToSpawn.Count; i++)
+            {
+                if (prefabsToSpawn[i].Key != key)
+                    continue;
+
+                var foundActor = prefabsToSpawn[i];
+
+                // This is so the new actor is spawned in the correct scene, that way it gets assigned properly in Awake
+                SceneManager.SetActiveScene(gameObject.scene);
+                return Instantiate(foundActor);
+            }
+
+            return null;
         }
 
         public static void RegisterActor(PersistentActor actor)

@@ -4807,6 +4807,8 @@ MonoBehaviour:
   - {fileID: 824137486}
   - {fileID: 128607475}
   - {fileID: 331466273}
+  prefabsToSpawn:
+  - {fileID: 7619821549499490326, guid: 66f30a4765398a14a93970f0f265e77d, type: 3}
 --- !u!1001 &2095725845
 PrefabInstance:
   m_ObjectHideFlags: 0

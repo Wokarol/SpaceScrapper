@@ -20,10 +20,16 @@ namespace Wokarol.SpaceScrapper.Saving
         };
 
         private SaveDataContainer saveDataContainer;
+        private JsonSerializer serializer;
 
         private void Awake()
         {
             saveDataContainer = new SaveDataContainer();
+            serializer = JsonSerializer.CreateDefault(new JsonSerializerSettings()
+            {
+                Converters = converters,
+                Formatting = Formatting.Indented,
+            });
         }
 
         private void Update()
@@ -52,23 +58,51 @@ namespace Wokarol.SpaceScrapper.Saving
                 saveDataContainer.Places[scene.Key] = sceneContainer;
             }
 
-            string json = JsonConvert.SerializeObject(saveDataContainer, Formatting.Indented, converters);
-
-            string directory = Path.Combine(Application.persistentDataPath, "Saves");
-            string path = Path.Combine(directory, $"{saveName}.sav");
-
+            var (directory, path) = GetDirectoryAndPath(saveName);
             if (!Directory.Exists(directory))
                 Directory.CreateDirectory(directory);
 
-            File.WriteAllText(path, json);
+            using var file = File.Open(path, FileMode.OpenOrCreate);
+            using var textWriter = new StreamWriter(file);
+
+            serializer.Serialize(textWriter, saveDataContainer);
 
             Debug.Log($"Game saved at \"{path}\"");
         }
 
         public void LoadGame(string saveName)
         {
+
+            var (directory, path) = GetDirectoryAndPath(saveName);
+            if (!File.Exists(path))
+            {
+                Debug.LogWarning($"Could not find \"{path}\"");
+                return;
+            }
+
             Debug.Log($"Loading game from \"{saveName}\"");
-            throw new NotImplementedException();
+
+
+            using var file = File.Open(path, FileMode.Open);
+            using var textReader = new StreamReader(file);
+            using var jsonReader = new JsonTextReader(textReader);
+
+            saveDataContainer = serializer.Deserialize<SaveDataContainer>(jsonReader);
+
+            foreach (var scene in persistentScenes)
+            {
+                if (!saveDataContainer.Places.TryGetValue(scene.Key, out var sceneContainer))
+                    return;
+
+                scene.LoadScene(sceneContainer, serializer);
+            }
+        }
+
+        private static (string directory, string path) GetDirectoryAndPath(string saveName)
+        {
+            string directory = Path.Combine(Application.persistentDataPath, "Saves");
+            string path = Path.Combine(directory, $"{saveName}.sav");
+            return (directory, path);
         }
 
         internal void AddPersistentScene(PersistentSceneController persistentSceneController)

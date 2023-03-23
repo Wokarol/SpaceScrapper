@@ -62,6 +62,28 @@ namespace Wokarol.SpaceScrapper.Saving
             return cachedDataCollection;
         }
 
+        internal void LoadData(Dictionary<string, object> data, Newtonsoft.Json.JsonSerializer serializer)
+        {
+            cachedDataCollection = data;
+            var reader = new PersistentActorStateReader(cachedDataCollection, serializer);
+
+            if (savePlacement)
+            {
+                var placement = reader.Read<ActorPlacementMemento>("actor-placement");
+                
+                transform.position = placement.pos;
+
+                var angles = transform.eulerAngles;
+                angles.z = placement.rot;
+                transform.eulerAngles = angles;
+            }
+
+            foreach (var source in stateSources)
+            {
+                source.LoadState(reader);
+            }
+        }
+
         public class ActorPlacementMemento
         {
             public Vector2 pos;
