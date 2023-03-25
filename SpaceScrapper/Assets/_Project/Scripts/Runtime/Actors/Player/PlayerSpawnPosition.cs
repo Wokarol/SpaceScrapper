@@ -6,6 +6,7 @@ namespace Wokarol.SpaceScrapper.Actors.Components
 {
     public class PlayerSpawnPosition : MonoBehaviour
     {
+        // REFACTOR: Move actions to enable/disable
         private void Start()
         {
             GameSystems.Get<SceneContext>().AddSpawnPoint(this);

@@ -10,6 +10,7 @@ namespace Wokarol.Common.UI
 
         protected virtual void Start()
         {
+            // REFACTOR: Consider using specialized Hide method here or something else
             OnUnbind(true);
         }
 

@@ -17,6 +17,7 @@ namespace Wokarol.SpaceScrapper.UI
         {
             directorView.GameOverShown += () =>
             {
+                // REFACTOR: Consider adding Hide method instead
                 playerView.Unbind();
                 coreView.Unbind();
             };

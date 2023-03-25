@@ -11,6 +11,7 @@ namespace Wokarol.SpaceScrapper.Global
         [SerializeField, Scene] private string hubScene = "";
         [SerializeField, Scene] private string menuScene = "";
 
+        // REFACTOR: Check if this needs to run in Start
         private void Start()
         {
             HashSet<string> loadedScenes = new();

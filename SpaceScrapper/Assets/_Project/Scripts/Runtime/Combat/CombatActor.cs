@@ -15,6 +15,7 @@ namespace Wokarol.SpaceScrapper.Combat
         public Faction Faction => faction;
         public int Priority => priority;
 
+        // REFACTOR: Reconsider the register approach
         private void Start()
         {
             startPassed = true;

@@ -61,6 +61,7 @@ namespace Wokarol.SpaceScrapper.Global
             Time.timeScale = 1;
             AliveEnemiesCount = 0;
 
+            // TOOD: Remove the delay
             // The delay is added because script execution order is a mess at this point
             await UniTask.NextFrame();
 
