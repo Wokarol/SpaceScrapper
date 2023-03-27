@@ -11,34 +11,24 @@ namespace Wokarol.SpaceScrapper.Global
         [SerializeField, Scene] private string hubScene = "";
         [SerializeField, Scene] private string menuScene = "";
 
-        // REFACTOR: Check if this needs to run in Start
-        private void Start()
+        // At the moment of calling this method, scenes are (probably) not yet loaded
+        private void Awake()
         {
-            HashSet<string> loadedScenes = new();
-            for (int i = 0; i < SceneManager.sceneCount; i++)
-            {
-                loadedScenes.Add(SceneManager.GetSceneAt(i).name);
-            }
+            var loadedScenes = GetAllLoadedScenes();
 
-            if (loadedScenes.Contains(menuScene))
+            if (IsInMenu(loadedScenes))
             {
                 Debug.Log("<color=cyan>Scene Director:</color> Started in the menu");
             }
 
-            bool anyGameplaySceneIsLoaded = false;
-            bool allScenesAreLoaded = true;
-
-            for (int i = 0; i < gameplayScenes.Count; i++)
+            if (IsInHub(loadedScenes))
             {
-                if (loadedScenes.Contains(gameplayScenes[i]))
-                    anyGameplaySceneIsLoaded = true;
-                else
-                    allScenesAreLoaded = false;
+                Debug.Log("<color=cyan>Scene Director:</color> Started in the Hub");
             }
 
-            if (anyGameplaySceneIsLoaded && !allScenesAreLoaded)
+            if (IsUsingGameplayScenes(loadedScenes, out bool allGameplayScenesAreLoaded))
             {
-                if (allScenesAreLoaded)
+                if (allGameplayScenesAreLoaded)
                 {
                     Debug.Log("<color=cyan>Scene Director:</color> Started with the gameplay scenes");
                 }
@@ -48,10 +38,43 @@ namespace Wokarol.SpaceScrapper.Global
                 }
             }
 
-            if (loadedScenes.Contains(hubScene))
+
+            bool IsInMenu(HashSet<string> loadedScenes)
             {
-                Debug.Log("<color=cyan>Scene Director:</color> Started in the Hub");
+                return loadedScenes.Contains(menuScene);
             }
+
+            bool IsInHub(HashSet<string> loadedScenes)
+            {
+                return loadedScenes.Contains(hubScene);
+            }
+
+            bool IsUsingGameplayScenes(HashSet<string> loadedScenes, out bool allGameplayScenesAreLoaded)
+            {
+                bool anyGameplaySceneIsLoaded = false;
+                allGameplayScenesAreLoaded = true;
+
+                for (int i = 0; i < gameplayScenes.Count; i++)
+                {
+                    if (loadedScenes.Contains(gameplayScenes[i]))
+                        anyGameplaySceneIsLoaded = true;
+                    else
+                        allGameplayScenesAreLoaded = false;
+                }
+
+                return anyGameplaySceneIsLoaded;
+            }
+        }
+
+        private static HashSet<string> GetAllLoadedScenes()
+        {
+            HashSet<string> loadedScenes = new();
+            for (int i = 0; i < SceneManager.sceneCount; i++)
+            {
+                loadedScenes.Add(SceneManager.GetSceneAt(i).name);
+            }
+
+            return loadedScenes;
         }
 
         public void RemoveAllAndLoadGameplayScenes()
