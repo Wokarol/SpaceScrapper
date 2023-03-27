@@ -263,8 +263,6 @@ namespace Wokarol.SpaceScrapper.Global
             public static WaveInfo None => default;
         }
 
-
-
         [Serializable]
         public struct WaveDefinition
         {

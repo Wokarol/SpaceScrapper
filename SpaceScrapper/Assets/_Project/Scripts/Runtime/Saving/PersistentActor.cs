@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -70,7 +69,7 @@ namespace Wokarol.SpaceScrapper.Saving
             if (savePlacement)
             {
                 var placement = reader.Read<ActorPlacementMemento>("actor-placement");
-                
+
                 transform.position = placement.pos;
 
                 var angles = transform.eulerAngles;

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Wokarol.GameSystemsLocator;
@@ -72,7 +71,7 @@ namespace Wokarol.SpaceScrapper.Saving
                 {
                     if (sceneActorsToUse[i].Key != key)
                         continue;
-                    
+
                     foundActor = sceneActorsToUse[i];
                     sceneActorsToUse.RemoveAt(i);
                     break;

@@ -36,7 +36,7 @@ namespace Wokarol.Common.UI
             if (target == null) throw new ArgumentNullException(nameof(target));
 
             bool hadTarget = BoundTarget != null;
-            
+
             BoundTarget = target;
             IsBound = true;
 

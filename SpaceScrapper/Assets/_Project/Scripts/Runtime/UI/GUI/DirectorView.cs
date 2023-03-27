@@ -50,7 +50,7 @@ namespace Wokarol.SpaceScrapper.UI.Views
             GameSystems.Get<SceneDirector>().OpenMainMenu();
         }
 
-        override protected void UpdateView()
+        protected override void UpdateView()
         {
             UpdateRecallScreen();
             UpdateWaveUI();
@@ -116,12 +116,12 @@ namespace Wokarol.SpaceScrapper.UI.Views
                 .SetUpdate(true);
         }
 
-        override protected void OnBindAndShow(bool hadTarget, bool animated)
+        protected override void OnBindAndShow(bool hadTarget, bool animated)
         {
             BoundTarget.GameEnded += OnGameOver;
         }
 
-        override protected void OnUnbindAndHide(bool hadTarget, bool animated)
+        protected override void OnUnbindAndHide(bool hadTarget, bool animated)
         {
             if (BoundTarget != null)
                 BoundTarget.GameEnded -= OnGameOver;
