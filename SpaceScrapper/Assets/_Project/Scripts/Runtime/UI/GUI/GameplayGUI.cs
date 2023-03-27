@@ -32,7 +32,9 @@ namespace Wokarol.SpaceScrapper.UI
         {
             if (!playerView.IsBound)
             {
-                // Here, and event could be nice to not repeat this call too often
+                // TODO: Add change events to the systems and context, so the code looks like:
+                //       GameSystems.Get<SceneContext>().Player.WhenBound(p => playerView.BindAndShow(p))
+                //       .WhenBound() should call the callback if there is a player bound to the context aready
                 var player = GameSystems.Get<SceneContext>().Player;
                 if (player != null) playerView.BindAndShow(player);
             }
