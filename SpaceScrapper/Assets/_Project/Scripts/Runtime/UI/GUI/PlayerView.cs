@@ -16,7 +16,7 @@ namespace Wokarol.SpaceScrapper.UI.Views
 
         private OutOfBoundsPlayerKiller boundPlayerOutOfBoundKiller;
 
-        protected override void UpdateView()
+        override protected void UpdateView()
         {
             healthBar.Value = BoundTarget.Health / (float)BoundTarget.MaxHealth;
 
@@ -40,14 +40,14 @@ namespace Wokarol.SpaceScrapper.UI.Views
         }
 
 
-        override protected void OnBind()
+        override protected void OnBindAndShow(bool hadTarget, bool animated)
         {
             healthBar.gameObject.SetActive(true);
 
             boundPlayerOutOfBoundKiller = BoundTarget.GetComponent<OutOfBoundsPlayerKiller>();
         }
 
-        override protected void OnUnbind(bool initialClear = false)
+        override protected void OnUnbindAndHide(bool hadTarget, bool animated)
         {
             healthBar.gameObject.SetActive(false);
             outOfZoneWarning.gameObject.SetActive(false);

@@ -17,9 +17,8 @@ namespace Wokarol.SpaceScrapper.UI
         {
             directorView.GameOverShown += () =>
             {
-                // REFACTOR: Consider adding Hide method instead
-                playerView.Unbind();
-                coreView.Unbind();
+                playerView.UnbindAndHide();
+                coreView.UnbindAndHide();
             };
         }
 
@@ -35,19 +34,19 @@ namespace Wokarol.SpaceScrapper.UI
             {
                 // Here, and event could be nice to not repeat this call too often
                 var player = GameSystems.Get<SceneContext>().Player;
-                if (player != null) playerView.BindTo(player);
+                if (player != null) playerView.BindAndShow(player);
             }
 
             if (!directorView.IsBound)
             {
                 var director = GameSystems.Get<GameDirector>();
-                if (director != null) directorView.BindTo(director);
+                if (director != null) directorView.BindAndShow(director);
             }
 
             if (!coreView.IsBound)
             {
                 var core = GameSystems.Get<SceneContext>().BaseCore;
-                if (core != null) coreView.BindTo(core);
+                if (core != null) coreView.BindAndShow(core);
             }
         }
     }

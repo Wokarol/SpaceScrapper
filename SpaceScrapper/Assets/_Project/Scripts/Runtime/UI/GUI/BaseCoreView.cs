@@ -8,17 +8,17 @@ namespace Wokarol.SpaceScrapper.UI.Views
     {
         [SerializeField] private UIValueBar healthBar = null;
 
-        protected override void UpdateView()
+        override protected void UpdateView()
         {
             healthBar.Value = BoundTarget.Health / (float)BoundTarget.MaxHealth;
         }
 
-        protected override void OnBind()
+        override protected void OnBindAndShow(bool hadTarget, bool animated)
         {
             healthBar.gameObject.SetActive(true);
         }
 
-        protected override void OnUnbind(bool initialClear = false)
+        override protected void OnUnbindAndHide(bool hadTarget, bool animated)
         {
             healthBar.gameObject.SetActive(false);
         }
