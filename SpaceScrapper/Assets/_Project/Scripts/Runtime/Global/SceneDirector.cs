@@ -1,19 +1,28 @@
-﻿using NaughtyAttributes;
+﻿using Cysharp.Threading.Tasks;
+using NaughtyAttributes;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace Wokarol.SpaceScrapper.Global
 {
+    [DefaultExecutionOrder(-250)]
     public class SceneDirector : MonoBehaviour
     {
         [SerializeField, Scene] private List<string> gameplayScenes = new();
         [SerializeField, Scene] private string hubScene = "";
         [SerializeField, Scene] private string menuScene = "";
 
-        // At the moment of calling this method, scenes are (probably) not yet loaded
+        private HashSet<object> awaitedObjects = new();
+        private bool isLoadingScenes = new();
+
+        public bool AreScenesReady => awaitedObjects.Count == 0 && !isLoadingScenes;
+        public UniTask WaitUntilScenesAreReady => UniTask.WaitUntil(() => AreScenesReady);
+
+        // Note: At the moment of calling this method, scenes are (probably) not yet loaded
         private void Awake()
         {
+            isLoadingScenes = true;
             var loadedScenes = GetAllLoadedScenes();
 
             if (IsInMenu(loadedScenes))
@@ -66,6 +75,11 @@ namespace Wokarol.SpaceScrapper.Global
             }
         }
 
+        private void Start()
+        {
+            isLoadingScenes = false;    
+        }
+
         private static HashSet<string> GetAllLoadedScenes()
         {
             HashSet<string> loadedScenes = new();
@@ -99,6 +113,16 @@ namespace Wokarol.SpaceScrapper.Global
         public void OpenMainMenu()
         {
             SceneManager.LoadScene(menuScene, LoadSceneMode.Single);
+        }
+
+        public void AwaitObjectToBeReady(object obj)
+        {
+            awaitedObjects.Add(obj);
+        }
+
+        public void MarkObjectAsReady(object obj)
+        {
+            awaitedObjects.Remove(obj);
         }
     }
 }
