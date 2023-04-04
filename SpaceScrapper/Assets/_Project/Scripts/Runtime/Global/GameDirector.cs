@@ -57,17 +57,21 @@ namespace Wokarol.SpaceScrapper.Global
         // The async start is moved into a separate method because Unity warnings are bad
         private async UniTaskVoid StartAsync()
         {
-            gameState = GameState.Starting;
-            Time.timeScale = 1;
-            AliveEnemiesCount = 0;
+            ResetStateToStart();
 
-            // The delay is added because script execution order is a mess at this point
-            await UniTask.NextFrame();
+            await GameSystems.Get<SceneDirector>().WaitUntilScenesAreReady;
 
             GameSystems.Get<SceneContext>().BaseCore.Destroyed += BaseCore_Destroyed;
             SpawnNewPlayerAtSuitableSpawn();
 
             ChangeState(GameState.AwaitingWave);
+        }
+
+        private void ResetStateToStart()
+        {
+            gameState = GameState.Starting;
+            Time.timeScale = 1;
+            AliveEnemiesCount = 0;
         }
 
         private void Update()
@@ -200,11 +204,9 @@ namespace Wokarol.SpaceScrapper.Global
             _ = UniTask.RunOnThreadPool(async () =>
             {
                 await UniTask.NextFrame();
-                await UniTask.NextFrame();
                 playerCamera.enabled = true;
             });
         }
-
 
         private void BaseCore_Destroyed()
         {
@@ -229,8 +231,6 @@ namespace Wokarol.SpaceScrapper.Global
 
             if (newState == GameState.AwaitingWave)
             {
-
-
                 WaveCountdown = GetCurrentWave().timeBeforeWave;
             }
         }
@@ -261,8 +261,6 @@ namespace Wokarol.SpaceScrapper.Global
 
             public static WaveInfo None => default;
         }
-
-
 
         [Serializable]
         public struct WaveDefinition

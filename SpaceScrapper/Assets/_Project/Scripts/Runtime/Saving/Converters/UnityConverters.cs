@@ -1,9 +1,5 @@
 ﻿using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 
 namespace Wokarol.SpaceScrapper.Saving.Converters
@@ -75,11 +71,11 @@ namespace Wokarol.SpaceScrapper.Saving.Converters
             writer.Formatting = format;
         }
 
-        private void AssertToken(JsonReader reader,  JsonToken token)
+        private void AssertToken(JsonReader reader, JsonToken token)
         {
             if (reader.TokenType == token)
                 return;
-            
+
             throw new JsonSerializationException($"Expected {token}, but got {reader.TokenType}");
         }
     }

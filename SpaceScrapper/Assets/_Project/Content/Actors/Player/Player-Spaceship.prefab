@@ -256,11 +256,9 @@ GameObject:
   - component: {fileID: 8887696463089188604}
   - component: {fileID: 4349511427654487601}
   - component: {fileID: 1145829503518889074}
-  - component: {fileID: 3826675107317747357}
   - component: {fileID: 3113732550210425743}
   - component: {fileID: 2444238726169364147}
   - component: {fileID: 9156394031540676905}
-  - component: {fileID: 2451672630894753647}
   - component: {fileID: 846759781572330209}
   - component: {fileID: 2366654015757201040}
   - component: {fileID: 8871898597241951209}
@@ -337,9 +335,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerInput: {fileID: 8887696463089188604}
   spaceshipController: {fileID: 1145829503518889074}
-  engineController: {fileID: 3826675107317747357}
+  engineController: {fileID: 3659051659225317168}
   aimPoint: {fileID: 6128617444289451366}
-  animator: {fileID: 2451672630894753647}
+  animator: {fileID: 4778903687801685779}
   grabbingTrigger: {fileID: 5217559864886743189}
   grabTarget: {fileID: 4068347881429686454}
   gunTrigger: {fileID: 3113732550210425743}
@@ -375,29 +373,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   body: {fileID: 9156394031540676905}
   forwardAxis: {x: 0, y: 1}
---- !u!114 &3826675107317747357
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3197799456960919611}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e8fe6a5c666faa646a232ae171081154, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  thrusters:
-  - {fileID: 6074177518878234405}
-  - {fileID: 5706815571976433110}
-  - {fileID: 8912564204475835002}
-  - {fileID: 2580300981657344189}
-  - {fileID: 813994294336046757}
-  - {fileID: 8282281900965643375}
-  - {fileID: 6517943330606357111}
-  thrusterNoise: 0.4
-  thrusterNoiseSpeed: 10
-  thrusterForwardAxis: {x: 0, y: 1}
 --- !u!114 &3113732550210425743
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -446,26 +421,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!95 &2451672630894753647
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3197799456960919611}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 378406c3a94785c4787ebb1561e4acd4, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
 --- !u!114 &846759781572330209
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -636,6 +591,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4638623199848285074}
   - component: {fileID: 4954078784353690328}
+  - component: {fileID: 3659051659225317168}
+  - component: {fileID: 4778903687801685779}
   m_Layer: 6
   m_Name: Model
   m_TagString: Untagged
@@ -674,6 +631,49 @@ SortingGroup:
   m_SortingLayerID: 1945841847
   m_SortingLayer: 2
   m_SortingOrder: 0
+--- !u!114 &3659051659225317168
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5273972488843006758}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8fe6a5c666faa646a232ae171081154, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  thrusters:
+  - {fileID: 6074177518878234405}
+  - {fileID: 5706815571976433110}
+  - {fileID: 8912564204475835002}
+  - {fileID: 2580300981657344189}
+  - {fileID: 813994294336046757}
+  - {fileID: 8282281900965643375}
+  - {fileID: 6517943330606357111}
+  thrusterNoise: 0.4
+  thrusterNoiseSpeed: 10
+  thrusterForwardAxis: {x: 0, y: 1}
+--- !u!95 &4778903687801685779
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5273972488843006758}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 378406c3a94785c4787ebb1561e4acd4, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
 --- !u!1 &6976383545276146510
 GameObject:
   m_ObjectHideFlags: 0

@@ -116,12 +116,12 @@ namespace Wokarol.SpaceScrapper.UI.Views
                 .SetUpdate(true);
         }
 
-        protected override void OnBind()
+        protected override void OnBindAndShow(bool hadTarget, bool animated)
         {
             BoundTarget.GameEnded += OnGameOver;
         }
 
-        protected override void OnUnbind(bool initialClear = false)
+        protected override void OnUnbindAndHide(bool hadTarget, bool animated)
         {
             if (BoundTarget != null)
                 BoundTarget.GameEnded -= OnGameOver;

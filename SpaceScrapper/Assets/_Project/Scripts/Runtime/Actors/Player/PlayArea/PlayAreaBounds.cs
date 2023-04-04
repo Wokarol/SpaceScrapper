@@ -6,7 +6,7 @@ namespace Wokarol.SpaceScrapper.Actors.PlayBounds
 {
     public class PlayAreaBounds : MonoBehaviour
     {
-        // TODO: Ewww, ugly, make better
+        // TODO: Make bounds system work together with the service locator
         public static List<PlayAreaBounds> AllBounds = new();
 
         [SerializeField] private PlayAreaShape shape;

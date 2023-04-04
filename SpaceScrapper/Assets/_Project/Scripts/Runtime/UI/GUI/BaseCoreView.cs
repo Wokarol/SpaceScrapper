@@ -13,12 +13,12 @@ namespace Wokarol.SpaceScrapper.UI.Views
             healthBar.Value = BoundTarget.Health / (float)BoundTarget.MaxHealth;
         }
 
-        protected override void OnBind()
+        protected override void OnBindAndShow(bool hadTarget, bool animated)
         {
             healthBar.gameObject.SetActive(true);
         }
 
-        protected override void OnUnbind(bool initialClear = false)
+        protected override void OnUnbindAndHide(bool hadTarget, bool animated)
         {
             healthBar.gameObject.SetActive(false);
         }

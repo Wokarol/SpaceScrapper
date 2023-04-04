@@ -10,7 +10,7 @@ namespace Wokarol.Common.UI
 
         protected virtual void Start()
         {
-            OnUnbind(true);
+            UnbindAndHide(false);
         }
 
         private void LateUpdate()
@@ -27,28 +27,34 @@ namespace Wokarol.Common.UI
         {
             if (IsBound && BoundTarget == null)
             {
-                Unbind();
+                UnbindAndHide();
             }
         }
 
-        public void BindTo(TargetT target)
+        public void BindAndShow(TargetT target, bool animated = true)
         {
             if (target == null) throw new ArgumentNullException(nameof(target));
 
+            bool hadTarget = BoundTarget != null;
+
             BoundTarget = target;
             IsBound = true;
-            OnBind();
+
+            OnBindAndShow(hadTarget, animated);
         }
 
-        public void Unbind()
+        public void UnbindAndHide(bool animated = true)
         {
+            bool hadTarget = BoundTarget != null;
+
             BoundTarget = null;
             IsBound = false;
-            OnUnbind();
+
+            OnUnbindAndHide(hadTarget, animated);
         }
 
         protected virtual void UpdateView() { }
-        protected virtual void OnBind() { }
-        protected virtual void OnUnbind(bool initialClear = false) { }
+        protected virtual void OnBindAndShow(bool hadTarget, bool animated) { }
+        protected virtual void OnUnbindAndHide(bool hadTarget, bool animated) { }
     }
 }

@@ -6,12 +6,12 @@ namespace Wokarol.SpaceScrapper.Actors.Components
 {
     public class PlayerSpawnPosition : MonoBehaviour
     {
-        private void Start()
+        private void OnEnable()
         {
             GameSystems.Get<SceneContext>().AddSpawnPoint(this);
         }
 
-        private void OnDestroy()
+        private void OnDisable()
         {
             GameSystems.Get<SceneContext>().RemoveSpawnPoint(this);
         }
