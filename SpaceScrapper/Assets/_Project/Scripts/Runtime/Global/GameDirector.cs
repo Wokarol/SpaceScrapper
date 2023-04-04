@@ -204,11 +204,9 @@ namespace Wokarol.SpaceScrapper.Global
             _ = UniTask.RunOnThreadPool(async () =>
             {
                 await UniTask.NextFrame();
-                await UniTask.NextFrame();
                 playerCamera.enabled = true;
             });
         }
-
 
         private void BaseCore_Destroyed()
         {
@@ -233,8 +231,6 @@ namespace Wokarol.SpaceScrapper.Global
 
             if (newState == GameState.AwaitingWave)
             {
-
-
                 WaveCountdown = GetCurrentWave().timeBeforeWave;
             }
         }
