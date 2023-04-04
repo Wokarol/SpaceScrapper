@@ -268,5 +268,29 @@ namespace Wokarol.SpaceScrapper.Actors
             [field: SerializeField] public string CloseWingsState { get; private set; } = "Close-Wings";
         }
 
+        public class Memento
+        {
+            public Vector2 position;
+            public float angle;
+            public int health;
+
+            public static Memento CreateFrom(Player player)
+            {
+                return new Memento()
+                {
+                    position = player.transform.position,
+                    angle = player.transform.eulerAngles.z,
+                    health = player.health,
+                };
+            }
+
+            public void InjectInto(Player player) 
+            {
+                player.transform.SetPositionAndRotation(position, Quaternion.AngleAxis(angle, Vector3.forward));
+                player.health = health;
+
+                player.spaceshipController.ResetState();
+            }
+        }
     }
 }

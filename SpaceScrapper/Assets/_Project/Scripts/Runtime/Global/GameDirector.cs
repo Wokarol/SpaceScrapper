@@ -216,7 +216,7 @@ namespace Wokarol.SpaceScrapper.Global
             ChangeState(GameState.GameOver);
         }
 
-        private void ChangeState(GameState newState)
+        private void ChangeState(GameState newState, bool loadedState = false)
         {
             GameState oldState = gameState;
             gameState = newState;
@@ -229,7 +229,7 @@ namespace Wokarol.SpaceScrapper.Global
                 GameEnded?.Invoke();
             }
 
-            if (newState == GameState.AwaitingWave)
+            if (newState == GameState.AwaitingWave && !loadedState)
             {
                 WaveCountdown = GetCurrentWave().timeBeforeWave;
             }
@@ -267,6 +267,30 @@ namespace Wokarol.SpaceScrapper.Global
         {
             public int enemiesToSpawn;
             public float timeBeforeWave;
+        }
+
+        public class Memento
+        {
+            public float waveCoutdown;
+            public GameState gameState;
+            public int currentWave;
+
+            public static Memento CreateFrom(GameDirector director)
+            {
+                return new Memento()
+                {
+                    waveCoutdown = director.WaveCountdown,
+                    gameState = director.gameState,
+                    currentWave = director.currentWave,
+                };
+            }
+
+            public void InjectInto(GameDirector director)
+            {
+                director.WaveCountdown = waveCoutdown;
+                director.ChangeState(gameState, true);
+                director.currentWave = currentWave;
+            }
         }
     }
 }

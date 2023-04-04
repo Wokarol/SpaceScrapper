@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Wokarol.Common;
+using Wokarol.GameSystemsLocator;
+using Wokarol.SpaceScrapper.Actors;
+using Wokarol.SpaceScrapper.Global;
 using Wokarol.SpaceScrapper.Saving.DataContainers;
 
 namespace Wokarol.SpaceScrapper.Saving
@@ -56,12 +60,26 @@ namespace Wokarol.SpaceScrapper.Saving
                 saveDataContainer.Places[scene.Key] = sceneContainer;
             }
 
+            var player = GameSystems.Get<SceneContext>().Player;
+            if (player != null)
+                saveDataContainer.Player = Player.Memento.CreateFrom(player);
+
+            var core = GameSystems.Get<SceneContext>().BaseCore;
+            if (core != null)
+                saveDataContainer.BaseCore = BaseCore.Memento.CreateFrom(core);
+
+
+            var director = GameSystems.Get<GameDirector>();
+            if (director != null)
+                saveDataContainer.GameState = GameDirector.Memento.CreateFrom(director);
+
             var (directory, path) = GetDirectoryAndPath(saveName);
             if (!Directory.Exists(directory))
                 Directory.CreateDirectory(directory);
 
             using var file = File.Open(path, FileMode.OpenOrCreate);
             using var textWriter = new StreamWriter(file);
+
 
             serializer.Serialize(textWriter, saveDataContainer);
 
@@ -94,6 +112,15 @@ namespace Wokarol.SpaceScrapper.Saving
 
                 scene.LoadScene(sceneContainer, serializer);
             }
+
+            var player = GameSystems.Get<SceneContext>().Player;
+            saveDataContainer.Player.InjectInto(player);
+
+            var core = GameSystems.Get<SceneContext>().BaseCore;
+            saveDataContainer.BaseCore.InjectInto(core);
+
+            var director = GameSystems.Get<GameDirector>();
+            saveDataContainer.GameState.InjectInto(director);
         }
 
         private static (string directory, string path) GetDirectoryAndPath(string saveName)

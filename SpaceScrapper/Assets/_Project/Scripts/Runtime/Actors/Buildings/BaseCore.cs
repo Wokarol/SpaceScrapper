@@ -32,5 +32,23 @@ namespace Wokarol.SpaceScrapper.Actors
                 Destroy(gameObject);
             }
         }
+
+        public class Memento
+        {
+            public int health;
+
+            public static Memento CreateFrom(BaseCore core)
+            {
+                return new Memento()
+                {
+                    health = core.health,
+                };
+            }
+
+            public void InjectInto(BaseCore core)
+            {
+                core.health = health;
+            }
+        }
     }
 }

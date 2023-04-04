@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace Wokarol.SpaceScrapper.Actors.Common
 {
@@ -43,6 +44,12 @@ namespace Wokarol.SpaceScrapper.Actors.Common
             body.rotation = newRotation;
 
             return movementValues;
+        }
+
+        public void ResetState()
+        {
+            body.velocity = Vector2.zero;
+            body.angularVelocity = 0;
         }
     }
 
