@@ -3562,6 +3562,17 @@ MonoBehaviour:
   m_Area: 0
   m_IgnoreFromBuild: 0
   m_AffectedAgents: ffffffff
+--- !u!114 &1373273988 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 481620593562984753, guid: 6ee750b9675fb914d891859c3e30be36, type: 3}
+  m_PrefabInstance: {fileID: 1673317948}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f138e7e1deabec947aa0d52a074ebadb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1431940665
 GameObject:
   m_ObjectHideFlags: 0
@@ -4795,6 +4806,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   key: main-base
   actorsInTheScene:
+  - {fileID: 1373273988}
   - {fileID: 1719946366}
   - {fileID: 1826864777}
   - {fileID: 1857198751}

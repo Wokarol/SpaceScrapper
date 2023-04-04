@@ -1078,6 +1078,7 @@ GameObject:
   - component: {fileID: 2022626592605337881}
   - component: {fileID: 883723739}
   - component: {fileID: 1170770922512169673}
+  - component: {fileID: 481620593562984753}
   m_Layer: 10
   m_Name: BaseCore
   m_TagString: Untagged
@@ -1181,6 +1182,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91126511f8925194e807daa4b209af29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &481620593562984753
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9099514455182296435}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f138e7e1deabec947aa0d52a074ebadb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  key: basecore
+  savePlacement: 0
 --- !u!1001 &3740928540165171763
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -10,9 +10,6 @@ namespace Wokarol.SpaceScrapper.Saving.DataContainers
         [JsonProperty("player")]
         public Player.Memento Player { get; set; }
 
-        [JsonProperty("base-core")]
-        public BaseCore.Memento BaseCore { get; set; }
-
         [JsonProperty("game-state")]
         public GameDirector.Memento GameState { get; set; }
 
@@ -22,6 +19,10 @@ namespace Wokarol.SpaceScrapper.Saving.DataContainers
 
     public class PersistentSceneDataContainer
     {
+
+        [JsonProperty("data")]
+        public Dictionary<string, object> Data { get; set; }
+
         [JsonProperty("actors")]
         public List<SavedActorContainer> Actors { get; private set; } = new();
     }

@@ -64,10 +64,6 @@ namespace Wokarol.SpaceScrapper.Saving
             if (player != null)
                 saveDataContainer.Player = Player.Memento.CreateFrom(player);
 
-            var core = GameSystems.Get<SceneContext>().BaseCore;
-            if (core != null)
-                saveDataContainer.BaseCore = BaseCore.Memento.CreateFrom(core);
-
 
             var director = GameSystems.Get<GameDirector>();
             if (director != null)
@@ -115,9 +111,6 @@ namespace Wokarol.SpaceScrapper.Saving
 
             var player = GameSystems.Get<SceneContext>().Player;
             saveDataContainer.Player.InjectInto(player);
-
-            var core = GameSystems.Get<SceneContext>().BaseCore;
-            saveDataContainer.BaseCore.InjectInto(core);
 
             var director = GameSystems.Get<GameDirector>();
             saveDataContainer.GameState.InjectInto(director);
