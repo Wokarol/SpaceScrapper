@@ -4819,8 +4819,7 @@ MonoBehaviour:
   - {fileID: 824137486}
   - {fileID: 128607475}
   - {fileID: 331466273}
-  prefabsToSpawn:
-  - {fileID: 7619821549499490326, guid: 66f30a4765398a14a93970f0f265e77d, type: 3}
+  actorPrefabDatabase: {fileID: 11400000, guid: b8bb48a07751b714bae9bbcaa17fb71f, type: 2}
 --- !u!1001 &2095725845
 PrefabInstance:
   m_ObjectHideFlags: 0

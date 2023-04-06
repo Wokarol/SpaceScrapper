@@ -208,6 +208,18 @@ namespace Wokarol.SpaceScrapper.Global
             });
         }
 
+        private void ResetPlayerCamera()
+        {
+            playerCamera.enabled = false;
+
+            // Look at: AssignPlayerCamera
+            _ = UniTask.RunOnThreadPool(async () =>
+            {
+                await UniTask.NextFrame();
+                playerCamera.enabled = true;
+            });
+        }
+
         private void BaseCore_Destroyed()
         {
             if (gameState == GameState.GameOver) return;
