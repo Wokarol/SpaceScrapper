@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Wokarol.SpaceScrapper.Saving;
 
-namespace Wokarol.SpaceScrapper
+namespace Wokarol.SpaceScrapper.Databases
 {
     [CreateAssetMenu(menuName = "Databases/Persistent Actors")]
     public class PersistentActorsDatabase : ScriptableObject
@@ -19,7 +19,7 @@ namespace Wokarol.SpaceScrapper
                 if (actors[i].Key != key)
                     continue;
 
-                return actors[i]; 
+                return actors[i];
             }
             return null;
         }
