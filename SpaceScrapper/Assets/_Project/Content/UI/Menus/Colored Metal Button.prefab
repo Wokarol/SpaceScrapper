@@ -148,6 +148,7 @@ GameObject:
   - component: {fileID: 4295460036578510}
   - component: {fileID: 3605406534518553667}
   - component: {fileID: 3194966773616901522}
+  - component: {fileID: 1505488515948185555}
   m_Layer: 5
   m_Name: Colored Metal Button
   m_TagString: Untagged
@@ -273,3 +274,17 @@ MonoBehaviour:
   m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
   m_EffectDistance: {x: 0, y: -5}
   m_UseGraphicAlpha: 1
+--- !u!114 &1505488515948185555
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3545689094536819250}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3cf2a4e893d99354cac135714f193623, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cursorType: 1
+  rotation: 0
