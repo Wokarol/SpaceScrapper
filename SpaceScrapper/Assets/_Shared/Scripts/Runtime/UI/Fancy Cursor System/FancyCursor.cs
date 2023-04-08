@@ -19,6 +19,7 @@ namespace Wokarol.Common.UI
         [SerializeField] private Sprite handPointerCursor;
         [SerializeField] private Sprite linearSlideCursor;
         [SerializeField] private Sprite rotationCursor;
+        [SerializeField] private Sprite textCursor;
 
         private List<CursorDriver> drivers = new();
 
@@ -124,6 +125,7 @@ namespace Wokarol.Common.UI
                 CursorType.HandPoint => handPointerCursor,
                 CursorType.Linear => linearSlideCursor,
                 CursorType.Circular => rotationCursor,
+                CursorType.Text => textCursor,
                 _ => null,
             };
         }
@@ -158,6 +160,7 @@ namespace Wokarol.Common.UI
             HandPoint,
             Linear,
             Circular,
+            Text,
         }
     }
 

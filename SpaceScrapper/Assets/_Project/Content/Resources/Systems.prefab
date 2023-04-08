@@ -104,6 +104,7 @@ MonoBehaviour:
   handPointerCursor: {fileID: 345082611, guid: fa705e9fb50a88a49bdc5644490c3e0b, type: 3}
   linearSlideCursor: {fileID: 1533867121, guid: fa705e9fb50a88a49bdc5644490c3e0b, type: 3}
   rotationCursor: {fileID: -929410060, guid: fa705e9fb50a88a49bdc5644490c3e0b, type: 3}
+  textCursor: {fileID: 1616014591, guid: fa705e9fb50a88a49bdc5644490c3e0b, type: 3}
 --- !u!1 &562564742294594579
 GameObject:
   m_ObjectHideFlags: 0
@@ -762,7 +763,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5745509580856522101}
   - component: {fileID: 3078746335026375591}
-  - component: {fileID: 4201291205148884409}
+  - component: {fileID: 8991885330147779642}
   m_Layer: 0
   m_Name: EventSystem
   m_TagString: Untagged
@@ -800,7 +801,7 @@ MonoBehaviour:
   m_FirstSelected: {fileID: 0}
   m_sendNavigationEvents: 1
   m_DragThreshold: 10
---- !u!114 &4201291205148884409
+--- !u!114 &8991885330147779642
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
