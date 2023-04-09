@@ -5,7 +5,13 @@ using Wokarol.SpaceScrapper.Global;
 
 namespace Wokarol.SpaceScrapper.Saving.DataContainers
 {
-    public class SaveDataContainer
+    public class SaveDataContainerMinimal
+    {
+        [JsonProperty("metadata")]
+        public SaveDataMetadata Metadata { get; set; }
+    }
+
+    public class SaveDataContainer : SaveDataContainerMinimal
     {
         [JsonProperty("player")]
         public Player.Memento Player { get; set; }
@@ -33,5 +39,11 @@ namespace Wokarol.SpaceScrapper.Saving.DataContainers
         public string Key;
         [JsonProperty("data")]
         public Dictionary<string, object> Data;
+    }
+
+    public struct SaveDataMetadata
+    {
+        [JsonProperty("save-name")]
+        public string SaveName { get; set; }
     }
 }

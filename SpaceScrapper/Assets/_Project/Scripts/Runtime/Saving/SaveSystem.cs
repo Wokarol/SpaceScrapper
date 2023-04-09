@@ -24,6 +24,9 @@ namespace Wokarol.SpaceScrapper.Saving
         private SaveDataContainer saveDataContainer;
         private JsonSerializer serializer;
 
+        private static string SaveDirectory => Path.Combine(Application.persistentDataPath, "Saves");
+        private static readonly string saveExtension = ".sav";
+
         private void Awake()
         {
             saveDataContainer = new SaveDataContainer();
@@ -47,6 +50,32 @@ namespace Wokarol.SpaceScrapper.Saving
                 LoadGame("autosave");
             }
 
+        }
+
+        public List<FileNameAndMetadata> GetAllSaveMetdata()
+        {
+            var directory = SaveDirectory;
+
+            if (!Directory.Exists(directory))
+                return new List<FileNameAndMetadata>();
+
+            var metadatas = new List<FileNameAndMetadata>();
+            var filesPaths = Directory.GetFiles(directory, $"*.sav");
+            foreach (var filePath in filesPaths)
+            {
+                using var file = File.Open(filePath, FileMode.Open);
+                using var textReader = new StreamReader(file);
+                using var jsonReader = new JsonTextReader(textReader);
+
+                var minimalSave = serializer.Deserialize<SaveDataContainerMinimal>(jsonReader);
+
+                metadatas.Add(new FileNameAndMetadata()
+                {
+                    FileName = Path.GetFileName(filePath),
+                    Metadata = minimalSave.Metadata,
+                });
+            }
+            return metadatas;
         }
 
         public void SaveGame(string saveName)
@@ -118,8 +147,8 @@ namespace Wokarol.SpaceScrapper.Saving
 
         private static (string directory, string path) GetDirectoryAndPath(string saveName)
         {
-            string directory = Path.Combine(Application.persistentDataPath, "Saves");
-            string path = Path.Combine(directory, $"{saveName}.sav");
+            string directory = SaveDirectory;
+            string path = Path.Combine(directory, $"{saveName}{saveExtension}");
             return (directory, path);
         }
 
@@ -131,6 +160,12 @@ namespace Wokarol.SpaceScrapper.Saving
         internal void RemovePersistentScene(PersistentSceneController persistentSceneController)
         {
             persistentScenes.Remove(persistentSceneController);
+        }
+
+        public struct FileNameAndMetadata
+        {
+            public string FileName;
+            public SaveDataMetadata Metadata;
         }
     }
 }
