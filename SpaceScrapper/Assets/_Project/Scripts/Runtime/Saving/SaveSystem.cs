@@ -71,7 +71,7 @@ namespace Wokarol.SpaceScrapper.Saving
 
                 metadatas.Add(new FileNameAndMetadata()
                 {
-                    FileName = Path.GetFileName(filePath),
+                    FileName = Path.GetFileNameWithoutExtension(filePath),
                     Metadata = minimalSave.Metadata,
                 });
             }

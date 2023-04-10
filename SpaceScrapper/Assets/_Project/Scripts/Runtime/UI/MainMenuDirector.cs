@@ -1,15 +1,21 @@
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using Wokarol.GameSystemsLocator;
 using Wokarol.SpaceScrapper.Global;
+using Wokarol.SpaceScrapper.Saving;
+using static Wokarol.SpaceScrapper.Saving.SaveSystem;
 
 namespace Wokarol.SpaceScrapper.UI
 {
-    public class MainMenuController : MonoBehaviour
+    public class MainMenuDirector : MonoBehaviour
     {
         [Header("Main Screen Buttons")]
         [SerializeField] private Button newGameButton;
@@ -25,10 +31,15 @@ namespace Wokarol.SpaceScrapper.UI
         [SerializeField] private Button newGameCancelButton;
         [Header("Load Game Panel")]
         [SerializeField] private PanelObjects loadGamePanel;
-        [SerializeField] private Button saveButtonTemplate;
+        [SerializeField] private SaveSlotPickerView saveSlotPickerView;
         [SerializeField] private Button loadGameCancelButton;
 
+        [Space]
+        [Header("Input")]
+        [SerializeField] private InputAction backAction = new InputAction(name: "Back", type: InputActionType.Button);
+
         private Screen screen = Screen.MainMenu;
+        private StartGameParams startGameParams;
 
         private void Start()
         {
@@ -47,12 +58,22 @@ namespace Wokarol.SpaceScrapper.UI
             loadGameCancelButton.onClick.AddListener(PressedLoadGameCancelButton);
 
             gameNameInputField.onValidateInput = GameNameInputValidate;
+            saveSlotPickerView.SelectedSavePath += SelectedLoadGameSavePath;
+
+            backAction.Enable();
+            backAction.performed += PressedBackKey;
         }
 
         private char GameNameInputValidate(string text, int charIndex, char addedChar)
         {
             bool valid = char.IsLetterOrDigit(addedChar) || addedChar is ' ';
             return valid ? addedChar : '\0';
+        }
+
+        private void PressedBackKey(InputAction.CallbackContext obj)
+        {
+            if (screen is Screen.NewGame or Screen.LoadGame)
+                ChangeScreen(Screen.MainMenu);
         }
 
         private void PressedNewGameButton()
@@ -64,7 +85,20 @@ namespace Wokarol.SpaceScrapper.UI
         private void PressedLoadGameButton()
         {
             if (screen == Screen.MainMenu)
+            {
                 ChangeScreen(Screen.LoadGame);
+
+                var metadatas = GameSystems.Get<SaveSystem>().GetAllSaveMetdata();
+                var filesGroupedBySaveName = metadatas.GroupBy(m => m.Metadata.SaveName);
+
+                List<SaveSlotPickerView.SaveSlotOption> options = new();
+                foreach (var group in filesGroupedBySaveName)
+                {
+                    options.Add(new(group.Key, group.ToList()));
+                }
+
+                saveSlotPickerView.Initialize(options);
+            }
         }
 
         private void PressedQuitGameButton()
@@ -76,7 +110,7 @@ namespace Wokarol.SpaceScrapper.UI
         private void PressedAcceptDisclaimerPanelButton()
         {
             if (screen == Screen.Disclaimer)
-                StartGame(gameNameInputField.text);
+                StartGame();
         }
 
         private void PressedNewGameConfirmButton()
@@ -90,13 +124,15 @@ namespace Wokarol.SpaceScrapper.UI
                     return;
                 }
 
+                startGameParams = StartGameParams.NewGame(gameNameInputField.text);
+
                 ChangeScreen(Screen.Disclaimer);
             }
         }
 
         private void PressedNewGameCancelButton()
         {
-            if (screen == Screen.NewGame) 
+            if (screen == Screen.NewGame)
                 ChangeScreen(Screen.MainMenu);
         }
 
@@ -106,10 +142,33 @@ namespace Wokarol.SpaceScrapper.UI
                 ChangeScreen(Screen.MainMenu);
         }
 
-        private void StartGame(string gameName)
+        private void SelectedLoadGameSavePath(FileNameAndMetadata fileNameAndMetadata)
         {
-            Debug.Log($"Starting new game called \"{gameName}\"");
-            GameSystems.Get<SceneDirector>().StartNewGame();
+            if (screen == Screen.LoadGame)
+            {
+                ChangeScreen(Screen.Disclaimer);
+                startGameParams = StartGameParams.LoadGame(fileNameAndMetadata.Metadata.SaveName, fileNameAndMetadata.FileName);
+            }
+
+        }
+
+        private void StartGame()
+        {
+            if (!startGameParams.Valid)
+            {
+                Debug.LogError("Tried to start the game with invalid params");
+                return;
+            }
+            if (startGameParams.IsLoading)
+            {
+                Debug.Log($"Loading a game called \"{startGameParams.GameName}\" from \"{startGameParams.SavePath}\"");
+                Debug.LogError("Loading is not yet implemented");
+            }
+            else
+            {
+                Debug.Log($"Starting new game called \"{startGameParams.GameName}\"");
+                GameSystems.Get<SceneDirector>().StartNewGame();
+            }
         }
 
         private void ChangeScreen(Screen screen)
@@ -138,6 +197,32 @@ namespace Wokarol.SpaceScrapper.UI
             NewGame,
             LoadGame,
             Disclaimer,
+        }
+
+        private readonly struct StartGameParams
+        {
+            public readonly bool Valid;
+            public readonly string GameName;
+            public readonly string SavePath;
+            public readonly bool IsLoading;
+
+            public StartGameParams(bool valid, string gameName, string savePath, bool isLoading)
+            {
+                Valid = valid;
+                GameName = gameName;
+                SavePath = savePath;
+                IsLoading = isLoading;
+            }
+
+            public static StartGameParams NewGame(string name)
+            {
+                return new StartGameParams(true, name, "", false);
+            }
+
+            public static StartGameParams LoadGame(string name, string path)
+            {
+                return new StartGameParams(true, name, path, true);
+            }
         }
 
         [System.Serializable]
