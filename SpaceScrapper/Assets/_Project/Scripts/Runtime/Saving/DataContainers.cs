@@ -7,7 +7,9 @@ namespace Wokarol.SpaceScrapper.Saving.DataContainers
 {
     public class SaveDataContainerMinimal
     {
-        [JsonProperty("metadata")]
+        // The order is moved to the very top of the json file in case for readability
+        // and in case there will be a need for fast parsing of the metadata
+        [JsonProperty("metadata", Order = -100)]
         public SaveDataMetadata Metadata { get; set; }
     }
 

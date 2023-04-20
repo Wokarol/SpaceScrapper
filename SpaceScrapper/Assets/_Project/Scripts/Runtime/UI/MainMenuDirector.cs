@@ -167,6 +167,7 @@ namespace Wokarol.SpaceScrapper.UI
             else
             {
                 Debug.Log($"Starting new game called \"{startGameParams.GameName}\"");
+                GameSystems.Get<GameSettings>().GameName = startGameParams.GameName;
                 GameSystems.Get<SceneDirector>().StartNewGame();
             }
         }

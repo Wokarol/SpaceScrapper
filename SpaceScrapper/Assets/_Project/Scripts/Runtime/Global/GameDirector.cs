@@ -7,6 +7,7 @@ using Wokarol.Common;
 using Wokarol.GameSystemsLocator;
 using Wokarol.SpaceScrapper.Actors;
 using Wokarol.SpaceScrapper.Actors.Components;
+using Wokarol.SpaceScrapper.Saving;
 
 namespace Wokarol.SpaceScrapper.Global
 {
@@ -84,6 +85,7 @@ namespace Wokarol.SpaceScrapper.Global
                         if (WaveCountdown < 0)
                         {
                             WaveCountdown = 0;
+                            GameSystems.Get<SaveSystem>().SaveGame();
                             SpawnEnemyWave().Forget();
                         }
                     }
@@ -244,6 +246,7 @@ namespace Wokarol.SpaceScrapper.Global
             if (newState == GameState.AwaitingWave && !loadedState)
             {
                 WaveCountdown = GetCurrentWave().timeBeforeWave;
+                GameSystems.Get<SaveSystem>().SaveGame();
             }
         }
 

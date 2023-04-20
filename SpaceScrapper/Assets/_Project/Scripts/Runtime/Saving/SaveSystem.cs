@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
@@ -78,8 +79,17 @@ namespace Wokarol.SpaceScrapper.Saving
             return metadatas;
         }
 
-        public void SaveGame(string saveName)
+        public void SaveGame(string saveName = null)
         {
+            if (saveName == null) throw new NotImplementedException();
+
+            string gameName = GameSystems.Get<GameSettings>().GameName;
+
+            saveDataContainer.Metadata = new SaveDataMetadata()
+            {
+                SaveName = gameName
+            };
+
             foreach (var scene in persistentScenes)
             {
                 var sceneContainer = new PersistentSceneDataContainer();
@@ -98,7 +108,7 @@ namespace Wokarol.SpaceScrapper.Saving
             if (director != null)
                 saveDataContainer.GameState = GameDirector.Memento.CreateFrom(director);
 
-            var (directory, path) = GetDirectoryAndPath(saveName);
+            var (directory, path) = GetDirectoryAndPath(saveName, gameName);
             if (!Directory.Exists(directory))
                 Directory.CreateDirectory(directory);
 
@@ -113,8 +123,9 @@ namespace Wokarol.SpaceScrapper.Saving
 
         public void LoadGame(string saveName)
         {
+            string gameName = GameSystems.Get<GameSettings>().GameName;
 
-            var (directory, path) = GetDirectoryAndPath(saveName);
+            var (_, path) = GetDirectoryAndPath(saveName, gameName);
             if (!File.Exists(path))
             {
                 Debug.LogWarning($"Could not find \"{path}\"");
@@ -145,10 +156,10 @@ namespace Wokarol.SpaceScrapper.Saving
             saveDataContainer.GameState.InjectInto(director);
         }
 
-        private static (string directory, string path) GetDirectoryAndPath(string saveName)
+        private static (string directory, string path) GetDirectoryAndPath(string saveName, string gameName)
         {
             string directory = SaveDirectory;
-            string path = Path.Combine(directory, $"{saveName}{saveExtension}");
+            string path = Path.Combine(directory, $"{Mathf.Abs(gameName.GetHashCode())}.{saveName}{saveExtension}");  // TODO: Prepend save slot with human readable game name
             return (directory, path);
         }
 

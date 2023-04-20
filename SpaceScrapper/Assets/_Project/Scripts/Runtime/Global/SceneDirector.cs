@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 
 namespace Wokarol.SpaceScrapper.Global
 {
+
     [DefaultExecutionOrder(-250)]
     public class SceneDirector : MonoBehaviour
     {
