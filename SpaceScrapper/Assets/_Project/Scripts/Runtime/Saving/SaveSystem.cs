@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Wokarol.Common;
@@ -79,9 +80,9 @@ namespace Wokarol.SpaceScrapper.Saving
             return metadatas;
         }
 
-        public void SaveGame(string saveName = null)
+        public void SaveGame(string saveName)
         {
-            if (saveName == null) throw new NotImplementedException();
+            if (saveName == null) throw new Exception("Save name cannot be null!");
 
             string gameName = GameSystems.Get<GameSettings>().GameName;
 
@@ -159,7 +160,7 @@ namespace Wokarol.SpaceScrapper.Saving
         private static (string directory, string path) GetDirectoryAndPath(string saveName, string gameName)
         {
             string directory = SaveDirectory;
-            string path = Path.Combine(directory, $"{Mathf.Abs(gameName.GetHashCode())}.{saveName}{saveExtension}");  // TODO: Prepend save slot with human readable game name
+            string path = Path.Combine(directory, $"{NormalizeGameNameToFileName(gameName)}.{saveName}{saveExtension}");
             return (directory, path);
         }
 
@@ -171,6 +172,13 @@ namespace Wokarol.SpaceScrapper.Saving
         internal void RemovePersistentScene(PersistentSceneController persistentSceneController)
         {
             persistentScenes.Remove(persistentSceneController);
+        }
+
+        private static string NormalizeGameNameToFileName(string saveName)
+        {
+            saveName = Regex.Replace(saveName, @"\s+|_+|-+", "-");
+            saveName = Regex.Replace(saveName, @"[^A-Za-z0-9-]", "");
+            return saveName.ToLower();
         }
 
         public struct FileNameAndMetadata

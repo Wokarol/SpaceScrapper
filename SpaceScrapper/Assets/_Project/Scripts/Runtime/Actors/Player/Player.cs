@@ -11,6 +11,7 @@ using Wokarol.SpaceScrapper.Weaponry;
 
 namespace Wokarol.SpaceScrapper.Actors
 {
+    [SelectionBase]
     public class Player : MonoBehaviour, IHasVelocity, IHittable
     {
         [Header("Object References")]
