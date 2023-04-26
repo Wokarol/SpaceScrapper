@@ -20,6 +20,10 @@ namespace Wokarol.SpaceScrapper.GodConsole.Injectors
 
             b.Group("player")
                 .Add("respawn", (GameDirector director) => director.ForcePlayerRespawn());
+
+            b.Group("game")
+                .Add("time_scale", (float scale) => Time.timeScale = scale)
+                .Add("time_scale", () => Debug.Log($"Current time scale is {Time.timeScale}"));
         }
     }
 }

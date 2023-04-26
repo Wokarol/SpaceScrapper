@@ -2,6 +2,7 @@ using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using TMPro;
 using UnityEngine;
@@ -33,6 +34,7 @@ namespace Wokarol.SpaceScrapper.UI
         [SerializeField] private PanelObjects loadGamePanel;
         [SerializeField] private SaveSlotPickerView saveSlotPickerView;
         [SerializeField] private Button loadGameCancelButton;
+        [SerializeField] private Button loadGameFolderButton;
 
         [Space]
         [Header("Input")]
@@ -56,6 +58,7 @@ namespace Wokarol.SpaceScrapper.UI
             newGameConfirmButton.onClick.AddListener(PressedNewGameConfirmButton);
             newGameCancelButton.onClick.AddListener(PressedNewGameCancelButton);
             loadGameCancelButton.onClick.AddListener(PressedLoadGameCancelButton);
+            loadGameFolderButton.onClick.AddListener(PressedLoadGameFolderButton);
 
             gameNameInputField.onValidateInput = GameNameInputValidate;
             saveSlotPickerView.SelectedSavePath += SelectedLoadGameSavePath;
@@ -94,7 +97,7 @@ namespace Wokarol.SpaceScrapper.UI
                 List<SaveSlotPickerView.SaveSlotOption> options = new();
                 foreach (var group in filesGroupedBySaveName)
                 {
-                    options.Add(new(group.Key, group.ToList()));
+                    options.Add(new(group.Key, group.OrderByDescending(nm => nm.Metadata.Date).ToList()));
                 }
 
                 saveSlotPickerView.Initialize(options);
@@ -140,6 +143,14 @@ namespace Wokarol.SpaceScrapper.UI
         {
             if (screen == Screen.LoadGame)
                 ChangeScreen(Screen.MainMenu);
+        }
+
+        private void PressedLoadGameFolderButton()
+        {
+            if (screen == Screen.LoadGame)
+            {
+                Application.OpenURL("file:///" + SaveSystem.SaveDirectory);
+            }
         }
 
         private void SelectedLoadGameSavePath(FileNameAndMetadata fileNameAndMetadata)

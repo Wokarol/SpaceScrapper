@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using Wokarol.SpaceScrapper.Actors;
 using Wokarol.SpaceScrapper.Global;
@@ -47,5 +48,8 @@ namespace Wokarol.SpaceScrapper.Saving.DataContainers
     {
         [JsonProperty("save-name")]
         public string SaveName { get; set; }
+
+        [JsonProperty("date")]
+        public DateTime Date { get; set; }
     }
 }

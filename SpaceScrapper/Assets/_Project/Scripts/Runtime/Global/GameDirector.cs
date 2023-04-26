@@ -40,12 +40,14 @@ namespace Wokarol.SpaceScrapper.Global
         public float WaveCountdown { get; private set; } = 0;
         public WaveInfo CurrentWaveInformation { get; private set; } = WaveInfo.None;
         public int AliveEnemiesCount { get; private set; } = 0;
+        public bool IsPaused { get; private set; } = false;
 
         public float TimeBetweenWaves => TimeBetweenWaves;
         public GameState CurrentGameState => gameState;
         public int WaveNumber => currentWave + 1;
 
         public event Action GameEnded = null;
+        public event Action<bool> PauseStateChanged = null;
 
         private GameState gameState;
         private int currentWave = 0;
@@ -131,6 +133,35 @@ namespace Wokarol.SpaceScrapper.Global
         public void ForceTimerSkip()
         {
             WaveCountdown = 1f;
+        }
+
+        public void PauseGame()
+        {
+            if (CurrentGameState == GameState.GameOver)
+            {
+                Debug.LogError("Tried to pause the game during game over");
+                return;
+            }
+
+            IsPaused = true;
+            PauseStateChanged?.Invoke(IsPaused);
+
+            Time.timeScale = 0f;
+        }
+
+        public void ResumeGame()
+        {
+            IsPaused = false;
+            PauseStateChanged?.Invoke(IsPaused);
+
+            if (CurrentGameState == GameState.GameOver)
+            {
+                Debug.LogError("Tried to unpause the game during game over, game was unpasued but the timescale was unafected");
+            }
+            else
+            {
+                Time.timeScale = 1;
+            }
         }
 
         private async UniTask SpawnPlayerAfterRecallDelay(IReadOnlyList<PlayerSpawnPosition> spawnPoints = null)

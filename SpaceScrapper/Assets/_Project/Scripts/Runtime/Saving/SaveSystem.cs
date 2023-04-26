@@ -26,8 +26,12 @@ namespace Wokarol.SpaceScrapper.Saving
         private SaveDataContainer saveDataContainer;
         private JsonSerializer serializer;
 
-        private static string SaveDirectory => Path.Combine(Application.persistentDataPath, "Saves");
         private static readonly string saveExtension = ".sav";
+
+        public static string SaveDirectory => Path.Combine(Application.persistentDataPath, "Saves");
+
+        public SaveDataMetadata LastSaveMetadata => (saveDataContainer?.Metadata).GetValueOrDefault();
+
 
         private void Awake()
         {
@@ -80,15 +84,15 @@ namespace Wokarol.SpaceScrapper.Saving
             return metadatas;
         }
 
-        public void SaveGame(string saveName)
+        public void SaveGame(string saveName = null)
         {
-            if (saveName == null) throw new Exception("Save name cannot be null!");
+            saveName ??= DateTime.Now.ToString("yyyy-MM-dd-HH-mm");
 
             string gameName = GameSystems.Get<GameSettings>().GameName;
-
             saveDataContainer.Metadata = new SaveDataMetadata()
             {
-                SaveName = gameName
+                SaveName = gameName,
+                Date = DateTime.Now,
             };
 
             foreach (var scene in persistentScenes)
@@ -124,6 +128,8 @@ namespace Wokarol.SpaceScrapper.Saving
 
         public void LoadGame(string saveName)
         {
+            if (saveName == null) throw new Exception("Cannot load a save with no name");
+
             string gameName = GameSystems.Get<GameSettings>().GameName;
 
             var (_, path) = GetDirectoryAndPath(saveName, gameName);

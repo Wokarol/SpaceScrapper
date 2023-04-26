@@ -58,7 +58,7 @@ namespace Wokarol.SpaceScrapper.UI
 
         private string GetPrettyFileName(string fileName)
         {
-            return Regex.Match(fileName, @"(?:.+?\.)?(\w+)").Groups[1].Value;
+            return Regex.Match(fileName, @"(?:.+?\.)?([\w-]+)").Groups[1].Value;
         }
 
         private void PressedSubsaveButton(SubsaveOption slot)
