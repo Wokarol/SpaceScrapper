@@ -173,7 +173,7 @@ namespace Wokarol.SpaceScrapper.UI
             if (startGameParams.IsLoading)
             {
                 Debug.Log($"Loading a game called \"{startGameParams.GameName}\" from \"{startGameParams.SavePath}\"");
-                GameSystems.Get<GameSettings>().LoadedSaveFileName = startGameParams.SavePath;
+                GameSystems.Get<GameSettings>().SaveFileToLoadName = startGameParams.SavePath;
                 GameSystems.Get<SceneDirector>().StartGame();
             }
             else

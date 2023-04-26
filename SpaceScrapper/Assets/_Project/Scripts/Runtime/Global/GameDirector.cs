@@ -75,7 +75,7 @@ namespace Wokarol.SpaceScrapper.Global
             var settings = GameSystems.Get<GameSettings>();
             if (settings.ShouldStartFromAFile)
             {
-                GameSystems.Get<SaveSystem>().LoadGame(settings.LoadedSaveFileName);
+                GameSystems.Get<SaveSystem>().LoadGame(settings.SaveFileToLoadName);
             }
 
             ChangeState(GameState.AwaitingWave, justStarted: true);
