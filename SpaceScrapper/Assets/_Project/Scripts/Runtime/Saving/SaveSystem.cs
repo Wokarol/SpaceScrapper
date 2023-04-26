@@ -148,6 +148,8 @@ namespace Wokarol.SpaceScrapper.Saving
 
             saveDataContainer = serializer.Deserialize<SaveDataContainer>(jsonReader);
 
+            GameSystems.Get<GameSettings>().GameName = saveDataContainer.Metadata.SaveName;
+
             foreach (var scene in persistentScenes)
             {
                 if (!saveDataContainer.Places.TryGetValue(scene.Key, out var sceneContainer))
@@ -166,7 +168,11 @@ namespace Wokarol.SpaceScrapper.Saving
         private static (string directory, string path) GetDirectoryAndPath(string saveName, string gameName)
         {
             string directory = SaveDirectory;
-            string path = Path.Combine(directory, $"{NormalizeGameNameToFileName(gameName)}.{saveName}{saveExtension}");
+            string fileName = saveName.Contains('.')
+                ? saveName
+                : $"{NormalizeGameNameToFileName(gameName)}.{saveName}";
+
+            string path = Path.Combine(directory, $"{fileName}{saveExtension}");
             return (directory, path);
         }
 

@@ -173,13 +173,14 @@ namespace Wokarol.SpaceScrapper.UI
             if (startGameParams.IsLoading)
             {
                 Debug.Log($"Loading a game called \"{startGameParams.GameName}\" from \"{startGameParams.SavePath}\"");
-                Debug.LogError("Loading is not yet implemented");
+                GameSystems.Get<GameSettings>().LoadedSaveFileName = startGameParams.SavePath;
+                GameSystems.Get<SceneDirector>().StartGame();
             }
             else
             {
                 Debug.Log($"Starting new game called \"{startGameParams.GameName}\"");
                 GameSystems.Get<GameSettings>().GameName = startGameParams.GameName;
-                GameSystems.Get<SceneDirector>().StartNewGame();
+                GameSystems.Get<SceneDirector>().StartGame();
             }
         }
 

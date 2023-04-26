@@ -42,7 +42,7 @@ namespace Wokarol.SpaceScrapper.UI.Views
 
         private void RestartGame()
         {
-            GameSystems.Get<SceneDirector>().StartNewGame();
+            GameSystems.Get<SceneDirector>().StartGame();
         }
 
         private void QuitToMenu()

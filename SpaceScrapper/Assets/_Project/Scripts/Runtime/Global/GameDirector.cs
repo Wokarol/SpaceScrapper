@@ -67,6 +67,12 @@ namespace Wokarol.SpaceScrapper.Global
             GameSystems.Get<SceneContext>().BaseCore.Destroyed += BaseCore_Destroyed;
             SpawnNewPlayerAtSuitableSpawn();
 
+            var settings = GameSystems.Get<GameSettings>();
+            if (settings.ShouldStartFromAFile)
+            {
+                GameSystems.Get<SaveSystem>().LoadGame(settings.LoadedSaveFileName);
+            }
+
             ChangeState(GameState.AwaitingWave);
         }
 

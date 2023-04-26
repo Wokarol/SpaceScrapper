@@ -105,7 +105,7 @@ namespace Wokarol.SpaceScrapper.Global
             SceneManager.LoadScene(hubScene, LoadSceneMode.Additive);
         }
 
-        public void StartNewGame()
+        public void StartGame()
         {
             RemoveAllAndLoadGameplayScenes();
             LoadIntoHub();
