@@ -51,5 +51,7 @@ namespace Wokarol.SpaceScrapper.Saving.DataContainers
 
         [JsonProperty("date")]
         public DateTime Date { get; set; }
+
+        public bool IsValid => SaveName != null;
     }
 }

@@ -6,6 +6,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using Wokarol.Common;
 using Wokarol.GameSystemsLocator;
 using Wokarol.SpaceScrapper.Global;
 using Wokarol.SpaceScrapper.Saving;
@@ -30,6 +31,8 @@ namespace Wokarol.SpaceScrapper.UI
         [Space]
         [TextArea, Tooltip("{elapsed} - time since the last save")]
         [SerializeField] private string confirmationMessagePattern = "{elapsed}";
+        [TextArea, Tooltip("{elapsed} - time since the last save")]
+        [SerializeField] private string confirmationMessageNoSavePattern = "{elapsed}";
         [Header("Input")]
         [SerializeField] private InputAction pauseAction = new InputAction("Pause Game", type: InputActionType.Button);
 
@@ -54,6 +57,7 @@ namespace Wokarol.SpaceScrapper.UI
 
         private void PauseAction_performed(InputAction.CallbackContext obj)
         {
+            if (GameSystems.Get<InputBlocker>().IsBlocked) return;
             if (isShowingTheConfirmationDialog) return;
 
             if (!Game.IsPaused)
@@ -124,14 +128,26 @@ namespace Wokarol.SpaceScrapper.UI
         {
             isShowingTheConfirmationDialog = true;
 
-
-            var lastSaveTime = GameSystems.Get<SaveSystem>().LastSaveMetadata.Date;
-            confirmationMessageLabel.text = confirmationMessagePattern.Replace("{elapsed}", TimeSpanToElapsed(DateTime.Now - lastSaveTime));
+            var lastSaveMetadata = GameSystems.Get<SaveSystem>().LastSaveMetadata;
+            if (lastSaveMetadata.IsValid)
+            {
+                var lastSaveTime = lastSaveMetadata.Date;
+                confirmationMessageLabel.text = confirmationMessagePattern.Replace("{elapsed}", TimeSpanToElapsed(DateTime.Now - lastSaveTime));
+            }
+            else
+            {
+                confirmationMessageLabel.text = confirmationMessageNoSavePattern.Replace("{elapsed}", TimeSpanToElapsed(Game.TimeSinceStart));
+            }
 
             confirmationDialogPanel.gameObject.SetActive(true);
             confirmationDialogPanel.DOKill(true);
             confirmationDialogPanel.DOAnchorMax(confirmationDialogPanel.anchorMax + Vector2.down, 0.3f).From().SetUpdate(true);
             confirmationDialogPanel.DOAnchorMin(confirmationDialogPanel.anchorMin + Vector2.down, 0.3f).From().SetUpdate(true);
+        }
+
+        private string TimeSpanToElapsed(object value)
+        {
+            throw new NotImplementedException();
         }
 
         private string TimeSpanToElapsed(TimeSpan span)

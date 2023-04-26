@@ -475,6 +475,8 @@ MonoBehaviour:
   confirmationMessageLabel: {fileID: 834006138}
   confirmationMessagePattern: The game was last saved {elapsed} ago, do you want
     to save it now?
+  confirmationMessageNoSavePattern: The game was not yet saved, it's been {elapsed}
+    since the start, do you want to save it now?
   pauseAction:
     m_Name: Pause Game
     m_Type: 1

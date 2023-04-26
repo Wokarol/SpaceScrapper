@@ -46,14 +46,18 @@ namespace Wokarol.SpaceScrapper.Global
         public GameState CurrentGameState => gameState;
         public int WaveNumber => currentWave + 1;
 
+        public TimeSpan TimeSinceStart => TimeSpan.FromSeconds(Time.time - starTimeInSeconds);
+
         public event Action GameEnded = null;
         public event Action<bool> PauseStateChanged = null;
 
         private GameState gameState;
         private int currentWave = 0;
+        private float starTimeInSeconds;
 
         private void Start()
         {
+            starTimeInSeconds = Time.time;
             StartAsync().Forget();
         }
 
@@ -73,7 +77,7 @@ namespace Wokarol.SpaceScrapper.Global
                 GameSystems.Get<SaveSystem>().LoadGame(settings.LoadedSaveFileName);
             }
 
-            ChangeState(GameState.AwaitingWave);
+            ChangeState(GameState.AwaitingWave, justStarted: true);
         }
 
         private void ResetStateToStart()
@@ -267,7 +271,7 @@ namespace Wokarol.SpaceScrapper.Global
             ChangeState(GameState.GameOver);
         }
 
-        private void ChangeState(GameState newState, bool loadedState = false)
+        private void ChangeState(GameState newState, bool loadedState = false, bool justStarted = false)
         {
             GameState oldState = gameState;
             gameState = newState;
@@ -283,7 +287,9 @@ namespace Wokarol.SpaceScrapper.Global
             if (newState == GameState.AwaitingWave && !loadedState)
             {
                 WaveCountdown = GetCurrentWave().timeBeforeWave;
-                GameSystems.Get<SaveSystem>().SaveGame("after-wave");
+
+                if (!justStarted)
+                    GameSystems.Get<SaveSystem>().SaveGame("after-wave");
             }
         }
 
