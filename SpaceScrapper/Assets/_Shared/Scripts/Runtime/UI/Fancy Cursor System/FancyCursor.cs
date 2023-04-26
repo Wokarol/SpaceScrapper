@@ -56,7 +56,8 @@ namespace Wokarol.Common.UI
                         cursorImage.sprite = GetSpriteFromType(state.Type);
                     })
                     .Append(cursorImage.transform.DOBlendableScaleBy(Vector3.one * -0.2f, 0.1f))
-                    .SetLink(gameObject).SetTarget(cursorImage);
+                    .SetLink(gameObject).SetTarget(cursorImage)
+                    .SetUpdate(true);
                 
             }
             lastStateType = state.Type;
