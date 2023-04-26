@@ -47,6 +47,7 @@ namespace Wokarol.SpaceScrapper.Global
         public int WaveNumber => currentWave + 1;
 
         public TimeSpan TimeSinceStart => TimeSpan.FromSeconds(Time.time - starTimeInSeconds);
+        public bool CanBeSaved => gameState is not (GameState.SpawningWave or GameState.FightingWave or GameState.GameOver);
 
         public event Action GameEnded = null;
         public event Action<bool> PauseStateChanged = null;
@@ -97,7 +98,7 @@ namespace Wokarol.SpaceScrapper.Global
                         if (WaveCountdown < 0)
                         {
                             WaveCountdown = 0;
-                            GameSystems.Get<SaveSystem>().SaveGame("before-wave");
+                            GameSystems.Get<SaveSystem>().SaveGame(SaveSystem.BeforeWaveSaveslotFile);
                             SpawnEnemyWave().Forget();
                         }
                     }
@@ -289,7 +290,7 @@ namespace Wokarol.SpaceScrapper.Global
                 WaveCountdown = GetCurrentWave().timeBeforeWave;
 
                 if (!justStarted)
-                    GameSystems.Get<SaveSystem>().SaveGame("after-wave");
+                    GameSystems.Get<SaveSystem>().SaveGame(SaveSystem.AfterWaveSaveslotFile);
             }
         }
 

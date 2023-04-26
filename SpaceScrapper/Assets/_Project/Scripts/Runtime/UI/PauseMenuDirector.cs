@@ -55,6 +55,12 @@ namespace Wokarol.SpaceScrapper.UI
             UpdateVisuals();
         }
 
+        private void OnDestroy()
+        {
+            pauseAction.performed -= PauseAction_performed;
+            pauseAction.Disable();
+        }
+
         private void PauseAction_performed(InputAction.CallbackContext obj)
         {
             if (GameSystems.Get<InputBlocker>().IsBlocked) return;
@@ -191,6 +197,9 @@ namespace Wokarol.SpaceScrapper.UI
             bool isPaused = Game.IsPaused;
             pauseMenuPanel.gameObject.SetActive(isPaused);
             backgroundFade.gameObject.SetActive(isPaused);
+
+            saveButton.interactable = Game.CanBeSaved;
+            confirmationDialogYesButton.interactable = Game.CanBeSaved;
 
             if (!isPaused)
             {

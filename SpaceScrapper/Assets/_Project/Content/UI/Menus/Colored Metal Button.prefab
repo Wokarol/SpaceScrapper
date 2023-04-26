@@ -288,3 +288,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cursorType: 1
   rotation: 0
+  selectable: {fileID: 3605406534518553667}

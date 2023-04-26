@@ -16,6 +16,9 @@ namespace Wokarol.SpaceScrapper.Saving
     [AddComponentMenu("Space Scrapper/Systems/Save System")]
     public class SaveSystem : MonoBehaviour
     {
+        public const string BeforeWaveSaveslotFile = "before-wave";
+        public const string AfterWaveSaveslotFile = "after-wave";
+
         private List<PersistentSceneController> persistentScenes = new();
         private JsonConverter[] converters = new JsonConverter[]
         {

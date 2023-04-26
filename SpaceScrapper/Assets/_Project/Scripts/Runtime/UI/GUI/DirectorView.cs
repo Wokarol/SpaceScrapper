@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using Wokarol.Common.UI;
 using Wokarol.GameSystemsLocator;
 using Wokarol.SpaceScrapper.Global;
+using Wokarol.SpaceScrapper.Saving;
 
 namespace Wokarol.SpaceScrapper.UI.Views
 {
@@ -25,7 +26,6 @@ namespace Wokarol.SpaceScrapper.UI.Views
         [SerializeField] private GameObject gameOverScreen = null;
         [SerializeField] private RectTransform gameOverPanel = null;
         [Space]
-        [SerializeField] private Button restartButton = null;
         [SerializeField] private Button quitButton = null;
 
         public bool IsGameOverShown => gameOverScreen.activeSelf;
@@ -36,13 +36,7 @@ namespace Wokarol.SpaceScrapper.UI.Views
         {
             base.Start();
 
-            restartButton.onClick.AddListener(RestartGame);
             quitButton.onClick.AddListener(QuitToMenu);
-        }
-
-        private void RestartGame()
-        {
-            GameSystems.Get<SceneDirector>().StartGame();
         }
 
         private void QuitToMenu()
