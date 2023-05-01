@@ -11,6 +11,7 @@ using Wokarol.SpaceScrapper.Weaponry;
 
 namespace Wokarol.SpaceScrapper.Actors
 {
+
     [SelectionBase]
     public class Player : MonoBehaviour, IHasVelocity, IHittable
     {
@@ -19,10 +20,11 @@ namespace Wokarol.SpaceScrapper.Actors
         [SerializeField] private SpaceshipController spaceshipController = null;
         [SerializeField] private MultiDirectionalEngineVisualController engineController = null;
         [SerializeField] private Transform aimPoint = null;
-        [SerializeField] private Animator animator = null;
+        [SerializeField] private Animator modelAnimator = null;
         [SerializeField] private Collider2D grabbingTrigger = null;
         [SerializeField] private Transform grabTarget = null;
         [SerializeField] private GunTrigger gunTrigger = null;
+        [SerializeField] private WarpEffectController warpEffect = null;
         [Header("Parameters")]
         [SerializeField] private float maxAimDistance = 3;
         [SerializeField] private ShipMovementParams movement = new();
@@ -48,6 +50,8 @@ namespace Wokarol.SpaceScrapper.Actors
         private List<Collider2D> colliderListCache = new();
         private int health;
 
+        private bool freezeMovement = false;
+
         public ShipMovementParams NormalMovementParams => movement;
         public ShipMovementParams HoldingMovementParams => movementWhenHolding;
 
@@ -72,21 +76,35 @@ namespace Wokarol.SpaceScrapper.Actors
         private void Update()
         {
             Camera mainCamera = sceneContext.MainCamera;
-            lastInputValues = HandleInput(mainCamera, lastInputValues);
+            
+            if (!freezeMovement)
+            {
+                lastInputValues = HandleInput(mainCamera, lastInputValues);
+            }
+
             PositionAimPoint(lastInputValues);
-            engineController.UpdateThrusterAnimation(lastMovementValues.ThrustVector);
+            engineController.UpdateThrusterAnimation(freezeMovement ? Vector3.zero : lastMovementValues.ThrustVector);
 
             bool wantsToShoot = interactionState != InteractionState.HoldingPart
                 ? lastInputValues.WantsToShoot
                 : false;
 
             gunTrigger.UpdateShooting(wantsToShoot, new(spaceshipController.Velocity * velocityInheritanceRatio));
+
+            if (Keyboard.current.f7Key.wasPressedThisFrame)
+            {
+                ExecuteWarp();
+            }
         }
 
         private void FixedUpdate()
         {
             var shipMovementParams = interactionState == InteractionState.HoldingPart ? movementWhenHolding : movement;
-            lastMovementValues = spaceshipController.HandleMovement(lastInputValues, shipMovementParams);
+
+            if (!freezeMovement)
+            {
+                lastMovementValues = spaceshipController.HandleMovement(lastInputValues, shipMovementParams);
+            }
 
             if (interactionState == InteractionState.HoldingPart)
             {
@@ -193,7 +211,7 @@ namespace Wokarol.SpaceScrapper.Actors
             }
             else
             {
-                animator.CrossFade(animatorKeys.OpenWingsFailState, 0.1f);
+                modelAnimator.CrossFade(animatorKeys.OpenWingsFailState, 0.1f);
             }
         }
 
@@ -213,12 +231,12 @@ namespace Wokarol.SpaceScrapper.Actors
                     grabbedPart = null;
                 }
 
-                animator.CrossFade(animatorKeys.CloseWingsState, 0.2f);
+                modelAnimator.CrossFade(animatorKeys.CloseWingsState, 0.2f);
             }
 
             if (newState == InteractionState.HoldingPart)
             {
-                animator.CrossFade(animatorKeys.OpenWingsState, 0.2f);
+                modelAnimator.CrossFade(animatorKeys.OpenWingsState, 0.2f);
 
                 if (grabbedPart == null)
                     Debug.LogWarning($"You should not enter the {nameof(InteractionState.HoldingPart)} state without setting {grabbedPart}", this);
@@ -230,6 +248,13 @@ namespace Wokarol.SpaceScrapper.Actors
         public void TeleportTo(Vector3 position)
         {
             transform.position = position;
+        }
+
+        public void ExecuteWarp()
+        {
+            playerInput.enabled = false;
+            freezeMovement = true;
+            warpEffect.PlayWarpAnimation();
         }
 
         public void Hit(Vector2 force, Vector2 normal, Vector2 point, int damage)
@@ -253,6 +278,11 @@ namespace Wokarol.SpaceScrapper.Actors
         {
             DestroyActor();
             Died?.Invoke(this);
+        }
+
+        public void SwitchVisualsState(bool state)
+        {
+            modelAnimator.gameObject.SetActive(state);
         }
 
         private enum InteractionState

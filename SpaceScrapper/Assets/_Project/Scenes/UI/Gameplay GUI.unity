@@ -460,7 +460,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 267426744334957969, guid: ca7f302946562004d909e369b8a8a3be, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 267426744334957969, guid: ca7f302946562004d909e369b8a8a3be, type: 3}
       propertyPath: m_AnchorMin.x
@@ -468,11 +468,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 267426744334957969, guid: ca7f302946562004d909e369b8a8a3be, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 267426744334957969, guid: ca7f302946562004d909e369b8a8a3be, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 384
       objectReference: {fileID: 0}
     - target: {fileID: 267426744334957969, guid: ca7f302946562004d909e369b8a8a3be, type: 3}
       propertyPath: m_SizeDelta.y
@@ -520,11 +520,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 267426744334957969, guid: ca7f302946562004d909e369b8a8a3be, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 192
       objectReference: {fileID: 0}
     - target: {fileID: 267426744334957969, guid: ca7f302946562004d909e369b8a8a3be, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -130
       objectReference: {fileID: 0}
     - target: {fileID: 267426744334957969, guid: ca7f302946562004d909e369b8a8a3be, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -1621,17 +1621,6 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 8619281342719281281, guid: c979f9dc62b723f48bec09656551f0ea, type: 3}
   m_PrefabInstance: {fileID: 1233425813}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1233425816 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3472084310166113611, guid: c979f9dc62b723f48bec09656551f0ea, type: 3}
-  m_PrefabInstance: {fileID: 1233425813}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1346876641
 GameObject:
   m_ObjectHideFlags: 0
@@ -2925,9 +2914,6 @@ MonoBehaviour:
   waveInProgressMessage: Attack in progress!
   gameOverScreen: {fileID: 2139526011}
   gameOverPanel: {fileID: 1233425814}
-  restartButton: {fileID: 1233425816}
-  loadBeforeWaveButton: {fileID: 0}
-  loadAfterWaveButton: {fileID: 0}
   quitButton: {fileID: 116927205}
 --- !u!114 &1906062331
 MonoBehaviour:
@@ -3204,7 +3190,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2139526012
 RectTransform:
   m_ObjectHideFlags: 0
