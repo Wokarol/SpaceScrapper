@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 using Wokarol.GameSystemsLocator;
 
 namespace Wokarol.Common.UI
@@ -8,6 +9,8 @@ namespace Wokarol.Common.UI
     {
         [SerializeField] private FancyCursor.CursorType cursorType = FancyCursor.CursorType.HandPoint;
         [SerializeField] private float rotation = 0;
+        [Header("Optional")]
+        [SerializeField] private Selectable selectable = null;
 
         private bool isPointerOver;
 
@@ -25,7 +28,16 @@ namespace Wokarol.Common.UI
             if (isPointerOver)
             {
                 var c = GameSystems.Get<FancyCursor>();
-                c.AddDriver(gameObject, () => new(cursorType, rotation));
+                if (selectable == null)
+                {
+                    c.AddDriver(gameObject, () => new(cursorType, rotation));
+                }
+                else
+                {
+                    c.AddDriver(gameObject, () => selectable.IsInteractable()
+                        ? new(cursorType, rotation)
+                        : new(FancyCursor.CursorType.Default, 0));
+                }
             }
             else
             {

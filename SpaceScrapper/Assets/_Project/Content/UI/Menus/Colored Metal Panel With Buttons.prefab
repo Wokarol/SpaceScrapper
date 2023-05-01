@@ -49,7 +49,7 @@ GameObject:
   - component: {fileID: 5913505151587524375}
   - component: {fileID: 5913505151587524374}
   m_Layer: 5
-  m_Name: Image
+  m_Name: Stripes
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -219,7 +219,7 @@ GameObject:
   - component: {fileID: 5913505152296126516}
   - component: {fileID: 5913505152296126523}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: Title
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

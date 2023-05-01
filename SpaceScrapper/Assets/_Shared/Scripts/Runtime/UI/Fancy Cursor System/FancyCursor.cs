@@ -19,8 +19,11 @@ namespace Wokarol.Common.UI
         [SerializeField] private Sprite handPointerCursor;
         [SerializeField] private Sprite linearSlideCursor;
         [SerializeField] private Sprite rotationCursor;
+        [SerializeField] private Sprite textCursor;
 
         private List<CursorDriver> drivers = new();
+        private CursorType lastStateType;
+        private Tween imageSwapTween;
 
         private void Start()
         {
@@ -41,32 +44,26 @@ namespace Wokarol.Common.UI
                 cursorImage.transform.DOBlendableScaleBy(Vector3.one * scaleBy, scaleUpDuration);
             }
 
-            if (drivers.Count == 0)
-            {
-                cursorImage.sprite = defaultCursor;
-                cursorImage.transform.rotation = Quaternion.identity;
-            }
-            else
-            {
-                var selectedDriver = drivers[0];
 
-                if (drivers.Count >= 2)
-                    foreach (var driver in drivers)
+            CursorState state = GetCurrentState(screenPos);
+            if (lastStateType != state.Type)
+            {
+                imageSwapTween.Kill(true);
+                imageSwapTween = DOTween.Sequence()
+                    .Append(cursorImage.transform.DOBlendableScaleBy(Vector3.one * 0.2f, 0.1f))
+                    .AppendCallback(() =>
                     {
-                        if (driver.IsPriorityGetter?.Invoke() ?? false)
-                        {
-                            selectedDriver = driver;
-                            break;
-                        }
-                    }
-
-                var state = selectedDriver.Getter(new()
-                {
-                    MousePosition = screenPos,
-                });
-                cursorImage.sprite = GetSpriteFromType(state.Type);
-                cursorImage.transform.rotation = Quaternion.Euler(0, 0, state.Rotation);
+                        cursorImage.sprite = GetSpriteFromType(state.Type);
+                    })
+                    .Append(cursorImage.transform.DOBlendableScaleBy(Vector3.one * -0.2f, 0.1f))
+                    .SetLink(gameObject).SetTarget(cursorImage)
+                    .SetUpdate(true);
+                
             }
+            lastStateType = state.Type;
+
+            //cursorImage.transform.rotation = Quaternion.Euler(0, 0, state.Rotation);
+
         }
 
         private void OnApplicationFocus(bool focus)
@@ -124,8 +121,39 @@ namespace Wokarol.Common.UI
                 CursorType.HandPoint => handPointerCursor,
                 CursorType.Linear => linearSlideCursor,
                 CursorType.Circular => rotationCursor,
+                CursorType.Text => textCursor,
                 _ => null,
             };
+        }
+        private CursorState GetCurrentState(Vector2 screenPos)
+        {
+            if (drivers.Count == 0)
+            {
+                return new CursorState()
+                {
+                    Type = CursorType.Default,
+                    Rotation = 0,
+                };
+            }
+            else
+            {
+                var selectedDriver = drivers[0];
+
+                if (drivers.Count >= 2)
+                    foreach (var driver in drivers)
+                    {
+                        if (driver.IsPriorityGetter?.Invoke() ?? false)
+                        {
+                            selectedDriver = driver;
+                            break;
+                        }
+                    }
+
+                return selectedDriver.Getter(new()
+                {
+                    MousePosition = screenPos,
+                });
+            }
         }
 
         private struct CursorDriver
@@ -158,6 +186,7 @@ namespace Wokarol.Common.UI
             HandPoint,
             Linear,
             Circular,
+            Text,
         }
     }
 

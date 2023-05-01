@@ -2,6 +2,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Wokarol.GameSystemsLocator;
+using Wokarol.SpaceScrapper.Databases;
 using Wokarol.SpaceScrapper.Saving.DataContainers;
 
 namespace Wokarol.SpaceScrapper.Saving
@@ -13,7 +14,7 @@ namespace Wokarol.SpaceScrapper.Saving
         [SerializeField] private string key = "[null]";
         [SerializeField] private List<PersistentActor> actorsInTheScene = new();
         [Space]
-        [SerializeField] private List<PersistentActor> prefabsToSpawn = new();
+        [SerializeField] private PersistentActorsDatabase actorPrefabDatabase = null;
 
         public string Key => key;
 
@@ -94,20 +95,13 @@ namespace Wokarol.SpaceScrapper.Saving
 
         private PersistentActor CreateActorFromPrefab(string key)
         {
+            var foundActor = actorPrefabDatabase.GetByKey(key);
 
-            for (int i = 0; i < prefabsToSpawn.Count; i++)
-            {
-                if (prefabsToSpawn[i].Key != key)
-                    continue;
+            if (foundActor == null)
+                return null;
 
-                var foundActor = prefabsToSpawn[i];
-
-                // This is so the new actor is spawned in the correct scene, that way it gets assigned properly in Awake
-                SceneManager.SetActiveScene(gameObject.scene);
-                return Instantiate(foundActor);
-            }
-
-            return null;
+            SceneManager.SetActiveScene(gameObject.scene);
+            return Instantiate(foundActor);
         }
 
         public static void RegisterActor(PersistentActor actor)

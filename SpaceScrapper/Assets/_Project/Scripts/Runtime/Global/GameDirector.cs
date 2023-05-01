@@ -7,6 +7,7 @@ using Wokarol.Common;
 using Wokarol.GameSystemsLocator;
 using Wokarol.SpaceScrapper.Actors;
 using Wokarol.SpaceScrapper.Actors.Components;
+using Wokarol.SpaceScrapper.Saving;
 
 namespace Wokarol.SpaceScrapper.Global
 {
@@ -39,18 +40,25 @@ namespace Wokarol.SpaceScrapper.Global
         public float WaveCountdown { get; private set; } = 0;
         public WaveInfo CurrentWaveInformation { get; private set; } = WaveInfo.None;
         public int AliveEnemiesCount { get; private set; } = 0;
+        public bool IsPaused { get; private set; } = false;
 
         public float TimeBetweenWaves => TimeBetweenWaves;
         public GameState CurrentGameState => gameState;
         public int WaveNumber => currentWave + 1;
 
+        public TimeSpan TimeSinceStart => TimeSpan.FromSeconds(Time.time - starTimeInSeconds);
+        public bool CanBeSaved => gameState is not (GameState.SpawningWave or GameState.FightingWave or GameState.GameOver);
+
         public event Action GameEnded = null;
+        public event Action<bool> PauseStateChanged = null;
 
         private GameState gameState;
         private int currentWave = 0;
+        private float starTimeInSeconds;
 
         private void Start()
         {
+            starTimeInSeconds = Time.time;
             StartAsync().Forget();
         }
 
@@ -64,7 +72,13 @@ namespace Wokarol.SpaceScrapper.Global
             GameSystems.Get<SceneContext>().BaseCore.Destroyed += BaseCore_Destroyed;
             SpawnNewPlayerAtSuitableSpawn();
 
-            ChangeState(GameState.AwaitingWave);
+            var settings = GameSystems.Get<GameSettings>();
+            if (settings.ShouldStartFromAFile)
+            {
+                GameSystems.Get<SaveSystem>().LoadGame(settings.SaveFileToLoadName);
+            }
+
+            ChangeState(GameState.AwaitingWave, justStarted: true);
         }
 
         private void ResetStateToStart()
@@ -84,6 +98,7 @@ namespace Wokarol.SpaceScrapper.Global
                         if (WaveCountdown < 0)
                         {
                             WaveCountdown = 0;
+                            GameSystems.Get<SaveSystem>().SaveGame(SaveSystem.BeforeWaveSaveslotFile);
                             SpawnEnemyWave().Forget();
                         }
                     }
@@ -129,6 +144,35 @@ namespace Wokarol.SpaceScrapper.Global
         public void ForceTimerSkip()
         {
             WaveCountdown = 1f;
+        }
+
+        public void PauseGame()
+        {
+            if (CurrentGameState == GameState.GameOver)
+            {
+                Debug.LogError("Tried to pause the game during game over");
+                return;
+            }
+
+            IsPaused = true;
+            PauseStateChanged?.Invoke(IsPaused);
+
+            Time.timeScale = 0f;
+        }
+
+        public void ResumeGame()
+        {
+            IsPaused = false;
+            PauseStateChanged?.Invoke(IsPaused);
+
+            if (CurrentGameState == GameState.GameOver)
+            {
+                Debug.LogError("Tried to unpause the game during game over, game was unpasued but the timescale was unafected");
+            }
+            else
+            {
+                Time.timeScale = 1;
+            }
         }
 
         private async UniTask SpawnPlayerAfterRecallDelay(IReadOnlyList<PlayerSpawnPosition> spawnPoints = null)
@@ -208,6 +252,18 @@ namespace Wokarol.SpaceScrapper.Global
             });
         }
 
+        private void ResetPlayerCamera()
+        {
+            playerCamera.enabled = false;
+
+            // Look at: AssignPlayerCamera
+            _ = UniTask.RunOnThreadPool(async () =>
+            {
+                await UniTask.NextFrame();
+                playerCamera.enabled = true;
+            });
+        }
+
         private void BaseCore_Destroyed()
         {
             if (gameState == GameState.GameOver) return;
@@ -216,7 +272,7 @@ namespace Wokarol.SpaceScrapper.Global
             ChangeState(GameState.GameOver);
         }
 
-        private void ChangeState(GameState newState)
+        private void ChangeState(GameState newState, bool loadedState = false, bool justStarted = false)
         {
             GameState oldState = gameState;
             gameState = newState;
@@ -229,9 +285,12 @@ namespace Wokarol.SpaceScrapper.Global
                 GameEnded?.Invoke();
             }
 
-            if (newState == GameState.AwaitingWave)
+            if (newState == GameState.AwaitingWave && !loadedState)
             {
                 WaveCountdown = GetCurrentWave().timeBeforeWave;
+
+                if (!justStarted)
+                    GameSystems.Get<SaveSystem>().SaveGame(SaveSystem.AfterWaveSaveslotFile);
             }
         }
 
@@ -267,6 +326,30 @@ namespace Wokarol.SpaceScrapper.Global
         {
             public int enemiesToSpawn;
             public float timeBeforeWave;
+        }
+
+        public class Memento
+        {
+            public float waveCoutdown;
+            public GameState gameState;
+            public int currentWave;
+
+            public static Memento CreateFrom(GameDirector director)
+            {
+                return new Memento()
+                {
+                    waveCoutdown = director.WaveCountdown,
+                    gameState = director.gameState,
+                    currentWave = director.currentWave,
+                };
+            }
+
+            public void InjectInto(GameDirector director)
+            {
+                director.WaveCountdown = waveCoutdown;
+                director.ChangeState(gameState, true);
+                director.currentWave = currentWave;
+            }
         }
     }
 }

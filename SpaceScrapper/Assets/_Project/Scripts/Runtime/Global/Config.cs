@@ -17,6 +17,7 @@ namespace Wokarol.SpaceScrapper
             builder.Add<SceneContext>(required: true);
             builder.Add<SceneDirector>(required: true);
             builder.Add<SaveSystem>(required: true);
+            builder.Add<GameSettings>(required: true);
             builder.Add<GameDirector>();
 
             builder.Add<FancyCursor>(required: true);

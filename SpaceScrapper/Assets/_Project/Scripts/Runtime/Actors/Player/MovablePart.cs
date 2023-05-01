@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using DG.Tweening;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Wokarol.SpaceScrapper.Actors.Components
@@ -7,8 +8,14 @@ namespace Wokarol.SpaceScrapper.Actors.Components
     {
         [SerializeField] private Rigidbody2D body = null;
         [SerializeField] private List<Vector2> forwardAxes = new List<Vector2>() { Vector2.up };
+        [Space]
+        [SerializeField, Range(0, 1)] private float dragMultiplierForMovement = 0.2f;
+        [SerializeField] private float dragMultiplierFalloffTime = 2f;
 
         Vector2 forwardAxis = Vector2.zero;
+
+        float initialLinearDrag = 0;
+        float initialAngularDrag = 0;
 
         public void MoveTowards(Vector3 position, Vector2 direction)
         {
@@ -44,10 +51,24 @@ namespace Wokarol.SpaceScrapper.Actors.Components
             }
 
             forwardAxis = closestDirection;
+
+            body.DOKill(true);
+
+            initialLinearDrag = body.drag;
+            initialAngularDrag = body.angularDrag;
+
+            body.drag *= dragMultiplierForMovement;
+            body.angularDrag *= dragMultiplierForMovement;
         }
 
         public void StopMove()
         {
+            DOTween.To(() => body.drag, v => body.drag = v, initialLinearDrag, dragMultiplierFalloffTime)
+                .SetTarget(body)
+                .SetLink(gameObject);
+            DOTween.To(() => body.angularDrag, v => body.angularDrag = v, initialAngularDrag, dragMultiplierFalloffTime)
+                .SetTarget(body)
+                .SetLink(gameObject);
         }
 
         private void OnDrawGizmosSelected()

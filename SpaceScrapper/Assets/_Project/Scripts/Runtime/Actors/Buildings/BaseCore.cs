@@ -1,10 +1,11 @@
 using System;
 using UnityEngine;
+using Wokarol.SpaceScrapper.Saving;
 using Wokarol.SpaceScrapper.Weaponry;
 
 namespace Wokarol.SpaceScrapper.Actors
 {
-    public class BaseCore : MonoBehaviour, IHittable
+    public class BaseCore : MonoBehaviour, IHittable, IPersistentActorStateSource
     {
         [SerializeField] private int maxHealth = 200;
 
@@ -30,6 +31,35 @@ namespace Wokarol.SpaceScrapper.Actors
             {
                 Destroyed?.Invoke();
                 Destroy(gameObject);
+            }
+        }
+
+        public void SaveState(PersistentActorStateWriter writer)
+        {
+            writer.Write("base-core-data", Memento.CreateFrom(this));
+        }
+
+        public void LoadState(PersistentActorStateReader reader)
+        {
+            var memento = reader.Read<Memento>("base-core-data");
+            memento.InjectInto(this);
+        }
+
+        public class Memento
+        {
+            public int health;
+
+            public static Memento CreateFrom(BaseCore core)
+            {
+                return new Memento()
+                {
+                    health = core.health,
+                };
+            }
+
+            public void InjectInto(BaseCore core)
+            {
+                core.health = health;
             }
         }
     }

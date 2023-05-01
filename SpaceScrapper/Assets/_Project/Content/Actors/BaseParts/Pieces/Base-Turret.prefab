@@ -312,6 +312,8 @@ MonoBehaviour:
   - {x: 0, y: -1}
   - {x: 1, y: 0}
   - {x: -1, y: 0}
+  dragMultiplierForMovement: 0
+  dragMultiplierFalloffTime: 10
 --- !u!114 &3311170048767626399
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -397,6 +399,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   key: base-turret
+  savePlacement: 1
 --- !u!1 &4916407138471549428
 GameObject:
   m_ObjectHideFlags: 0
