@@ -254,6 +254,8 @@ namespace Wokarol.SpaceScrapper.Actors
 
         public async UniTask ExecuteWarp()
         {
+            if (isWarping) throw new InvalidOperationException("Warp cannot be executed while the warp is already in progress");
+
             playerInput.enabled = false;
             isWarping = true;
 
