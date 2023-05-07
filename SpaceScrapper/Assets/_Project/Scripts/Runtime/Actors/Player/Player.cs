@@ -1,3 +1,5 @@
+using Cysharp.Threading.Tasks;
+using DG.Tweening;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,18 +13,20 @@ using Wokarol.SpaceScrapper.Weaponry;
 
 namespace Wokarol.SpaceScrapper.Actors
 {
+
     [SelectionBase]
-    public class Player : MonoBehaviour, IHasVelocity, IHittable
+    public class Player : MonoBehaviour, IHasVelocity, IHittable, IWarpable
     {
         [Header("Object References")]
         [SerializeField] private PlayerInput playerInput = null;
         [SerializeField] private SpaceshipController spaceshipController = null;
         [SerializeField] private MultiDirectionalEngineVisualController engineController = null;
         [SerializeField] private Transform aimPoint = null;
-        [SerializeField] private Animator animator = null;
+        [SerializeField] private Animator modelAnimator = null;
         [SerializeField] private Collider2D grabbingTrigger = null;
         [SerializeField] private Transform grabTarget = null;
         [SerializeField] private GunTrigger gunTrigger = null;
+        [SerializeField] private WarpEffectController warpEffect = null;
         [Header("Parameters")]
         [SerializeField] private float maxAimDistance = 3;
         [SerializeField] private ShipMovementParams movement = new();
@@ -48,6 +52,10 @@ namespace Wokarol.SpaceScrapper.Actors
         private List<Collider2D> colliderListCache = new();
         private int health;
 
+        private float aimPointTowardsShipBias = 0;
+
+        private bool isWarping = false;
+
         public ShipMovementParams NormalMovementParams => movement;
         public ShipMovementParams HoldingMovementParams => movementWhenHolding;
 
@@ -72,21 +80,36 @@ namespace Wokarol.SpaceScrapper.Actors
         private void Update()
         {
             Camera mainCamera = sceneContext.MainCamera;
-            lastInputValues = HandleInput(mainCamera, lastInputValues);
+
+            if (!isWarping)
+            {
+                lastInputValues = HandleInput(mainCamera, lastInputValues);
+            }
+
             PositionAimPoint(lastInputValues);
-            engineController.UpdateThrusterAnimation(lastMovementValues.ThrustVector);
+            engineController.UpdateThrusterAnimation(isWarping ? Vector3.zero : lastMovementValues.ThrustVector);
 
             bool wantsToShoot = interactionState != InteractionState.HoldingPart
                 ? lastInputValues.WantsToShoot
                 : false;
 
             gunTrigger.UpdateShooting(wantsToShoot, new(spaceshipController.Velocity * velocityInheritanceRatio));
+
+            if (Keyboard.current.f7Key.wasPressedThisFrame)
+            {
+                ExecuteWarpOut()
+                    .ContinueWith(() => Debug.Log("Finished warp"));
+            }
         }
 
         private void FixedUpdate()
         {
             var shipMovementParams = interactionState == InteractionState.HoldingPart ? movementWhenHolding : movement;
-            lastMovementValues = spaceshipController.HandleMovement(lastInputValues, shipMovementParams);
+
+            if (!isWarping)
+            {
+                lastMovementValues = spaceshipController.HandleMovement(lastInputValues, shipMovementParams);
+            }
 
             if (interactionState == InteractionState.HoldingPart)
             {
@@ -120,6 +143,9 @@ namespace Wokarol.SpaceScrapper.Actors
         {
             Vector2 playerToAimVector = values.AimPointInWorldSpace - (Vector2)transform.position;
             playerToAimVector = Vector2.ClampMagnitude(playerToAimVector, maxAimDistance);
+
+            playerToAimVector = Vector2.Lerp(playerToAimVector, Vector2.zero, aimPointTowardsShipBias);
+
             aimPoint.position = transform.position + (Vector3)playerToAimVector;
         }
 
@@ -193,7 +219,7 @@ namespace Wokarol.SpaceScrapper.Actors
             }
             else
             {
-                animator.CrossFade(animatorKeys.OpenWingsFailState, 0.1f);
+                modelAnimator.CrossFade(animatorKeys.OpenWingsFailState, 0.1f);
             }
         }
 
@@ -213,12 +239,12 @@ namespace Wokarol.SpaceScrapper.Actors
                     grabbedPart = null;
                 }
 
-                animator.CrossFade(animatorKeys.CloseWingsState, 0.2f);
+                modelAnimator.CrossFade(animatorKeys.CloseWingsState, 0.2f);
             }
 
             if (newState == InteractionState.HoldingPart)
             {
-                animator.CrossFade(animatorKeys.OpenWingsState, 0.2f);
+                modelAnimator.CrossFade(animatorKeys.OpenWingsState, 0.2f);
 
                 if (grabbedPart == null)
                     Debug.LogWarning($"You should not enter the {nameof(InteractionState.HoldingPart)} state without setting {grabbedPart}", this);
@@ -230,6 +256,37 @@ namespace Wokarol.SpaceScrapper.Actors
         public void TeleportTo(Vector3 position)
         {
             transform.position = position;
+        }
+
+        public void TeleportTo(Vector3 position, Quaternion rotation)
+        {
+            transform.SetPositionAndRotation(position, rotation);
+        }
+
+        public async UniTask ExecuteWarpOut()
+        {
+            if (isWarping) throw new InvalidOperationException("Warp cannot be executed while the warp is already in progress");
+
+            playerInput.enabled = false;
+            isWarping = true;
+
+            warpEffect.PlayWarpOutAnimation(this);
+
+            await UniTask.WaitWhile(() => isWarping, cancellationToken: this.GetCancellationTokenOnDestroy());
+        }
+
+        public async UniTask ExecuteWarpIn()
+        {
+            if (isWarping) throw new InvalidOperationException("Warp cannot be executed while the warp is already in progress");
+
+            playerInput.enabled = false;
+            isWarping = true;
+            aimPointTowardsShipBias = 1;
+
+            gameObject.SetActive(true);
+            warpEffect.PlayWarpInAnimation(this);
+
+            await UniTask.WaitWhile(() => isWarping, cancellationToken: this.GetCancellationTokenOnDestroy());
         }
 
         public void Hit(Vector2 force, Vector2 normal, Vector2 point, int damage)
@@ -253,6 +310,32 @@ namespace Wokarol.SpaceScrapper.Actors
         {
             DestroyActor();
             Died?.Invoke(this);
+        }
+
+        public void OnWarpOutApex()
+        {
+            modelAnimator.gameObject.SetActive(false);
+        }
+
+        public void OnWarpOutFinish()
+        {
+            isWarping = false;
+            gameObject.SetActive(false);
+        }
+
+        public void OnWarpInApex()
+        {
+            modelAnimator.gameObject.SetActive(true);
+        }
+
+        public void OnWarpInFinish()
+        {
+            isWarping = false;
+
+            playerInput.enabled = true;
+            playerInput.user.AssociateActionsWithUser(input);  // No clue why this is needed AGAIN
+
+            DOTween.To(() => aimPointTowardsShipBias, v => aimPointTowardsShipBias = v, 0f, 1f);
         }
 
         private enum InteractionState
@@ -285,7 +368,7 @@ namespace Wokarol.SpaceScrapper.Actors
                 };
             }
 
-            public void InjectInto(Player player) 
+            public void InjectInto(Player player)
             {
                 player.transform.SetPositionAndRotation(position, Quaternion.AngleAxis(angle, Vector3.forward));
                 player.health = health;

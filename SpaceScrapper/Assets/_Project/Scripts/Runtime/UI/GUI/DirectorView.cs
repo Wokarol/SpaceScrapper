@@ -41,7 +41,7 @@ namespace Wokarol.SpaceScrapper.UI.Views
 
         private void QuitToMenu()
         {
-            GameSystems.Get<SceneDirector>().OpenMainMenu();
+            GameSystems.Get<SceneLoader>().OpenMainMenu();
         }
 
         protected override void UpdateView()

@@ -67,7 +67,7 @@ namespace Wokarol.SpaceScrapper.Global
         {
             ResetStateToStart();
 
-            await GameSystems.Get<SceneDirector>().WaitUntilScenesAreReady;
+            await UniTask.WaitUntil(() => GameSystems.Get<SceneLoader>().AreScenesReady);
 
             GameSystems.Get<SceneContext>().BaseCore.Destroyed += BaseCore_Destroyed;
             SpawnNewPlayerAtSuitableSpawn();
@@ -175,6 +175,32 @@ namespace Wokarol.SpaceScrapper.Global
             }
         }
 
+        public void JumpToAWarpZone()
+        {
+            JumpToAWarpZoneAsync().Forget();
+
+            async UniTask JumpToAWarpZoneAsync()
+            {
+                var ctx = GameSystems.Get<SceneContext>();
+                var player = ctx.Player;
+
+                // TODO: Consider making the save internal instead of saving it to a file
+                GameSystems.Get<SaveSystem>().SaveGame("before-loot-zone");
+
+                await player.ExecuteWarpOut();
+
+                GameSystems.Get<SceneLoader>().LoadLootZone();
+
+                await UniTask.WaitUntil(() => GameSystems.Get<SceneLoader>().AreScenesReady);
+                
+                MovePlayerToASuitableSpawn(player);
+                AssignPlayerCamera(player);
+
+                await UniTask.Delay(TimeSpan.FromSeconds(2));
+                await player.ExecuteWarpIn();
+            }
+        }
+
         private async UniTask SpawnPlayerAfterRecallDelay(IReadOnlyList<PlayerSpawnPosition> spawnPoints = null)
         {
             var spawnInfo = FindSuitableSpawn(spawnPoints);
@@ -198,6 +224,12 @@ namespace Wokarol.SpaceScrapper.Global
         {
             var (position, rotation) = FindSuitableSpawn(spawnPoints);
             SpawnPlayerAt(position, rotation);
+        }
+
+        private void MovePlayerToASuitableSpawn(Player player, IReadOnlyList<PlayerSpawnPosition> spawnPoints = null)
+        {
+            var (position, rotation) = FindSuitableSpawn(spawnPoints);
+            player.TeleportTo(position, rotation);
         }
 
         private static PlayerSpawnPosition.SpawnInformation FindSuitableSpawn(IReadOnlyList<PlayerSpawnPosition> spawnPoints)

@@ -113,14 +113,14 @@ namespace Wokarol.SpaceScrapper.UI
             if (!isShowingTheConfirmationDialog) return;
 
             GameSystems.Get<SaveSystem>().SaveGame();
-            GameSystems.Get<SceneDirector>().OpenMainMenu();
+            GameSystems.Get<SceneLoader>().OpenMainMenu();
         }
 
         private void ConfirmationDialogNoButtonPressed()
         {
             if (!isShowingTheConfirmationDialog) return;
 
-            GameSystems.Get<SceneDirector>().OpenMainMenu();
+            GameSystems.Get<SceneLoader>().OpenMainMenu();
         }
 
         private void ConfirmationDialogCancelButtonPressed()

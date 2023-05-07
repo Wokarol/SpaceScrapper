@@ -174,13 +174,13 @@ namespace Wokarol.SpaceScrapper.UI
             {
                 Debug.Log($"Loading a game called \"{startGameParams.GameName}\" from \"{startGameParams.SavePath}\"");
                 GameSystems.Get<GameSettings>().SaveFileToLoadName = startGameParams.SavePath;
-                GameSystems.Get<SceneDirector>().StartGame();
+                GameSystems.Get<SceneLoader>().StartGame();
             }
             else
             {
                 Debug.Log($"Starting new game called \"{startGameParams.GameName}\"");
                 GameSystems.Get<GameSettings>().GameName = startGameParams.GameName;
-                GameSystems.Get<SceneDirector>().StartGame();
+                GameSystems.Get<SceneLoader>().StartGame();
             }
         }
 
