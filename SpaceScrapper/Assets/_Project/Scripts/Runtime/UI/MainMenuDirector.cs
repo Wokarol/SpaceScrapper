@@ -45,8 +45,6 @@ namespace Wokarol.SpaceScrapper.UI
 
         private void Start()
         {
-            Debug.Log(System.Threading.SynchronizationContext.Current?.GetType().Name ?? "None");
-
             disclaimerPanel.Disable();
             newGamePanel.Disable();
             loadGamePanel.Disable();

@@ -17,7 +17,8 @@ namespace Wokarol.SpaceScrapper.Actors
         [SerializeField] private Animator animator = null;
         [SerializeField] private string animationOutFireKey = "Warp-Out-Flash";
         [SerializeField] private string animationInFireKey = "Warp-In-Flash";
-        [SerializeField] private UnityEvent onFlashApex;
+        [SerializeField] private UnityEvent onFlashInApex;
+        [SerializeField] private UnityEvent onFlashOutApex;
 
         private IWarpable currentWarpable;
 
@@ -36,7 +37,7 @@ namespace Wokarol.SpaceScrapper.Actors
         public void CallFlashOutApex()
         {
             currentWarpable.OnWarpOutApex();
-            onFlashApex.Invoke();
+            onFlashOutApex.Invoke();
         }
 
         public void CallWarpOutFinish()
@@ -47,7 +48,7 @@ namespace Wokarol.SpaceScrapper.Actors
         public void CallFlashInApex()
         {
             currentWarpable.OnWarpInApex();
-            onFlashApex.Invoke();
+            onFlashInApex.Invoke();
         }
 
         public void CallWarpInFinish()
