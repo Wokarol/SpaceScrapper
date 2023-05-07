@@ -1,4 +1,5 @@
 using Cysharp.Threading.Tasks;
+using DG.Tweening;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -51,6 +52,8 @@ namespace Wokarol.SpaceScrapper.Actors
         private List<Collider2D> colliderListCache = new();
         private int health;
 
+        private float aimPointTowardsShipBias = 0;
+
         private bool isWarping = false;
 
         public ShipMovementParams NormalMovementParams => movement;
@@ -94,7 +97,7 @@ namespace Wokarol.SpaceScrapper.Actors
 
             if (Keyboard.current.f7Key.wasPressedThisFrame)
             {
-                ExecuteWarp()
+                ExecuteWarpOut()
                     .ContinueWith(() => Debug.Log("Finished warp"));
             }
         }
@@ -140,6 +143,9 @@ namespace Wokarol.SpaceScrapper.Actors
         {
             Vector2 playerToAimVector = values.AimPointInWorldSpace - (Vector2)transform.position;
             playerToAimVector = Vector2.ClampMagnitude(playerToAimVector, maxAimDistance);
+
+            playerToAimVector = Vector2.Lerp(playerToAimVector, Vector2.zero, aimPointTowardsShipBias);
+
             aimPoint.position = transform.position + (Vector3)playerToAimVector;
         }
 
@@ -252,14 +258,33 @@ namespace Wokarol.SpaceScrapper.Actors
             transform.position = position;
         }
 
-        public async UniTask ExecuteWarp()
+        public void TeleportTo(Vector3 position, Quaternion rotation)
+        {
+            transform.SetPositionAndRotation(position, rotation);
+        }
+
+        public async UniTask ExecuteWarpOut()
         {
             if (isWarping) throw new InvalidOperationException("Warp cannot be executed while the warp is already in progress");
 
             playerInput.enabled = false;
             isWarping = true;
 
-            warpEffect.PlayWarpAnimation(this);
+            warpEffect.PlayWarpOutAnimation(this);
+
+            await UniTask.WaitWhile(() => isWarping, cancellationToken: this.GetCancellationTokenOnDestroy());
+        }
+
+        public async UniTask ExecuteWarpIn()
+        {
+            if (isWarping) throw new InvalidOperationException("Warp cannot be executed while the warp is already in progress");
+
+            playerInput.enabled = false;
+            isWarping = true;
+            aimPointTowardsShipBias = 1;
+
+            gameObject.SetActive(true);
+            warpEffect.PlayWarpInAnimation(this);
 
             await UniTask.WaitWhile(() => isWarping, cancellationToken: this.GetCancellationTokenOnDestroy());
         }
@@ -287,15 +312,30 @@ namespace Wokarol.SpaceScrapper.Actors
             Died?.Invoke(this);
         }
 
-        public void OnWarpApex()
+        public void OnWarpOutApex()
         {
             modelAnimator.gameObject.SetActive(false);
         }
 
-        public void OnWarpFinish()
+        public void OnWarpOutFinish()
         {
             isWarping = false;
             gameObject.SetActive(false);
+        }
+
+        public void OnWarpInApex()
+        {
+            modelAnimator.gameObject.SetActive(true);
+        }
+
+        public void OnWarpInFinish()
+        {
+            isWarping = false;
+
+            playerInput.enabled = true;
+            playerInput.user.AssociateActionsWithUser(input);  // No clue why this is needed AGAIN
+
+            DOTween.To(() => aimPointTowardsShipBias, v => aimPointTowardsShipBias = v, 0f, 1f);
         }
 
         private enum InteractionState

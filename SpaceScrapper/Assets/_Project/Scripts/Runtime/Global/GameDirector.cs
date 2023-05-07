@@ -187,9 +187,17 @@ namespace Wokarol.SpaceScrapper.Global
                 // TODO: Consider making the save internal instead of saving it to a file
                 GameSystems.Get<SaveSystem>().SaveGame("before-loot-zone");
 
-                await player.ExecuteWarp();
+                await player.ExecuteWarpOut();
 
                 GameSystems.Get<SceneLoader>().LoadLootZone();
+
+                await UniTask.WaitUntil(() => GameSystems.Get<SceneLoader>().AreScenesReady);
+                
+                MovePlayerToASuitableSpawn(player);
+                AssignPlayerCamera(player);
+
+                await UniTask.Delay(TimeSpan.FromSeconds(2));
+                await player.ExecuteWarpIn();
             }
         }
 
@@ -216,6 +224,12 @@ namespace Wokarol.SpaceScrapper.Global
         {
             var (position, rotation) = FindSuitableSpawn(spawnPoints);
             SpawnPlayerAt(position, rotation);
+        }
+
+        private void MovePlayerToASuitableSpawn(Player player, IReadOnlyList<PlayerSpawnPosition> spawnPoints = null)
+        {
+            var (position, rotation) = FindSuitableSpawn(spawnPoints);
+            player.TeleportTo(position, rotation);
         }
 
         private static PlayerSpawnPosition.SpawnInformation FindSuitableSpawn(IReadOnlyList<PlayerSpawnPosition> spawnPoints)

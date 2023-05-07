@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Warp-Flash
+  m_Name: Warp-Out-Flash
   serializedVersion: 6
   m_Legacy: 0
   m_Compressed: 0
@@ -2143,14 +2143,14 @@ AnimationClip:
   m_HasMotionFloatCurves: 0
   m_Events:
   - time: 0.36666667
-    functionName: CallFlashApex
+    functionName: CallFlashOutApex
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
   - time: 1.0333333
-    functionName: CallWarpFinish
+    functionName: CallWarpOutFinish
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
