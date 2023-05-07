@@ -15,7 +15,7 @@ namespace Wokarol.SpaceScrapper
             builder.PrefabPath = "Systems";
 
             builder.Add<SceneContext>(required: true);
-            builder.Add<SceneDirector>(required: true);
+            builder.Add<SceneLoader>(required: true);
             builder.Add<SaveSystem>(required: true);
             builder.Add<GameSettings>(required: true);
             builder.Add<GameDirector>();

@@ -571,7 +571,7 @@ GameObject:
   - component: {fileID: 8672337608330028441}
   - component: {fileID: 1163211289330650765}
   m_Layer: 0
-  m_Name: Scene Director
+  m_Name: Scene Loader
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -608,6 +608,8 @@ MonoBehaviour:
   - Gameplay Base
   - Gameplay GUI
   - Pause Menu
+  lootZoneScenes:
+  - Loot Zone - Simple
   hubScene: Central Hub
   menuScene: Main Menu
 --- !u!1 &5503285924244794436

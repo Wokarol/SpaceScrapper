@@ -67,7 +67,7 @@ namespace Wokarol.SpaceScrapper.Global
         {
             ResetStateToStart();
 
-            await GameSystems.Get<SceneDirector>().WaitUntilScenesAreReady;
+            await UniTask.WaitUntil(() => GameSystems.Get<SceneLoader>().AreScenesReady);
 
             GameSystems.Get<SceneContext>().BaseCore.Destroyed += BaseCore_Destroyed;
             SpawnNewPlayerAtSuitableSpawn();
@@ -183,10 +183,13 @@ namespace Wokarol.SpaceScrapper.Global
             {
                 var ctx = GameSystems.Get<SceneContext>();
                 var player = ctx.Player;
+
+                // TODO: Consider making the save internal instead of saving it to a file
+                GameSystems.Get<SaveSystem>().SaveGame("before-loot-zone");
+
                 await player.ExecuteWarp();
 
-                // TODO: Implement
-                throw new System.NotImplementedException();
+                GameSystems.Get<SceneLoader>().LoadLootZone();
             }
         }
 
