@@ -105,6 +105,16 @@ namespace Wokarol.SpaceScrapper.Global
             SceneManager.LoadScene(hubScene, LoadSceneMode.Additive);
         }
 
+        public void LoadLootZone()
+        {
+            // TODO: Implement
+            // 1. Game is saved
+            // 2. Old map is unloaded
+            // 3. New map is loaded
+
+            throw new System.NotImplementedException();
+        }
+
         public void StartGame()
         {
             RemoveAllAndLoadGameplayScenes();

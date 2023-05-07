@@ -262,6 +262,7 @@ GameObject:
   - component: {fileID: 846759781572330209}
   - component: {fileID: 2366654015757201040}
   - component: {fileID: 8871898597241951209}
+  - component: {fileID: 7379480300112498834}
   m_Layer: 6
   m_Name: Player-Spaceship
   m_TagString: Untagged
@@ -468,6 +469,70 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 4349511427654487601}
   timeUntilKill: 3
+--- !u!66 &7379480300112498834
+CompositeCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3197799456960919611}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_GeometryType: 0
+  m_GenerationType: 0
+  m_EdgeRadius: 0
+  m_ColliderPaths:
+  - m_Collider: {fileID: 2241683110898848491}
+    m_ColliderPaths:
+    - - X: 7101474
+        Y: 8061678
+      - X: 2967066
+        Y: 8061678
+      - X: 2967066
+        Y: -4301754
+      - X: 7101474
+        Y: -4301754
+  - m_Collider: {fileID: 5630501713727000121}
+    m_ColliderPaths:
+    - - X: -2967066
+        Y: 8061678
+      - X: -7101474
+        Y: 8061678
+      - X: -7101474
+        Y: -4301754
+      - X: -2967066
+        Y: -4301754
+  - m_Collider: {fileID: 7827418720180186126}
+    m_ColliderPaths:
+    - - X: 5000000
+        Y: 2250000
+      - X: -5000000
+        Y: 2250000
+      - X: -5000000
+        Y: -4250000
+      - X: 5000000
+        Y: -4250000
+  m_CompositePaths:
+    m_Paths:
+    - - {x: -0.2967359, y: -0.4301754}
+      - {x: -0.2966772, y: -0.425}
+      - {x: 0.29670662, y: -0.4250294}
+      - {x: 0.2967359, y: -0.4301754}
+      - {x: 0.7101474, y: -0.4301461}
+      - {x: 0.7101181, y: 0.8061678}
+      - {x: 0.29670662, y: 0.8061385}
+      - {x: 0.2966772, y: 0.22500001}
+      - {x: -0.29670662, y: 0.22502941}
+      - {x: -0.2967359, y: 0.8061678}
+      - {x: -0.7101474, y: 0.8061385}
+      - {x: -0.7101181, y: -0.4301754}
+  m_VertexDistance: 0.0005
+  m_OffsetDistance: 0.00005
 --- !u!1 &4269558098241160540
 GameObject:
   m_ObjectHideFlags: 0
@@ -1815,6 +1880,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1510557152781627713, guid: 7440fb2f6f7428d4f8064bcf5a498cfc, type: 3}
   m_PrefabInstance: {fileID: 2799855406181754848}
   m_PrefabAsset: {fileID: 0}
+--- !u!61 &5630501713727000121 stripped
+BoxCollider2D:
+  m_CorrespondingSourceObject: {fileID: 7563965802010290649, guid: 7440fb2f6f7428d4f8064bcf5a498cfc, type: 3}
+  m_PrefabInstance: {fileID: 2799855406181754848}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6517943330606357111 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8984530918471417239, guid: 7440fb2f6f7428d4f8064bcf5a498cfc, type: 3}
@@ -1991,6 +2061,11 @@ PrefabInstance:
 --- !u!4 &813994294336046757 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8984530918471417239, guid: 7440fb2f6f7428d4f8064bcf5a498cfc, type: 3}
+  m_PrefabInstance: {fileID: 8639192969919396658}
+  m_PrefabAsset: {fileID: 0}
+--- !u!61 &2241683110898848491 stripped
+BoxCollider2D:
+  m_CorrespondingSourceObject: {fileID: 7563965802010290649, guid: 7440fb2f6f7428d4f8064bcf5a498cfc, type: 3}
   m_PrefabInstance: {fileID: 8639192969919396658}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &2580300981657344189 stripped

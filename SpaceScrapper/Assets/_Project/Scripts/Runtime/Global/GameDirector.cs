@@ -175,6 +175,21 @@ namespace Wokarol.SpaceScrapper.Global
             }
         }
 
+        public void JumpToAWarpZone()
+        {
+            JumpToAWarpZoneAsync().Forget();
+
+            async UniTask JumpToAWarpZoneAsync()
+            {
+                var ctx = GameSystems.Get<SceneContext>();
+                var player = ctx.Player;
+                await player.ExecuteWarp();
+
+                // TODO: Implement
+                throw new System.NotImplementedException();
+            }
+        }
+
         private async UniTask SpawnPlayerAfterRecallDelay(IReadOnlyList<PlayerSpawnPosition> spawnPoints = null)
         {
             var spawnInfo = FindSuitableSpawn(spawnPoints);
