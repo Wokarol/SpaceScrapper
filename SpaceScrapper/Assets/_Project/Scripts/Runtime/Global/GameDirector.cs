@@ -15,6 +15,7 @@ namespace Wokarol.SpaceScrapper.Global
     {
         public enum GameState
         {
+            None,
             Starting,
             AwaitingWave,
             SpawningWave,
@@ -52,7 +53,7 @@ namespace Wokarol.SpaceScrapper.Global
         public event Action GameEnded = null;
         public event Action<bool> PauseStateChanged = null;
 
-        private GameState gameState;
+        private GameState gameState = GameState.None;
         private int currentWave = 0;
         private float starTimeInSeconds;
 
@@ -69,23 +70,8 @@ namespace Wokarol.SpaceScrapper.Global
 
             await UniTask.WaitUntil(() => GameSystems.Get<SceneLoader>().AreScenesReady);
 
-            GameSystems.Get<SceneContext>().BaseCore.Destroyed += BaseCore_Destroyed;
             SpawnNewPlayerAtSuitableSpawn();
-
-            var settings = GameSystems.Get<GameSettings>();
-            if (settings.ShouldStartFromAFile)
-            {
-                GameSystems.Get<SaveSystem>().LoadGame(settings.SaveFileToLoadName);
-            }
-
-            ChangeState(GameState.AwaitingWave, justStarted: true);
-        }
-
-        private void ResetStateToStart()
-        {
-            gameState = GameState.Starting;
-            Time.timeScale = 1;
-            AliveEnemiesCount = 0;
+            StartTheGameIfPossible();
         }
 
         private void Update()
@@ -114,6 +100,35 @@ namespace Wokarol.SpaceScrapper.Global
                     }
                     break;
             }
+        }
+
+
+
+        private void StartTheGameIfPossible()
+        {
+            var baseCore = GameSystems.Get<SceneContext>().BaseCore;
+            if (baseCore == null)
+            {
+                Debug.Log("<color=cyan>Game Director:</color> No base core found, the game cannot be started");
+                return;
+            }
+
+            baseCore.Destroyed += BaseCore_Destroyed;
+
+            var settings = GameSystems.Get<GameSettings>();
+            if (settings.ShouldStartFromAFile)
+            {
+                GameSystems.Get<SaveSystem>().LoadGame(settings.SaveFileToLoadName);
+            }
+
+            ChangeState(GameState.AwaitingWave, justStarted: true);
+        }
+
+        private void ResetStateToStart()
+        {
+            gameState = GameState.Starting;
+            Time.timeScale = 1;
+            AliveEnemiesCount = 0;
         }
 
         private async UniTask SpawnEnemyWave()
@@ -192,7 +207,7 @@ namespace Wokarol.SpaceScrapper.Global
                 GameSystems.Get<SceneLoader>().LoadLootZone();
 
                 await UniTask.WaitUntil(() => GameSystems.Get<SceneLoader>().AreScenesReady);
-                
+
                 MovePlayerToASuitableSpawn(player);
                 AssignPlayerCamera(player);
 

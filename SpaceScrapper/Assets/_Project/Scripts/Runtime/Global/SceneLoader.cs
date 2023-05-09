@@ -49,11 +49,11 @@ namespace Wokarol.SpaceScrapper.Global
             {
                 if (allGameplayScenesAreLoaded)
                 {
-                    Debug.Log("<color=cyan>Scene Director:</color> Started with the gameplay scenes");
+                    Debug.Log("<color=cyan>Scene Loader:</color> Started with the gameplay scenes");
                 }
                 else
                 {
-                    Debug.Log("<color=cyan>Scene Director:</color> Started with the gameplay scenes, not all scenes are loaded");
+                    Debug.Log("<color=cyan>Scene Loader:</color> Started with the gameplay scenes, not all scenes are loaded");
                 }
             }
 
