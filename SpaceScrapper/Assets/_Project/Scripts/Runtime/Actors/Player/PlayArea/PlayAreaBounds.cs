@@ -44,6 +44,15 @@ namespace Wokarol.SpaceScrapper.Actors.PlayBounds
             }
         }
 
+        private void OnDrawGizmos()
+        {
+            if (shape == PlayAreaShape.Circle)
+            {
+                UnityEditor.Handles.color = new Color(1, 0, 0, 0.2f);
+                UnityEditor.Handles.DrawWireDisc(transform.position, transform.forward, radius);
+            }
+        }
+
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSplashScreen)]
         public static void ResetStatic()
         {
